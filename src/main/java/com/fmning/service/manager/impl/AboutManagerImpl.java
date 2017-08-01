@@ -1,0 +1,25 @@
+package com.fmning.service.manager.impl;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Component;
+
+import com.fmning.service.manager.AboutManager;
+
+@Component()
+public class AboutManagerImpl implements AboutManager {
+
+	@Override
+	public Map<String, Object> getInfo() 
+	{		
+	  Map<String,Object> info = new HashMap<String,Object>();
+	  
+	  info.put(SDK_VERSION_KEY, SDK_VERSION);
+	  info.put(RELEASE_DATE_KEY, RELEASE_DATE);
+	  info.put(START_TIME_KEY, START_TIME);
+	  
+	  return info;
+	}
+
+}
