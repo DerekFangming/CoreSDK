@@ -1,9 +1,6 @@
 package com.fmning.service.manager.impl;
 
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
+import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
@@ -18,10 +15,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.stereotype.Component;
-
-import com.fmning.service.security.encryption.JWTSigner;
-import com.fmning.service.security.encryption.JWTVerifier;
-import com.fmning.service.security.encryption.JWTVerifyException;
+import com.auth0.jwt.*;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fmning.service.exceptions.SessionExpiredException;
 import com.fmning.service.manager.HelperManager;
 import com.fmning.util.ErrorMessage;
@@ -73,25 +71,37 @@ public class HelperManagerImpl implements HelperManager{
 	@Override
 	public String getEmailConfirmCode(String username) {
 		String exp = Instant.now().plus(Duration.ofDays(1)).toString();
-		Map<String, Object> authToken = new HashMap<String, Object>();
-		authToken.put("username", username);
-		authToken.put("action", "emailVeri");
-		authToken.put("expire", exp);
-		JWTSigner signer = new JWTSigner(SECRET);
-		return signer.sign(authToken);
+		try {
+			Algorithm algorithm = Algorithm.HMAC256(SECRET);
+		    String token = JWT.create()
+		    		.withClaim("username", username)
+		    		.withClaim("action", "emailVeri")
+		    		.withClaim("expire", exp)
+		    		.sign(algorithm);
+		    return token;
+		} catch (IllegalArgumentException | UnsupportedEncodingException e) {
+			// TODO Do something else?
+			return null;
+		}
 	}
 
 	@Override
 	public Map<String, Object> decodeJWT(String JWTStr) throws IllegalStateException{
-		JWTVerifier verifier = new JWTVerifier(SECRET);
-		Map<String,Object> result = new HashMap<String, Object>();
+		
 		try {
-			result = verifier.verify(JWTStr);
-		}catch(InvalidKeyException | NoSuchAlgorithmException | IllegalStateException | SignatureException
-				| IOException | JWTVerifyException e){
+		    Algorithm algorithm = Algorithm.HMAC256(SECRET);
+		    JWTVerifier verifier = JWT.require(algorithm).build();
+		    DecodedJWT jwt = verifier.verify(JWTStr);
+		    Map<String, Claim> claims = jwt.getClaims();
+		    Map<String, Object> result = new HashMap<String, Object>();
+	        for (String key : claims.keySet()) {
+	            result.put(key, claims.get(key).asString());
+	        }
+	        
+	        return result;
+		} catch (UnsupportedEncodingException | JWTVerificationException e){
 			throw new IllegalStateException(ErrorMessage.INVALID_ACCESS_TOKEN.getMsg());
 		}
-		return result;
 	}
 
 	@Override
@@ -114,11 +124,17 @@ public class HelperManagerImpl implements HelperManager{
 
 	@Override
 	public String createAccessToken(String username, Instant expDate) {
-		Map<String, Object> authToken = new HashMap<String, Object>();
-		authToken.put("username", username);
-		authToken.put("expire", expDate.toString());
-		JWTSigner signer = new JWTSigner(SECRET);
-		return signer.sign(authToken);
+		try {
+			Algorithm algorithm = Algorithm.HMAC256(SECRET);
+		    String token = JWT.create()
+		    		.withClaim("username", username)
+		    		.withClaim("expire", expDate.toString())
+		    		.sign(algorithm);
+		    return token;
+		} catch (IllegalArgumentException | UnsupportedEncodingException e) {
+			// TODO Do something else?
+			return null;
+		}
 	}
 
 	@Override
