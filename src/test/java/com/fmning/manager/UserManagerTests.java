@@ -12,7 +12,7 @@ import com.fmning.service.manager.UserManager;
 import com.fmning.util.ErrorMessage;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="/CoreSDKTesting.xml")
+@ContextConfiguration(locations="/sdkUnitTesting.xml")
 public class UserManagerTests {
 	
 	@Autowired private UserManager userManager;

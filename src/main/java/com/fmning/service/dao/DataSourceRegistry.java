@@ -1,6 +1,5 @@
 package com.fmning.service.dao;
 
-import com.fmning.service.dao.impl.CoreDataSourceType;
 import com.fmning.service.dao.impl.SdkDataSourceImpl;
 
 public interface DataSourceRegistry 
@@ -11,10 +10,5 @@ public interface DataSourceRegistry
 
    SdkDataSource getDataSource(String nickname);
 
-   SdkDataSource getDataSource(CoreDataSourceType dbt);
-
-   String getDbName(SdkDataSourceImpl ds);
-   
-   <DST extends Enum<DST> & DataSourceType, TT extends Enum<TT> & SchemaTable>
-     void initializeDataSources(Class<DST> dst, Class<TT> tt, SdkDataSource... datasources);
+   String getDbName(SdkDataSourceImpl ds);   
 }

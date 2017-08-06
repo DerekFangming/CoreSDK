@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+        
+	<context:property-placeholder location="classpath:/sdk.properties" ignore-unresolvable="true" />
+    
+    <context:component-scan base-package="com.fmning.service"/>
+    <aop:aspectj-autoproxy/>
+
+    <tx:annotation-driven transaction-manager="txManagerCore"/>
+  
+    <bean id="txManagerCore" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      <property name="dataSource" ref="dataSourceCore"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="txManagerLegacy"/>
+    
+    <bean id="txManagerLegacy" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      <property name="dataSource" ref="dataSourceLegacy"/>
+    </bean>
+   
+   
+   <!-- <tx:annotation-driven transaction-manager="txManagerContent"/>
+    
+    <bean id="txManagerContent" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      <property name="dataSource" ref="dataSourceContent"/>
+    </bean>
+  
+      <tx:annotation-driven transaction-manager="txManagerActions"/>
+    
+    <bean id="txManagerActions" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      <property name="dataSource" ref="dataSourceActions"/>
+    </bean>-->
+  
+    <!--Bean to load properties file -->  
+   <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">    
+     <!--reads config.properties file-->
+     <property name="location" value="classpath:dataSource.properties" />
+     <property name="ignoreUnresolvablePlaceholders" value="true" />
+   </bean> 
+   
+   
+  
+    <bean id="dataSourceCore" class="com.fmning.service.dao.impl.SdkDataSourceImpl">
+      <property name="driverClassName" value="org.postgresql.Driver"/>
+      <property name="url" value="jdbc:postgresql://${serverCore}/${coreDb}"/>
+      <property name="username" value="${coreDbUsername}"/>
+      <property name="password" value="${coreDbPassword}"/>
+      <property name="dbNickname" value="CORE"/>
+  </bean>
+  <!-- This will be the testing connection. Not used for now -->
+  <bean id="dataSourceLegacy" class="com.fmning.service.dao.impl.SdkDataSourceImpl">
+      <property name="driverClassName" value="org.postgresql.Driver"/>
+      <property name="url" value="jdbc:postgresql://${serverCore}/${coreDb}"/>
+      <property name="username" value=""/>
+      <property name="password" value=""/>
+      <property name="dbNickname" value="LEGACY"/>
+  </bean>
+
+<bean id="dataSourceRegistry" class="com.fmning.service.dao.impl.DataSourceRegistryImpl" />  
+
+<bean 
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="targetObject" ref="dataSourceRegistry" />
+    <property name="targetMethod" value="dataSourcesAndTablesInitialize" />
+    
+    <property name="arguments">
+      <list>
+        <list>
+          <value type="java.lang.Class">com.fmning.service.dao.impl.CoreTableType</value>
+        </list>
+        <list>
+          <ref bean="dataSourceCore"/>
+          <!-- <ref bean="dataSourceLegacy"/>-->
+        </list>
+      </list>
+    </property>
+  </bean>
+  
+  
+  <bean id="applicationContextProvder" class="com.fmning.service.ApplicationContextProvider"/>
+  
+
+
+</beans>

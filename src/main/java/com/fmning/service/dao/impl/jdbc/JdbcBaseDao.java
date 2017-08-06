@@ -10,7 +10,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,6 +24,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.fmning.service.dao.CommonDao;
+import com.fmning.service.dao.DataSourceRegistry;
 import com.fmning.service.dao.SchemaTable;
 import com.fmning.service.dao.SdkDataSource;
 import com.fmning.service.dao.impl.LogicalOpType;
@@ -58,20 +62,19 @@ public abstract class JdbcBaseDao<T extends Object> implements CommonDao<T>
 
   private SdkDataSourceImpl dataSource;
   
-  // NOTE: Cannot wire in a subclass here. Thus could not do an automatic
-  // creation of an ExternalReference should T be one of the ExternalReferenceTypes. 
-//  @Autowired private ExternalReferenceDao externalReferenceDao;
-  protected JdbcBaseDao(SdkDataSource ds, SchemaTable table)
-  {
-//    this(table.setDataSource(ds));
-    this(table);
-  }
+  @Autowired DataSourceRegistry dsr;
+  
+  // NOTE: Cannot wire in a subclass here. 
   
   protected JdbcBaseDao(SchemaTable table)
   {
-    this.dataSource = (SdkDataSourceImpl) table.getDataSource();
-    
-    this.myTable  = table;
+    this.myTable  = table;   
+  }
+  
+  @PostConstruct
+  private void init()
+  {
+    this.dataSource = (SdkDataSourceImpl) this.myTable.getDataSource();
     
     this.namedTemplate = new NamedParameterJdbcTemplate(dataSource);
     this.jdbcTemplate = new JdbcTemplate(dataSource);

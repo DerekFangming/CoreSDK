@@ -4,25 +4,23 @@ import java.util.List;
 import java.util.Map;
 
 public interface SdkDataSource
-{
-  String getDbNickname();
-  
+{ 
   /**
-   * Returns the database's actual name
+   * Returns the database's actual name (as seen, for ex, in PgAdmin).
    */
   String getDbName();
   
   String getServerName();
   
   /**
-   * @return the data source type
+   * @return the data source name
    */
-  DataSourceType getDataSourceType( );
+  String getNickname();
 
   /**
    * @param dst The type of this data source 
    */
-  void setDataSourceType(DataSourceType dst);
+//  void setDataSourceType(DataSourceType dst);
 
   void addTable(SchemaTable table);
   
@@ -35,4 +33,6 @@ public interface SdkDataSource
   Map<String,SchemaTable> getTables();
 
   String toString();
+
+  String toString(boolean verbose);
 }

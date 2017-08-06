@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fmning.service.dao.DaoFieldEnum.OnPersist;
 import com.fmning.service.dao.impl.CoreTableType;
 import com.fmning.util.Pair;
 
@@ -31,7 +32,7 @@ public interface SchemaTable
   /**
    * Returns the DataSourceType of this table.
    */
-  DataSourceType getDataSourceType();
+  String getDataSourceType();
   
   /**
    * Return this table's name as it appears in the database
@@ -52,6 +53,8 @@ public interface SchemaTable
    * Returns a list of the table's field (aka column) names. This include the primary key name.  
    */
   List<String> getColumnNames();
+  
+  boolean isExactFieldCountRequired();
   
   /**
    * Returns whether this table contains a primary key.
@@ -98,6 +101,23 @@ public interface SchemaTable
     return columnNames;
   }
 
+  static int getRequiredColumnCount(List<Pair<Enum<?>, String>> defns)
+  {    
+    int required = 0;
+    
+    for (Pair<Enum<?>, String> item : defns)
+    {
+      DaoFieldEnum dfe = (DaoFieldEnum) item.getFirst();
+
+      if(dfe.getOnPersist() == OnPersist.REQUIRED)
+      {
+        ++required;
+      }
+    }
+      
+    return required;
+  }
+  
   /**
    * Returns the name of the primary key found in a table's column definitions 
    * @param defns Column definitions
@@ -129,25 +149,33 @@ public interface SchemaTable
    * 
    * @return The <tt>SchemaTable</tt> type tagged with <tt>type</tt>, or <tt>null</tt> if none.
    */
-  public static CoreTableType getTableForType(Enum<?> type)
+  public static SchemaTable getTableForType(Enum<?> type)
   {
     boolean foundIt = false;
-    CoreTableType result = null;
+    SchemaTable result = null;
     
-    for(CoreTableType table : CoreTableType.values())
+    List<SchemaTable[]> values = new ArrayList<SchemaTable[]>();
+    values.add(CoreTableType.values());
+    //values.add(LegacyTableType.values());
+    //values.add(ContentTableType.values());
+    
+    for(SchemaTable[] enumList : values)
     {
-      for(Enum<?> e : table.getTypes())
+      for(SchemaTable table : enumList)
       {
-        if(e == type)
+        for(Enum<?> e : table.getTypes())
         {
-          if(foundIt)
+          if(e == type)
           {
-            throw new IllegalStateException(
-              "Something is not right: Mutliple tables have been tagged with the enum: " + type.toString());
+            if(foundIt)
+            {
+              throw new IllegalStateException(
+                "Something is not right: Mutliple tables have been tagged with the enum: " + type.toString());
+            }
+            
+            foundIt = true;
+            result = table;
           }
-          
-          foundIt = true;
-          result = table;
         }
       }
     }
@@ -161,8 +189,7 @@ public interface SchemaTable
   {
     String colName;
   
-    @SuppressWarnings("rawtypes")
-	Class clazz = enumElt.getClass();
+    Class clazz = enumElt.getClass();
   
     try
     {
@@ -187,8 +214,7 @@ public interface SchemaTable
   {
     boolean isPK = false;
   
-    @SuppressWarnings("rawtypes")
-	Class clazz = enumElt.getClass();
+    Class clazz = enumElt.getClass();
   
     try
     {

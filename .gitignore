@@ -1,5 +1,4 @@
 /target/
 
-src/main/resources/CoreSDKProduction.xml
 
-src/test/resources/CoreSDKTesting.xml
+src/test/resources/dataSource.properties

@@ -52,13 +52,20 @@ public class SdkDataSourceImpl extends DriverManagerDataSource implements SdkDat
     this.dbNnickname = dbNickname;
   }
   
-  public String getDbNickname()
+  @Override
+  public String getNickname( )
   {
+    // TODO Auto-generated method stub
     return this.dbNnickname;
   }
   
+//  public String getDbNickname()
+//  {
+//    return this.dbNnickname;
+//  }
+  
   /**
-   * Returns the database's actual name
+   * Returns the database's actual name (as seen, for ex, in PgAdmin).
    */
   public String getDbName()
   {
@@ -70,21 +77,21 @@ public class SdkDataSourceImpl extends DriverManagerDataSource implements SdkDat
     return this.serverName;
   }
 
-  /**
-   * @return the data source type
-   */
-  public DataSourceType getDataSourceType( )
-  {
-    return dst;
-  }
-
-  /**
-   * @param dst The type of this data source 
-   */
-  public void setDataSourceType(DataSourceType dst)
-  {
-    this.dst = dst;
-  }
+//  /**
+//   * @return the data source type
+//   */
+//  public DataSourceType getDataSourceType( )
+//  {
+//    return dst;
+//  }
+//
+//  /**
+//   * @param dst The type of this data source 
+//   */
+//  public void setDataSourceType(DataSourceType dst)
+//  {
+//    this.dst = dst;
+//  }
 
   public void addTable(SchemaTable table)
   {
@@ -111,4 +118,27 @@ public class SdkDataSourceImpl extends DriverManagerDataSource implements SdkDat
     return this.tables;
   }
 
+  @Override
+  public String toString()
+  {
+    return this.toString(false);
+  }
+  
+  @Override
+  public String toString(boolean verbose)
+  {
+	  /*
+    StringBuilder sb = new StringBuilder(Util.NL);
+    sb = ToStringHelper.variableToString(sb, ToStringHelper.INDENT_NO, "dbNickname", this.dbNnickname);
+    sb = ToStringHelper.variableToString(sb, ToStringHelper.INDENT_NO, "dbName", this.dbName);
+    sb = ToStringHelper.variableToString(sb, ToStringHelper.INDENT_NO, "serverName", this.serverName);
+    
+    if(verbose)
+    {
+      sb = ToStringHelper.variableToString(sb, ToStringHelper.INDENT_NO, "tables", this.tables.toString());
+    }
+    
+    return sb.toString();*/
+	  return "not implemented";
+  }
 }
