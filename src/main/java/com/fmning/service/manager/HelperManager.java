@@ -8,13 +8,6 @@ import com.fmning.service.exceptions.SessionExpiredException;
 public interface HelperManager {
 	
 	/**
-	 * Send email confirmation after the registration
-	 * @param to email recipient 
-	 * @param code the auth token code
-	 */
-	public void emailConfirm(String to, String code);
-	
-	/**
 	 * Send email from an email address to recipient
 	 * @param from from email address, should be no-replay@fmning.com
 	 * @param to recipient email address

@@ -1,6 +1,5 @@
 package com.fmning.service.dao;
 
-public interface DataSourceType
-{
-  String getNickname();
+public interface DataSourceType{
+	String getNickname();
 }

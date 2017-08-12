@@ -26,7 +26,6 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import com.fmning.service.dao.CommonDao;
 import com.fmning.service.dao.DataSourceRegistry;
 import com.fmning.service.dao.SchemaTable;
-import com.fmning.service.dao.SdkDataSource;
 import com.fmning.service.dao.impl.LogicalOpType;
 import com.fmning.service.dao.impl.NVPair;
 import com.fmning.service.dao.impl.NVPairList;

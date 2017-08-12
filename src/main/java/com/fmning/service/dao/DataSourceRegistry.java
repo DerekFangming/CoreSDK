@@ -2,13 +2,13 @@ package com.fmning.service.dao;
 
 import com.fmning.service.dao.impl.SdkDataSourceImpl;
 
-public interface DataSourceRegistry 
-{
-   int getDatabaseCount( );
-  
-   SdkDataSource putDataSource(SdkDataSource ds);
+public interface DataSourceRegistry {
 
-   SdkDataSource getDataSource(String nickname);
+	int getDatabaseCount( );
 
-   String getDbName(SdkDataSourceImpl ds);   
+	SdkDataSource putDataSource(SdkDataSource ds);
+
+	SdkDataSource getDataSource(String nickname);
+
+	String getDbName(SdkDataSourceImpl ds);   
 }

@@ -23,26 +23,11 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fmning.service.exceptions.SessionExpiredException;
 import com.fmning.service.manager.HelperManager;
 import com.fmning.util.ErrorMessage;
-import com.fmning.util.Util;
 
 @Component
 public class HelperManagerImpl implements HelperManager{
 
 	public static final String SECRET = "PJNing";
-
-	@Override
-	public void emailConfirm(String to, String code) {
-		String message = "Hi there,";
-		message += "\n";
-		message += "Thank you for creating an account at fmning.com domain. Please click on the following link to confirm your email address.";
-		message += "\n\n";
-		message += Util.emailValidationPath;
-		message += code;
-		message += "\n\n";
-		message += "Thank you.";
-		message += "\n";
-		sendEmail("no-reply@fmning.com", to, "Email Confirmation", message);
-	}
 	
 	@Override
 	public void sendEmail(String from, String to, String subject, String content){

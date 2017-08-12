@@ -10,11 +10,6 @@ import com.fmning.service.exceptions.SessionExpiredException;
 
 public class Util {
 	
-	//************************* TEST
-	//public final static String emailValidationPath = "http://wc.fmning.com/email/";
-	//************************* PROD
-	public final static String emailValidationPath = "https://wcservice.fmning.com/email/";
-	
 	public final static String imagePath = "/Volumes/Data/images/";
 	public final static int nullInt = -1;
 

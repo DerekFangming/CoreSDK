@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.fmning.service.dao.CommentDao;
 import com.fmning.service.dao.DataSourceRegistry;
-import com.fmning.service.dao.DataSourceType;
 import com.fmning.service.dao.FriendDao;
 import com.fmning.service.dao.ImageDao;
 import com.fmning.service.dao.FeedDao;
@@ -47,7 +46,6 @@ public enum CoreTableType implements SchemaTable
 	  
 	  private String pkName;
 	  private Enum<?>[] types;
-	  private int requiredColumnsCount;
 
 	  CoreTableType(SdkDataSourceType dsType, List<Pair<Enum<?>, String>> columnDefns)
 	  {
