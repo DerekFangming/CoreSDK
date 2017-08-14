@@ -33,12 +33,13 @@ public class UserManagerImpl implements UserManager{
 	
 	@Override
 	public String registerForSalt(String username, int offset) throws IllegalStateException {
-		if(checkUsername(username))
+		String lowerUsername = username.toLowerCase();
+		if(checkUsername(lowerUsername))
 			throw new IllegalStateException(ErrorMessage.USERNAME_UNAVAILABLE.getMsg());
-		if (username.length() > 32)
+		if (lowerUsername.length() > 32)
 			throw new IllegalStateException(ErrorMessage.USERNAME_TOO_LONG.getMsg());
 		Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
-		Matcher m = p.matcher(username);
+		Matcher m = p.matcher(lowerUsername);
 		if(!m.matches())
 			throw new IllegalStateException(ErrorMessage.USERNAME_NOT_EMAIL.getMsg());
 		
@@ -50,7 +51,7 @@ public class UserManagerImpl implements UserManager{
 		String encodedSalt = Base64.encodeBase64String(salt).substring(0, 32);
 		
 		User user = new User();
-		user.setUsername(username);
+		user.setUsername(lowerUsername);
 		user.setPassword("password");
 		user.setCreatedAt(Instant.now());
 		user.setEmailConfirmed(false);
@@ -63,13 +64,14 @@ public class UserManagerImpl implements UserManager{
 	
 	@Override
 	public void register(String username, String password) throws IllegalStateException, NotFoundException {
-		if(username.length() > 32)
+		String lowerUsername = username.toLowerCase();
+		if(lowerUsername.length() > 32)
 			throw new IllegalStateException(ErrorMessage.USER_INTERN_ERROR.getMsg());
 		if(password.length() != 32)
 			throw new IllegalStateException(ErrorMessage.USER_INTERN_ERROR.getMsg());
 		
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username));
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(lowerUsername));
 		terms.add(UserDao.Field.PASSWORD.getQueryTerm("password"));
 		User user;
 		try{
@@ -86,7 +88,7 @@ public class UserManagerImpl implements UserManager{
 	@Override
 	public boolean checkUsername(String username) {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username));
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
 		return userDao.exists(terms);
 		
 	}
@@ -94,7 +96,7 @@ public class UserManagerImpl implements UserManager{
 	@Override
 	public void updateVeriCode(String username, String code) throws NotFoundException{
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username));
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
 		User user;
 		try{
 			user = userDao.findObject(terms);
@@ -110,7 +112,7 @@ public class UserManagerImpl implements UserManager{
 	@Override
 	public void checkVeriCode(String username, String code) throws NotFoundException {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username));
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
 		terms.add(UserDao.Field.VERI_TOKEN.getQueryTerm(code));
 		try{
 			userDao.findObject(terms);
@@ -122,7 +124,7 @@ public class UserManagerImpl implements UserManager{
 	@Override
 	public void confirmEmail(String username) throws NotFoundException {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username));
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
 		User user;
 		try{
 			user = userDao.findObject(terms);
@@ -141,7 +143,7 @@ public class UserManagerImpl implements UserManager{
 	@Override
 	public void updateAccessToken(String username, String token) throws NotFoundException {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username));
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
 		User user;
 		try{
 			user = userDao.findObject(terms);
@@ -158,7 +160,7 @@ public class UserManagerImpl implements UserManager{
 	@Override
 	public String loginForSalt(String username) throws NotFoundException {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username));
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
 		try{
 			return userDao.findObject(terms).getSalt();
 		}catch(NotFoundException e){
@@ -169,7 +171,7 @@ public class UserManagerImpl implements UserManager{
 	@Override
 	public User login(String username, String password, String accessToken) throws NotFoundException {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username));
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
 		terms.add(UserDao.Field.PASSWORD.getQueryTerm(password));
 		User user;
 		try{
@@ -188,7 +190,7 @@ public class UserManagerImpl implements UserManager{
 	@Override
 	public int getUserId(String username) throws NotFoundException {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username));
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
 		try{
 			return userDao.findObject(terms).getId();
 		}catch(NotFoundException e){
@@ -261,7 +263,7 @@ public class UserManagerImpl implements UserManager{
 			throw new IllegalStateException(ErrorMessage.USER_INTERN_ERROR.getMsg());
 		
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username));
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
 		terms.add(UserDao.Field.PASSWORD.getQueryTerm(oldPwd));
 		User user;
 		try{
