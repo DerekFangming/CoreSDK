@@ -17,7 +17,10 @@ public interface UserDetailDao extends CommonDao<UserDetail>{
 	    AGE,
 	    GENDER,
 	    LOCATION,
-	    WHATS_UP;
+	    WHATS_UP,
+	    BIRTHDAY,
+	    YEAR,
+	    MAJOR;
 		
 		public boolean isPK = false;
 	    public String name;
@@ -54,6 +57,9 @@ public interface UserDetailDao extends CommonDao<UserDetail>{
 		    new Pair<Enum<?>, String>(Field.AGE, "INTEGER"),
 		    new Pair<Enum<?>, String>(Field.GENDER, "TEXT"),
 		    new Pair<Enum<?>, String>(Field.LOCATION, "TEXT"),
-		    new Pair<Enum<?>, String>(Field.WHATS_UP, "TEXT"));
+		    new Pair<Enum<?>, String>(Field.WHATS_UP, "TEXT"),
+		    new Pair<Enum<?>, String>(Field.BIRTHDAY, "TEXT"),
+		    new Pair<Enum<?>, String>(Field.YEAR, "TEXT"),
+		    new Pair<Enum<?>, String>(Field.MAJOR, "TEXT"));
 
 }

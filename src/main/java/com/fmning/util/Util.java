@@ -10,7 +10,7 @@ import com.fmning.service.exceptions.SessionExpiredException;
 
 public class Util {
 	
-	public final static String imagePath = "/Volumes/Data/images/";
+	public static String imagePath = "/Volumes/Data/images/";
 	public final static int nullInt = -1;
 
 	public static String verifyImageType(String type) {

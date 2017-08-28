@@ -9,6 +9,9 @@ public class UserDetail {
     private String gender;
     private String location;
     private String whatsUp;
+    private String birthday;
+    private String year;
+    private String major;
     
     public int getId(){
     	return id;
@@ -72,6 +75,30 @@ public class UserDetail {
     
     public void setWhatsUp(String whatsUp){
     	this.whatsUp = whatsUp;
+    }
+    
+    public String getBirthday(){
+    	return birthday;
+    }
+    
+    public void setBirthday(String birthday){
+    	this.birthday = birthday;
+    }
+    
+    public String getYear(){
+    	return year;
+    }
+    
+    public void setYear(String year){
+    	this.year = year;
+    }
+    
+    public String getMajor(){
+    	return major;
+    }
+    
+    public void setMajor(String major){
+    	this.major = major;
     }
 
 }

@@ -294,7 +294,7 @@ public class UserManagerImpl implements UserManager{
 	
 	@Override
 	public void saveUserDetail(int userId, String name, String nickname, int age, String gender,
-			String location, String whatsUp){
+			String location, String whatsUp, String birthday, String year, String major){
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
 		terms.add(UserDetailDao.Field.USER_ID.getQueryTerm(userId));
 		try{
@@ -305,6 +305,9 @@ public class UserManagerImpl implements UserManager{
 			userDetail.setGender(gender);
 			userDetail.setLocation(location);
 			userDetail.setWhatsUp(whatsUp);
+			userDetail.setBirthday(birthday);
+			userDetail.setYear(year);
+			userDetail.setMajor(major);
 			userDetailDao.update(userId, userDetail);
 		}catch(NotFoundException e){
 			UserDetail userDetail = new UserDetail();
@@ -315,6 +318,9 @@ public class UserManagerImpl implements UserManager{
 			userDetail.setGender(gender);
 			userDetail.setLocation(location);
 			userDetail.setWhatsUp(whatsUp);
+			userDetail.setBirthday(birthday);
+			userDetail.setYear(year);
+			userDetail.setMajor(major);
 			userDetailDao.persist(userDetail);
 		}
 		

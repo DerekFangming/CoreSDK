@@ -156,8 +156,11 @@ public interface UserManager {
 	 * @param gender mail is M, female is F
 	 * @param location
 	 * @param whatsUp
+	 * @param birthday
+	 * @param year
+	 * @param major
 	 */
 	public void saveUserDetail(int userId, String name, String nickname, int age, String gender,
-			String location, String whatsUp);
+			String location, String whatsUp, String birthday, String year, String major);
 	
 }
