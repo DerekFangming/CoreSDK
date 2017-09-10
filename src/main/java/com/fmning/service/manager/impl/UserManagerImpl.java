@@ -308,7 +308,7 @@ public class UserManagerImpl implements UserManager{
 			userDetail.setBirthday(birthday);
 			userDetail.setYear(year);
 			userDetail.setMajor(major);
-			userDetailDao.update(userId, userDetail);
+			userDetailDao.update(userDetail.getId(), userDetail);
 		}catch(NotFoundException e){
 			UserDetail userDetail = new UserDetail();
 			userDetail.setUserId(userId);
