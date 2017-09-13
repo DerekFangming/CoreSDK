@@ -32,7 +32,7 @@ public class ImageManagerImpl implements ImageManager{
 	@Autowired private ImageDao imageDao;
 	
 	@Override
-	public void saveImage(String base64, String type, int typeMappingId, int ownerId, String title) 
+	public int createImage(String base64, String type, int typeMappingId, int ownerId, String title) 
 			throws FileNotFoundException, IOException {
 		Image image = new Image();
 		image.setLocation("");
@@ -54,10 +54,11 @@ public class ImageManagerImpl implements ImageManager{
 		try (OutputStream stream = new FileOutputStream(Util.imagePath + Integer.toString(id) + ".jpg")) {
 		    stream.write(data);
 		}
+		return id;
 	}
 	
 	@Override
-	public void saveImage(BufferedImage img, String type, int typeMappingId, int ownerId, String title) throws IOException{
+	public int createImage(BufferedImage img, String type, int typeMappingId, int ownerId, String title) throws IOException{
 		Image image = new Image();
 		image.setLocation("");
 		image.setType(Util.verifyImageType(type));
@@ -73,6 +74,27 @@ public class ImageManagerImpl implements ImageManager{
 		
 		File outputfile = new File(Util.imagePath + Integer.toString(id) + ".jpg");
     	ImageIO.write(img, "jpg", outputfile);
+    	return id;
+	}
+	
+	@Override
+	public int saveTypeUniqueImage(BufferedImage img, String type, int typeMappingId, int ownerId, String title) 
+			throws FileNotFoundException, IOException {
+		List<QueryTerm> values = new ArrayList<QueryTerm>();
+		values.add(ImageDao.Field.TYPE.getQueryTerm(type));
+		values.add(ImageDao.Field.OWNER_ID.getQueryTerm(ownerId));
+		values.add(ImageDao.Field.ENABLED.getQueryTerm(true));
+		
+		try{
+			List<Image> imageList = imageDao.findAllObjects(values);
+			if (imageList.size() > 1)
+				throw new IllegalStateException(ErrorMessage.INVALID_TYPE_UNIQUE_IMG.getMsg());
+			//At this point, we know there are only one image at index 0
+			NVPair pair = new NVPair(ImageDao.Field.ENABLED.name, false);
+			imageDao.update(imageList.get(0).getId(), pair);
+		}catch(NotFoundException e){}
+
+		return createImage(img, type, typeMappingId, ownerId, title);
 	}
 
 	@Override
