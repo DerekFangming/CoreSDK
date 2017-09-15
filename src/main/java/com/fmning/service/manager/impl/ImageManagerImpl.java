@@ -78,7 +78,7 @@ public class ImageManagerImpl implements ImageManager{
 	}
 	
 	@Override
-	public int saveTypeUniqueImage(BufferedImage img, String type, int typeMappingId, int ownerId, String title) 
+	public int saveTypeUniqueImage(String base64, String type, int typeMappingId, int ownerId, String title) 
 			throws FileNotFoundException, IOException {
 		List<QueryTerm> values = new ArrayList<QueryTerm>();
 		values.add(ImageDao.Field.TYPE.getQueryTerm(type));
@@ -94,7 +94,7 @@ public class ImageManagerImpl implements ImageManager{
 			imageDao.update(imageList.get(0).getId(), pair);
 		}catch(NotFoundException e){}
 
-		return createImage(img, type, typeMappingId, ownerId, title);
+		return createImage(base64, type, typeMappingId, ownerId, title);
 	}
 
 	@Override

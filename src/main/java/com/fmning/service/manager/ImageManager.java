@@ -41,7 +41,7 @@ public interface ImageManager {
 	/**
 	 * Save type unique image. Create if does not exist. Update (Soft delete and add new) if the image
 	 * exists by type and owner id. There should be at most one active image per user per type.
-	 * @param img the image data
+	 * @param base64 encoded image file
 	 * @param type the type of the image
 	 * @param typeMappingId the mapping id for the image type
 	 * @param ownerId the user id 
@@ -51,7 +51,7 @@ public interface ImageManager {
 	 * @throws IOException if write image file process error
 	 * @throws IllegalStateException if other known exception are thrown
 	 */
-	public int saveTypeUniqueImage(BufferedImage img, String type, int typeMappingId, int ownerId, String title) 
+	public int saveTypeUniqueImage(String base64, String type, int typeMappingId, int ownerId, String title) 
 			throws FileNotFoundException, IOException, IllegalStateException;
 	/**
 	 * Retrieve image by id
