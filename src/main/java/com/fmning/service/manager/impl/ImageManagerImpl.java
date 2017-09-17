@@ -162,12 +162,20 @@ public class ImageManagerImpl implements ImageManager{
 	}
 
 	@Override
-	public int getSingltonImageIdByType(String type, int ownerId) throws NotFoundException, IllegalStateException {
-		List<Integer> idList = getImageIdListByType(type, ownerId);
-		if(idList.size() != 1){
-			throw new IllegalStateException(ErrorMessage.INTERNAL_LOGIC_ERROR.getMsg());
+	public Image getTypeUniqueImage(String type, int ownerId) throws NotFoundException, IllegalStateException {
+		List<QueryTerm> values = new ArrayList<QueryTerm>();
+		values.add(ImageDao.Field.TYPE.getQueryTerm(type));
+		values.add(ImageDao.Field.OWNER_ID.getQueryTerm(ownerId));
+		values.add(ImageDao.Field.ENABLED.getQueryTerm(true));
+		try{
+			List<Image> imgList = imageDao.findAllObjects(values);
+			if(imgList.size() > 1)
+				throw new IllegalStateException(ErrorMessage.INVALID_TYPE_UNIQUE_IMG.getMsg());
+			
+			return imgList.get(0);
+		}catch(NotFoundException e){
+			throw new NotFoundException(ErrorMessage.SINGLETON_IMG_NOT_FOUND.getMsg());
 		}
-		return idList.get(0);
 	}
 	
 	

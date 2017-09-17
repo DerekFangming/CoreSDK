@@ -89,7 +89,7 @@ public interface ImageManager {
 	public List<Integer> getImageIdListByTypeAndMappingId(String type, int mappingId, int ownerId) throws NotFoundException;
 	
 	/**
-	 * Get image id by owner ID and image type. There should be only one image. If there are more or nothing,
+	 * Get image by owner ID and image type. There should be only one image. If there are more or nothing,
 	 * throw exceptions
 	 * @param type the type of the image
 	 * @param ownerId the owner(user) id
@@ -97,6 +97,6 @@ public interface ImageManager {
 	 * @throws NotFoundException when no id is found
 	 * @throws IllegalStateException when there are more than 1 image.
 	 */
-	public int getSingltonImageIdByType(String type, int ownerId) throws NotFoundException, IllegalStateException;
+	public Image getTypeUniqueImage(String type, int ownerId) throws NotFoundException, IllegalStateException;
 	
 }
