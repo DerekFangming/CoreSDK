@@ -32,9 +32,11 @@ public class FeedManagerImpl implements FeedManager{
 	@Autowired private FeedDao feedDao;
 
 	@Override
-	public int saveFeed(String body, int ownerId){
+	public int createFeed(String title, String type, String body, int ownerId){
 		
 		Feed feed = new Feed();
+		feed.setTitle(title);
+		feed.setType(type);
 		feed.setBody(body);
 		feed.setEnabled(true);
 		feed.setOwnerId(ownerId);
@@ -74,12 +76,11 @@ public class FeedManagerImpl implements FeedManager{
 	}
 	
 	@Override
-	public List<Feed> getRecentFeedByDate (int ownerId, Instant date, int limit) throws NotFoundException {
+	public List<Feed> getRecentFeedByDate (Instant date, int limit) throws NotFoundException {
 		QueryBuilder qb = QueryType.getQueryBuilder(CoreTableType.FEEDS, QueryType.FIND);
 	    
-	    qb.addFirstQueryExpression(new QueryTerm(FeedDao.Field.OWNER_ID.name, RelationalOpType.EQ, ownerId));
-	    qb.addNextQueryExpression(LogicalOpType.AND,
-	    		new QueryTerm(FeedDao.Field.CREATED_AT.name, RelationalOpType.LT, Date.from(date)));
+	    //qb.addFirstQueryExpression(new QueryTerm(FeedDao.Field.OWNER_ID.name, RelationalOpType.EQ, ownerId));
+	    qb.addFirstQueryExpression(new QueryTerm(FeedDao.Field.CREATED_AT.name, RelationalOpType.LT, Date.from(date)));
 	    qb.addNextQueryExpression(LogicalOpType.AND,
 	    		new QueryTerm(FeedDao.Field.ENABLED.name, RelationalOpType.EQ, true));
 	    qb.setOrdering(FeedDao.Field.CREATED_AT.name, ResultsOrderType.DESCENDING);

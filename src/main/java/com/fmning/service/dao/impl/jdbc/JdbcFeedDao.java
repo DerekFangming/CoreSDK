@@ -26,6 +26,8 @@ public class JdbcFeedDao extends JdbcBaseDao<Feed> implements FeedDao{
 	  {
 	    NVPairList params = new NVPairList();
 	    
+		params.addValue(FeedDao.Field.TITLE.name, obj.getBody());
+		params.addValue(FeedDao.Field.TYPE.name, obj.getBody());
 		params.addValue(FeedDao.Field.BODY.name, obj.getBody());
 	    params.addValue(FeedDao.Field.OWNER_ID.name, obj.getOwnerId());
 	    params.addValue(ImageDao.Field.ENABLED.name, obj.getEnabled());
@@ -44,6 +46,8 @@ public class JdbcFeedDao extends JdbcBaseDao<Feed> implements FeedDao{
 	      {
 	    	  Feed obj = new Feed();
 	    	  obj.setId(rs.getInt(FeedDao.Field.ID.name));
+	    	  obj.setTitle(rs.getString(FeedDao.Field.TITLE.name));
+	    	  obj.setType(rs.getString(FeedDao.Field.TYPE.name));
 	    	  obj.setBody(rs.getString(FeedDao.Field.BODY.name));
 	    	  obj.setOwnerId(rs.getInt(FeedDao.Field.OWNER_ID.name));
 	    	  obj.setEnabled(rs.getBoolean(ImageDao.Field.ENABLED.name));

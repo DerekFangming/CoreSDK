@@ -10,11 +10,13 @@ public interface FeedManager {
 	
 	/**
 	 * Create a feed and save into db
+	 * @param title the feed title
+	 * @param type the type of the feed
 	 * @param body the feed body of this 
 	 * @param ownerId the user id of the owner of this feed
 	 * @return the id of this feed
 	 */
-	public int saveFeed(String body, int ownerId);
+	public int createFeed(String title, String type, String body, int ownerId);
 	
 	/**
 	 * Get feed object from feed id
@@ -37,13 +39,12 @@ public interface FeedManager {
 	 * Get a list of most recent feed by the provided date. The maximum number of feed returned
 	 * is smaller or equal to the limit
 	 * All feeds are posted by the given user
-	 * @param ownerId the owner of the feed
 	 * @param date the date for the most recent line
 	 * @param limit the maximum of feed that will be returned at once
 	 * @return a list of feeds that meet the criteria
 	 * @throws NotFoundException if no feed meets the criteria
 	 */
-	public List<Feed> getRecentFeedByDate (int ownerId, Instant date, int limit) throws NotFoundException;
+	public List<Feed> getRecentFeedByDate (Instant date, int limit) throws NotFoundException;
 	
 	/**
 	 * Get feed preview image Ids. Will return 4 of them maximumly.
