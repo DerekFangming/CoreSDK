@@ -116,7 +116,7 @@ public class ImageManagerImpl implements ImageManager{
 	}
 
 	@Override
-	public Image retrieveImageById(int imageId) throws NotFoundException, FileNotFoundException, IOException{
+	public Image getImageById(int imageId) throws NotFoundException, FileNotFoundException, IOException{
 		
 		List<QueryTerm> values = new ArrayList<QueryTerm>();
 		values.add(ImageDao.Field.ID.getQueryTerm(imageId));
@@ -178,5 +178,21 @@ public class ImageManagerImpl implements ImageManager{
 		}
 	}
 	
+	@Override
+	public Image getImageByTypeAndMapping(String type, int mappingId) throws NotFoundException, IllegalStateException {
+		List<QueryTerm> values = new ArrayList<QueryTerm>();
+		values.add(ImageDao.Field.TYPE.getQueryTerm(type));
+		values.add(ImageDao.Field.TYPE_MAPPING_ID.getQueryTerm(mappingId));
+		values.add(ImageDao.Field.ENABLED.getQueryTerm(true));
+		try{
+			List<Image> imgList = imageDao.findAllObjects(values);
+			if(imgList.size() > 1)
+				throw new IllegalStateException(ErrorMessage.INVALID_TYPE_UNIQUE_IMG.getMsg());
+			
+			return imgList.get(0);
+		}catch(NotFoundException e){
+			throw new NotFoundException(ErrorMessage.SINGLETON_IMG_NOT_FOUND.getMsg());
+		}
+	}
 	
 }

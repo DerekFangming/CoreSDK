@@ -59,7 +59,7 @@ public interface ImageManager {
 	 * @return Image image object
 	 * @throws NotFoundException if the file is not found
 	 */
-	public Image retrieveImageById(int imageId) throws NotFoundException, FileNotFoundException, IOException;
+	public Image getImageById(int imageId) throws NotFoundException, FileNotFoundException, IOException;
 	
 	/**
 	 * Soft delete (disable) a image base on the id
@@ -93,10 +93,21 @@ public interface ImageManager {
 	 * throw exceptions
 	 * @param type the type of the image
 	 * @param ownerId the owner(user) id
-	 * @return the single image id
-	 * @throws NotFoundException when no id is found
-	 * @throws IllegalStateException when there are more than 1 image.
+	 * @return the single matching image
+	 * @throws NotFoundException when no image is found
+	 * @throws IllegalStateException when there are more than 1 image
 	 */
 	public Image getTypeUniqueImage(String type, int ownerId) throws NotFoundException, IllegalStateException;
+	
+	/**
+	 * Get image by type and mapping id. There should be only one image. If there are more or nothing,
+	 * throw exceptions
+	 * @param type the type of the image
+	 * @param mappingId the mapping id for the type
+	 * @return the single matching image
+	 * @throws NotFoundException when no image is found
+	 * @throws IllegalStateException when there are more than 1 image
+	 */
+	public Image getImageByTypeAndMapping(String type, int mappingId) throws NotFoundException, IllegalStateException;
 	
 }
