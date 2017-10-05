@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fmning.service.dao.CommentDao;
 import com.fmning.service.dao.DataSourceRegistry;
+import com.fmning.service.dao.EventDao;
 import com.fmning.service.dao.FriendDao;
 import com.fmning.service.dao.ImageDao;
 import com.fmning.service.dao.FeedDao;
@@ -29,6 +30,7 @@ public enum CoreTableType implements SchemaTable
 	FRIENDS(SdkDataSourceType.CORE, FriendDao.FieldTypes),
 	RELATIONSHIPS(SdkDataSourceType.CORE, RelationshipDao.FieldTypes),
 	FEEDS(SdkDataSourceType.CORE, FeedDao.FieldTypes),
+	EVENTS(SdkDataSourceType.CORE, EventDao.FieldTypes),
 	COMMENTS(SdkDataSourceType.CORE, CommentDao.FieldTypes),
 	SG(SdkDataSourceType.CORE, SgDao.FieldTypes),
 	WC_REPORTS(SdkDataSourceType.CORE, WcReportDao.FieldTypes),
