@@ -11,6 +11,7 @@ import com.fmning.service.dao.WcArticleDao;
 import com.fmning.service.dao.impl.CoreTableType;
 import com.fmning.service.dao.impl.NVPairList;
 import com.fmning.service.domain.WcArticle;
+import com.fmning.util.Util;
 
 @Repository
 @Jdbc
@@ -47,7 +48,7 @@ public class JdbcWcArticleDao extends JdbcBaseDao<WcArticle> implements WcArticl
 	    	  obj.setArticle(rs.getString(WcArticleDao.Field.ARTICLE.name));
 	    	  obj.setMenuId(rs.getInt(WcArticleDao.Field.MENU_ID.name));
 	    	  obj.setUserId(rs.getInt(WcArticleDao.Field.USER_ID.name));
-	    	  obj.setCreatedAt(rs.getTimestamp(WcArticleDao.Field.CREATED_AT.name).toInstant());
+	    	  obj.setCreatedAt(Util.parseTimestamp(rs.getTimestamp(WcArticleDao.Field.CREATED_AT.name)));
 	        
 	        return obj;
 	      }

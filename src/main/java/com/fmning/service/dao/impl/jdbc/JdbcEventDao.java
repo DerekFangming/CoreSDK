@@ -53,7 +53,7 @@ public class JdbcEventDao extends JdbcBaseDao<Event> implements EventDao{
 			  obj.setEndTime(Util.parseTimestamp(rs.getTimestamp(EventDao.Field.END_TIME.name)));
 			  obj.setLocation(rs.getString(EventDao.Field.LOCATION.name));
 	    	  obj.setOwnerId(rs.getInt(EventDao.Field.OWNER_ID.name));
-	    	  obj.setCreatedAt(rs.getTimestamp(EventDao.Field.CREATED_AT.name).toInstant());
+	    	  obj.setCreatedAt(Util.parseTimestamp(rs.getTimestamp(EventDao.Field.CREATED_AT.name)));
 	        
 	        return obj;
 	      }

@@ -170,6 +170,7 @@ public interface SchemaTable{
 	public static String getName(Enum<?> enumElt){
 		String colName;
 	
+		@SuppressWarnings("rawtypes")
 		Class clazz = enumElt.getClass();
 	
 		try{
@@ -191,6 +192,7 @@ public interface SchemaTable{
 	public static boolean isPrimaryKey(Enum<?> enumElt){
 		boolean isPK = false;
 	
+		@SuppressWarnings("rawtypes")
 		Class clazz = enumElt.getClass();
 	
 		try{

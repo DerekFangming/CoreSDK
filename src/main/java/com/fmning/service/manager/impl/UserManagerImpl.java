@@ -27,9 +27,9 @@ import com.fmning.util.ErrorMessage;
 @Component
 public class UserManagerImpl implements UserManager{
 
-	@Autowired UserDao userDao;
-	@Autowired UserDetailDao userDetailDao;
-	@Autowired HelperManager helperManager;
+	@Autowired private UserDao userDao;
+	@Autowired private UserDetailDao userDetailDao;
+	@Autowired private HelperManager helperManager;
 	
 	@Override
 	public String registerForSalt(String username, int offset) throws IllegalStateException {

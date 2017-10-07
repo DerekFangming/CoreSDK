@@ -11,6 +11,7 @@ import com.fmning.service.dao.UserDao;
 import com.fmning.service.dao.impl.CoreTableType;
 import com.fmning.service.dao.impl.NVPairList;
 import com.fmning.service.domain.User;
+import com.fmning.util.Util;
 
 @Repository
 @Jdbc
@@ -51,7 +52,7 @@ public class JdbcUserDao extends JdbcBaseDao<User> implements UserDao{
 	    	  obj.setPassword(rs.getString(UserDao.Field.PASSWORD.name));
 	    	  obj.setAuthToken(rs.getString(UserDao.Field.AUTH_TOKEN.name));
 	    	  obj.setVeriToken(rs.getString(UserDao.Field.VERI_TOKEN.name));
-	    	  obj.setCreatedAt(rs.getTimestamp(UserDao.Field.CREATED_AT.name).toInstant());
+	    	  obj.setCreatedAt(Util.parseTimestamp(rs.getTimestamp(UserDao.Field.CREATED_AT.name)));
 	    	  obj.setEmailConfirmed(rs.getBoolean(UserDao.Field.EMAIL_CONFIRMED.name));
 	    	  obj.setSalt(rs.getString(UserDao.Field.SALT.name));
 	    	  obj.setTimezoneOffset(rs.getInt(UserDao.Field.TIMEZONE_OFFSET.name));
