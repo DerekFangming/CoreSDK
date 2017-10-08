@@ -45,6 +45,8 @@ public enum ErrorMessage {
 	NO_COMMENT_TO_DELETE("The comment you are trying to delete does not exist."),
 	UNAUTHORIZED_COMMENT_DELETE("Cannot delete a comment that is not yours."),
 	COMMENT_ALREADY_EXISTS("Cannot create this comment because it already exists"),
+	//Event related
+	EVENT_NOT_FOUND("The event you are looking for does not exist."),
 	//Test case related
 	SHOULD_NOT_PASS_ERROR("This method should fail, but passed."),;
 	
