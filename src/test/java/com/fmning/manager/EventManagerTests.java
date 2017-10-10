@@ -1,7 +1,6 @@
 package com.fmning.manager;
 
 import static org.junit.Assert.assertEquals;
-
 import java.util.TimeZone;
 
 import org.junit.BeforeClass;
@@ -11,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.fmning.service.domain.Feed;
-import com.fmning.service.manager.FeedManager;
+import com.fmning.service.domain.Event;
+import com.fmning.service.manager.EventManager;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/sdkUnitTesting.xml")
-public class FeedManagerTests {
+public class EventManagerTests {
 	
-	@Autowired private FeedManager feedManager;
+	@Autowired private EventManager eventManager;
 	
 	@BeforeClass
     public static void setUpBaseClass() {
@@ -26,15 +25,17 @@ public class FeedManagerTests {
     }
 	
 	@Test
-	public void testGetFeed(){
-		Feed feed = feedManager.getFeedById(3);
-		assertEquals(feed.getOwnerId(), 4);
+	public void testGetEventById(){
+		Event event = eventManager.getEventById(1);
+		assertEquals(event.getMappingId(), 9);
+		assertEquals(event.getTitle(), "Dragon night 2018");
 	}
 	
 	@Test
-	public void testGetFeed2(){
-		Feed feed = feedManager.getFeedById(4);
-		assertEquals(feed.getOwnerId(), 4);
+	public void testGetEventByMapping(){
+		Event event = eventManager.getEventByMappingId(9);
+		assertEquals(event.getId(), 1);
+		assertEquals(event.getTitle(), "Dragon night 2018");
 	}
 
 }

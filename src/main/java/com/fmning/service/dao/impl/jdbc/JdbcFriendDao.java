@@ -10,7 +10,6 @@ import com.fmning.service.dao.FriendDao;
 import com.fmning.service.dao.impl.CoreTableType;
 import com.fmning.service.dao.impl.NVPairList;
 import com.fmning.service.domain.Friend;
-import com.fmning.util.Util;
 
 public class JdbcFriendDao extends JdbcBaseDao<Friend> implements FriendDao{
 	public JdbcFriendDao()
@@ -46,8 +45,8 @@ public class JdbcFriendDao extends JdbcBaseDao<Friend> implements FriendDao{
 	    	  obj.setSenderId(rs.getInt(FriendDao.Field.SENDER_ID.name));
 	    	  obj.setReceiverId(rs.getInt(FriendDao.Field.RECEIVER_ID.name));
 	    	  obj.setApproved(rs.getBoolean(FriendDao.Field.APPROVED.name));
-	    	  obj.setCreatedAt(Util.parseTimestamp(rs.getTimestamp(FriendDao.Field.CREATED_AT.name)));
-	    	  obj.setApprovedAt(Util.parseTimestamp(rs.getTimestamp(FriendDao.Field.APPROVED_AT.name)));
+	    	  obj.setCreatedAt(rs.getTimestamp(FriendDao.Field.CREATED_AT.name).toInstant());
+	    	  obj.setApprovedAt(rs.getTimestamp(FriendDao.Field.APPROVED_AT.name).toInstant());
 	        
 	        return obj;
 	      }

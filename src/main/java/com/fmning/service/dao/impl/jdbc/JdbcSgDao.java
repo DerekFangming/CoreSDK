@@ -11,7 +11,6 @@ import com.fmning.service.dao.SgDao;
 import com.fmning.service.dao.impl.CoreTableType;
 import com.fmning.service.dao.impl.NVPairList;
 import com.fmning.service.domain.Sg;
-import com.fmning.util.Util;
 
 @Repository
 @Jdbc
@@ -46,7 +45,7 @@ public class JdbcSgDao extends JdbcBaseDao<Sg> implements SgDao{
 	    	  obj.setMenuId(rs.getInt(SgDao.Field.MENU_ID.name));
 	    	  obj.setTitle(rs.getString(SgDao.Field.TITLE.name));
 	    	  obj.setContent(rs.getString(SgDao.Field.CONTENT.name));
-	    	  obj.setCreatedAt(Util.parseTimestamp(rs.getTimestamp(SgDao.Field.CREATED_AT.name)));
+	    	  obj.setCreatedAt(rs.getTimestamp(SgDao.Field.CREATED_AT.name).toInstant());
 	        
 	        return obj;
 	      }

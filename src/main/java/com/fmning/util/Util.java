@@ -3,7 +3,6 @@ package com.fmning.util;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +15,6 @@ public class Util {
 	
 	public static String imagePath = "/Volumes/Data/images/";
 	public final static int nullInt = -1;
-	private static long timezoneOffset = 5; //Time offset from DB to East time
 
 	public static String verifyImageType(String type) {
 		if (type == null)
@@ -33,7 +31,7 @@ public class Util {
 	
 	public static Map<String, Object> createErrorRespondFromException(Exception e){
 		Map<String, Object> respond = new HashMap<String, Object>();
-		if(e instanceof NullPointerException){
+		if(e instanceof NullPointerException || e instanceof NumberFormatException){
 			respond.put("error", ErrorMessage.INCORRECT_PARAM.getMsg());
 		}else if(e instanceof IllegalStateException){
 			respond.put("error", e.getMessage());
@@ -80,6 +78,6 @@ public class Util {
 	}
 	
 	public static Instant parseTimestamp(Timestamp timestamp) {
-		return timestamp == null ? null : timestamp.toInstant().minus(Duration.ofHours(timezoneOffset));
+		return timestamp == null ? null : timestamp.toInstant();
 	}
 }

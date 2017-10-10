@@ -12,7 +12,6 @@ import com.fmning.service.dao.FeedDao;
 import com.fmning.service.dao.impl.CoreTableType;
 import com.fmning.service.dao.impl.NVPairList;
 import com.fmning.service.domain.Feed;
-import com.fmning.util.Util;
 
 @Repository
 @Jdbc
@@ -52,7 +51,7 @@ public class JdbcFeedDao extends JdbcBaseDao<Feed> implements FeedDao{
 	    	  obj.setBody(rs.getString(FeedDao.Field.BODY.name));
 	    	  obj.setOwnerId(rs.getInt(FeedDao.Field.OWNER_ID.name));
 	    	  obj.setEnabled(rs.getBoolean(ImageDao.Field.ENABLED.name));
-	    	  obj.setCreatedAt(Util.parseTimestamp(rs.getTimestamp(FeedDao.Field.CREATED_AT.name)));
+	    	  obj.setCreatedAt(rs.getTimestamp(FeedDao.Field.CREATED_AT.name).toInstant());
 	        
 	        return obj;
 	      }

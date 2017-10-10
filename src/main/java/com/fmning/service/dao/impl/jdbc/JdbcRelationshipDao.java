@@ -11,7 +11,6 @@ import com.fmning.service.dao.RelationshipDao;
 import com.fmning.service.dao.impl.CoreTableType;
 import com.fmning.service.dao.impl.NVPairList;
 import com.fmning.service.domain.Relationship;
-import com.fmning.util.Util;
 
 @Repository
 @Jdbc
@@ -49,7 +48,7 @@ public class JdbcRelationshipDao extends JdbcBaseDao<Relationship> implements Re
 	    	  obj.setReceiverId(rs.getInt(RelationshipDao.Field.RECEIVER_ID.name));
 	    	  obj.setConfirmed(rs.getBoolean(RelationshipDao.Field.CONFIRMED.name));
 			  obj.setType(rs.getString(RelationshipDao.Field.TYPE.name));
-	    	  obj.setCreatedAt(Util.parseTimestamp(rs.getTimestamp(RelationshipDao.Field.CREATED_AT.name)));
+	    	  obj.setCreatedAt(rs.getTimestamp(RelationshipDao.Field.CREATED_AT.name).toInstant());
 	        
 	        return obj;
 	      }
