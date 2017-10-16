@@ -17,14 +17,17 @@ public class EventManagerImpl implements EventManager{
 	@Autowired private EventDao eventDao;
 
 	@Override
-	public int createEvent(int mappingId, String title, Instant startTime, Instant endTime, String location,
-			int ownerId) {
+	public int createEvent(String type, int mappingId, String title, String description, Instant startTime,
+			Instant endTime, String location, int fee, int ownerId) {
 		Event event = new Event();
+		event.setType(type);
 		event.setMappingId(mappingId);
 		event.setTitle(title);
+		event.setDescription(description);
 		event.setStartTime(startTime);
 		event.setEndTime(endTime);
 		event.setLocation(location);
+		event.setFee(fee);
 		event.setOwnerId(ownerId);
 		event.setCreatedAt(Instant.now());
 		return eventDao.persist(event);

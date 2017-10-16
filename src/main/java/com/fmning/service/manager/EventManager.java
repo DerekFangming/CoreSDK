@@ -9,16 +9,19 @@ public interface EventManager {
 	
 	/**
 	 * Create an Event object and save into database
+	 * @param type
 	 * @param mappingId
 	 * @param title
+	 * @param description
 	 * @param startTime
 	 * @param endTime
 	 * @param location
+	 * @param fee
 	 * @param ownerId
 	 * @return the database id of the row
 	 */
-	public int createEvent(int mappingId, String title, Instant startTime, Instant endTime, String location,
-			int ownerId);
+	public int createEvent(String type, int mappingId, String title, String description, Instant startTime,
+			Instant endTime, String location, int fee, int ownerId);
 	
 	/**
 	 * Get event by database id

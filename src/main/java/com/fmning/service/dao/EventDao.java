@@ -11,11 +11,14 @@ import com.fmning.util.Pair;
 public interface EventDao extends CommonDao<Event>{
 	enum Field implements DaoFieldEnum{
 		ID(true),
+		TYPE,
 	    MAPPING_ID,
 	    TITLE,
+	    DESCRIPTION,
 	    START_TIME,
 	    END_TIME,
 	    LOCATION,
+	    FEE,
 	    OWNER_ID,
 	    CREATED_AT;
 		
@@ -48,11 +51,14 @@ public interface EventDao extends CommonDao<Event>{
 	
 	List<Pair<Enum<?>, String>> FieldTypes = Arrays.asList(
 		    new Pair<Enum<?>, String>(Field.ID, "SERIAL NOT NULL"),
+		    new Pair<Enum<?>, String>(Field.TYPE, "TEXT"),
 		    new Pair<Enum<?>, String>(Field.MAPPING_ID, "INTEGER"),
 		    new Pair<Enum<?>, String>(Field.TITLE, "TEXT"),
+		    new Pair<Enum<?>, String>(Field.DESCRIPTION, "TEXT"),
 		    new Pair<Enum<?>, String>(Field.START_TIME, "TIMESTAMP WITHOUT TIME ZONE"),
 		    new Pair<Enum<?>, String>(Field.END_TIME, "TIMESTAMP WITHOUT TIME ZONE"),
 		    new Pair<Enum<?>, String>(Field.LOCATION, "TEXT"),
+		    new Pair<Enum<?>, String>(Field.FEE, "INTEGER NOT NULL DEFAULT 0"),
 		    new Pair<Enum<?>, String>(Field.OWNER_ID, "INTEGER NOT NULL"),
 		    new Pair<Enum<?>, String>(Field.CREATED_AT, "TIMESTAMP WITHOUT TIME ZONE NOT NULL"));
 

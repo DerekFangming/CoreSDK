@@ -62,6 +62,9 @@ public class Util {
 	}
 	
 	public static String emptyStringToNull(String input){
+		if(input == null) {
+			return null;
+		}
 		if(input.trim().equals("")){
 			return null;
 		}else{
