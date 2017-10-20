@@ -2,6 +2,8 @@ package com.fmning.util;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Date;
@@ -13,7 +15,7 @@ import com.fmning.service.exceptions.SessionExpiredException;
 
 public class Util {
 	
-	public static String imagePath = "/Volumes/Data/images/";
+	public static String imagePath = "/Volumes/Data/images/";// This is configurable from outside of core SDK
 	public final static int nullInt = -1;
 
 	public static String verifyImageType(String type) {
@@ -82,5 +84,9 @@ public class Util {
 	
 	public static Instant parseTimestamp(Timestamp timestamp) {
 		return timestamp == null ? null : timestamp.toInstant();
+	}
+	
+	public static int getNullableInt(ResultSet rs, String colName) throws SQLException {
+		return rs.getObject(colName) != null ? rs.getInt(colName) : nullInt;
 	}
 }

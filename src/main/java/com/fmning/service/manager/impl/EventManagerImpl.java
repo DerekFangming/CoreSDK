@@ -1,11 +1,14 @@
 package com.fmning.service.manager.impl;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fmning.service.dao.EventDao;
+import com.fmning.service.dao.impl.QueryTerm;
 import com.fmning.service.domain.Event;
 import com.fmning.service.exceptions.NotFoundException;
 import com.fmning.service.manager.EventManager;
@@ -43,9 +46,13 @@ public class EventManagerImpl implements EventManager{
 	}
 
 	@Override
-	public Event getEventByMappingId(int mappingId) throws NotFoundException {
+	public Event getEventByType(String type, int mappingId) throws NotFoundException {
 		try {
-			return eventDao.findObject(EventDao.Field.MAPPING_ID.getQueryTerm(mappingId));
+			List<QueryTerm> values = new ArrayList<QueryTerm>();
+			values.add(EventDao.Field.TYPE.getQueryTerm(type));
+			values.add(EventDao.Field.MAPPING_ID.getQueryTerm(mappingId));
+			
+			return eventDao.findObject(values);
 		} catch (NotFoundException e) {
 			throw new NotFoundException(ErrorMessage.EVENT_NOT_FOUND.getMsg());
 		}

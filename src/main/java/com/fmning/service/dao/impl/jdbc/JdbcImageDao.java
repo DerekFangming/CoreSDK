@@ -11,6 +11,7 @@ import com.fmning.service.dao.ImageDao;
 import com.fmning.service.dao.impl.CoreTableType;
 import com.fmning.service.dao.impl.NVPairList;
 import com.fmning.service.domain.Image;
+import com.fmning.util.Util;
 
 @Repository
 @Jdbc
@@ -48,7 +49,7 @@ public class JdbcImageDao extends JdbcBaseDao<Image> implements ImageDao{
 	    	  obj.setId(rs.getInt(ImageDao.Field.ID.name));
 	    	  obj.setLocation(rs.getString(ImageDao.Field.LOCATION.name));
 	    	  obj.setType(rs.getString(ImageDao.Field.TYPE.name));
-	    	  obj.setTypeMappingId(rs.getInt(ImageDao.Field.TYPE_MAPPING_ID.name));
+	    	  obj.setTypeMappingId(Util.getNullableInt(rs, ImageDao.Field.TYPE_MAPPING_ID.name));
 	    	  obj.setOwnerId(rs.getInt(ImageDao.Field.OWNER_ID.name));
 	    	  obj.setCreatedAt(rs.getTimestamp(ImageDao.Field.CREATED_AT.name).toInstant());
 	    	  obj.setEnabled(rs.getBoolean(ImageDao.Field.ENABLED.name));

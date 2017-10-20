@@ -32,11 +32,12 @@ public interface EventManager {
 	public Event getEventById(int id) throws NotFoundException;
 	
 	/**
-	 * Get event by mapping id
-	 * @param mappingId the id of the feed, which is the only thing that can have event for now
+	 * Get event by type and mapping id
+	 * @param type the type
+	 * @param mappingId the id for the type
 	 * @return Event object
 	 * @throws NotFoundException
 	 */
-	public Event getEventByMappingId(int mappingId) throws NotFoundException;
+	public Event getEventByType(String type, int mappingId) throws NotFoundException;
 
 }

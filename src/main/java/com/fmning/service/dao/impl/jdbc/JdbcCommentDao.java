@@ -11,6 +11,7 @@ import com.fmning.service.dao.CommentDao;
 import com.fmning.service.dao.impl.CoreTableType;
 import com.fmning.service.dao.impl.NVPairList;
 import com.fmning.service.domain.Comment;
+import com.fmning.util.Util;
 
 @Repository
 @Jdbc
@@ -46,9 +47,9 @@ public class JdbcCommentDao extends JdbcBaseDao<Comment> implements CommentDao{
 	    	  Comment obj = new Comment();
 	    	  obj.setId(rs.getInt(CommentDao.Field.ID.name));
 	    	  obj.setBody(rs.getString(CommentDao.Field.BODY.name));
-	    	  obj.setMentionedUserId(rs.getInt(CommentDao.Field.MENTIONED_USER_ID.name));
+	    	  obj.setMentionedUserId(Util.getNullableInt(rs, CommentDao.Field.MENTIONED_USER_ID.name));
 	    	  obj.setType(rs.getString(CommentDao.Field.TYPE.name));
-	    	  obj.setTypeMappingId(rs.getInt(CommentDao.Field.TYPE_MAPPING_ID.name));
+	    	  obj.setTypeMappingId(Util.getNullableInt(rs, CommentDao.Field.TYPE_MAPPING_ID.name));
 	    	  obj.setOwnerId(rs.getInt(CommentDao.Field.OWNER_ID.name));
 	    	  obj.setCreatedAt(rs.getTimestamp(CommentDao.Field.CREATED_AT.name).toInstant());
 	    	  obj.setEnabled(rs.getBoolean(CommentDao.Field.ENABLED.name));

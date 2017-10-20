@@ -10,6 +10,7 @@ import com.fmning.service.dao.UserDetailDao;
 import com.fmning.service.dao.impl.CoreTableType;
 import com.fmning.service.dao.impl.NVPairList;
 import com.fmning.service.domain.UserDetail;
+import com.fmning.util.Util;
 
 @Repository
 @Jdbc
@@ -51,7 +52,7 @@ public class JdbcUserDetailDao extends JdbcBaseDao<UserDetail> implements UserDe
 	    	  obj.setUserId(rs.getInt(UserDetailDao.Field.USER_ID.name));
 	    	  obj.setName(rs.getString(UserDetailDao.Field.NAME.name));
 	    	  obj.setNickname(rs.getString(UserDetailDao.Field.NICKNAME.name));
-	    	  obj.setAge(rs.getInt(UserDetailDao.Field.AGE.name));
+	    	  obj.setAge(Util.getNullableInt(rs, UserDetailDao.Field.AGE.name));
 	    	  obj.setGender(rs.getString(UserDetailDao.Field.GENDER.name));
 	    	  obj.setLocation(rs.getString(UserDetailDao.Field.LOCATION.name));
 	    	  obj.setWhatsUp(rs.getString(UserDetailDao.Field.WHATS_UP.name));

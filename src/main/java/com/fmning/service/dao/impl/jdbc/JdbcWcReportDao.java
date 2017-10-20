@@ -11,6 +11,7 @@ import com.fmning.service.dao.WcReportDao;
 import com.fmning.service.dao.impl.CoreTableType;
 import com.fmning.service.dao.impl.NVPairList;
 import com.fmning.service.domain.WcReport;
+import com.fmning.util.Util;
 
 @Repository
 @Jdbc
@@ -43,7 +44,7 @@ public class JdbcWcReportDao extends JdbcBaseDao<WcReport> implements WcReportDa
 	      {
 	    	  WcReport obj = new WcReport();
 	    	  obj.setId(rs.getInt(WcReportDao.Field.ID.name));
-	    	  obj.setUserId(rs.getInt(WcReportDao.Field.USER_ID.name));
+	    	  obj.setUserId(Util.getNullableInt(rs, WcReportDao.Field.USER_ID.name));
 	    	  obj.setMenuId(rs.getInt(WcReportDao.Field.MENU_ID.name));
 	    	  obj.setEmail(rs.getString(WcReportDao.Field.EMAIL.name));
 	    	  obj.setReport(rs.getString(WcReportDao.Field.REPORT.name));

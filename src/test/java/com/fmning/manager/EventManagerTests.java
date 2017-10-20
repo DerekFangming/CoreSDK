@@ -12,6 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.fmning.service.domain.Event;
 import com.fmning.service.manager.EventManager;
+import com.fmning.util.EventType;
+import com.fmning.util.Util;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/sdkUnitTesting.xml")
@@ -32,8 +34,16 @@ public class EventManagerTests {
 	}
 	
 	@Test
+	public void testNullColumn(){
+		Event event = eventManager.getEventById(3);
+		assertEquals(event.getMappingId(), 8);
+		assertEquals(event.getFee(), Util.nullInt);
+		assertEquals(event.getTitle(), "Single day party");
+	}
+	
+	@Test
 	public void testGetEventByMapping(){
-		Event event = eventManager.getEventByMappingId(9);
+		Event event = eventManager.getEventByType(EventType.FEED.getName(), 9);
 		assertEquals(event.getId(), 1);
 		assertEquals(event.getTitle(), "Dragon night 2018");
 	}

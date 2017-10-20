@@ -58,7 +58,7 @@ public interface EventDao extends CommonDao<Event>{
 		    new Pair<Enum<?>, String>(Field.START_TIME, "TIMESTAMP WITHOUT TIME ZONE"),
 		    new Pair<Enum<?>, String>(Field.END_TIME, "TIMESTAMP WITHOUT TIME ZONE"),
 		    new Pair<Enum<?>, String>(Field.LOCATION, "TEXT"),
-		    new Pair<Enum<?>, String>(Field.FEE, "INTEGER NOT NULL DEFAULT 0"),
+		    new Pair<Enum<?>, String>(Field.FEE, "INTEGER"),
 		    new Pair<Enum<?>, String>(Field.OWNER_ID, "INTEGER NOT NULL"),
 		    new Pair<Enum<?>, String>(Field.CREATED_AT, "TIMESTAMP WITHOUT TIME ZONE NOT NULL"));
 
