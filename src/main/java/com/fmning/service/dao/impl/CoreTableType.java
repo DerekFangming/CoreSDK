@@ -14,6 +14,8 @@ import com.fmning.service.dao.SchemaTable;
 import com.fmning.service.dao.SdkDataSource;
 import com.fmning.service.dao.SdkDataSourceType;
 import com.fmning.service.dao.SgDao;
+import com.fmning.service.dao.TicketDao;
+import com.fmning.service.dao.TicketTemplateDao;
 import com.fmning.service.dao.WcReportDao;
 import com.fmning.service.dao.UserDao;
 import com.fmning.service.dao.UserDetailDao;
@@ -32,6 +34,9 @@ public enum CoreTableType implements SchemaTable
 	FEEDS(SdkDataSourceType.CORE, FeedDao.FieldTypes),
 	EVENTS(SdkDataSourceType.CORE, EventDao.FieldTypes),
 	COMMENTS(SdkDataSourceType.CORE, CommentDao.FieldTypes),
+	TICKETS(SdkDataSourceType.CORE, TicketDao.FieldTypes),
+	TICKET_TEMPLATES(SdkDataSourceType.CORE, TicketTemplateDao.FieldTypes),
+	
 	SG(SdkDataSourceType.CORE, SgDao.FieldTypes),
 	WC_REPORTS(SdkDataSourceType.CORE, WcReportDao.FieldTypes),
 	WC_APP_VERSIONS(SdkDataSourceType.CORE, WcAppVersionDao.FieldTypes),

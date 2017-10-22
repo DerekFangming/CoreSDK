@@ -47,6 +47,9 @@ public enum ErrorMessage {
 	COMMENT_ALREADY_EXISTS("Cannot create this comment because it already exists"),
 	//Event related
 	EVENT_NOT_FOUND("The event you are looking for does not exist."),
+	//Ticketrelated
+	TICKET_NOT_FOUND("The ticket you are looking for does not exist."),
+	TICKET_TEMPLATE_NOT_FOUND("The ticket template you are looking for does not exist."),
 	//Test case related
 	SHOULD_NOT_PASS_ERROR("This method should fail, but passed."),;
 	
