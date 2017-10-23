@@ -5,23 +5,22 @@ import java.util.List;
 
 import com.fmning.service.dao.impl.QueryTerm;
 import com.fmning.service.dao.impl.RelationalOpType;
-import com.fmning.service.domain.Event;
+import com.fmning.service.domain.Payment;
 import com.fmning.util.Pair;
 
-public interface EventDao extends CommonDao<Event>{
+public interface PaymentDao extends CommonDao<Payment>{
 	enum Field implements DaoFieldEnum{
 		ID(true),
 		TYPE,
-	    MAPPING_ID,
-	    TITLE,
-	    DESCRIPTION,
-	    START_TIME,
-	    END_TIME,
-	    LOCATION,
-	    FEE,
-	    OWNER_ID,
-	    CREATED_AT,
-	    TICKET_TEMPLATE_ID;
+		MAPPING_ID,
+		AMOUNT,
+		STATUS,
+		MESSAGE,
+		PAYER_ID,
+		RECEIVER_ID,
+		METHOD,
+		NONCE,
+		CREATED_AT;
 		
 		public boolean isPK = false;
 	    public String name;
@@ -54,14 +53,13 @@ public interface EventDao extends CommonDao<Event>{
 		    new Pair<Enum<?>, String>(Field.ID, "SERIAL NOT NULL"),
 		    new Pair<Enum<?>, String>(Field.TYPE, "TEXT"),
 		    new Pair<Enum<?>, String>(Field.MAPPING_ID, "INTEGER"),
-		    new Pair<Enum<?>, String>(Field.TITLE, "TEXT"),
-		    new Pair<Enum<?>, String>(Field.DESCRIPTION, "TEXT"),
-		    new Pair<Enum<?>, String>(Field.START_TIME, "TIMESTAMP WITHOUT TIME ZONE"),
-		    new Pair<Enum<?>, String>(Field.END_TIME, "TIMESTAMP WITHOUT TIME ZONE"),
-		    new Pair<Enum<?>, String>(Field.LOCATION, "TEXT"),
-		    new Pair<Enum<?>, String>(Field.FEE, "DECIMAL"),
-		    new Pair<Enum<?>, String>(Field.OWNER_ID, "INTEGER NOT NULL"),
-		    new Pair<Enum<?>, String>(Field.CREATED_AT, "TIMESTAMP WITHOUT TIME ZONE NOT NULL"),
-		    new Pair<Enum<?>, String>(Field.TICKET_TEMPLATE_ID, "INTEGER"));
+		    new Pair<Enum<?>, String>(Field.AMOUNT, "DECIMAL NOT NULL"),
+		    new Pair<Enum<?>, String>(Field.STATUS, "TEXT NOT NULL"),
+		    new Pair<Enum<?>, String>(Field.MESSAGE, "TEXT"),
+		    new Pair<Enum<?>, String>(Field.PAYER_ID, "INTEGER NOT NULL"),
+		    new Pair<Enum<?>, String>(Field.RECEIVER_ID, "INTEGER NOT NULL"),
+		    new Pair<Enum<?>, String>(Field.METHOD, "TEXT"),
+		    new Pair<Enum<?>, String>(Field.NONCE, "ITEXT"),
+		    new Pair<Enum<?>, String>(Field.CREATED_AT, "TIMESTAMP WITHOUT TIME ZONE NOT NULL"));
 
 }

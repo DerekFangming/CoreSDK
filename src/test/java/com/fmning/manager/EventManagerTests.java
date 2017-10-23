@@ -37,7 +37,7 @@ public class EventManagerTests {
 	public void testNullColumn(){
 		Event event = eventManager.getEventById(3);
 		assertEquals(event.getMappingId(), 8);
-		assertEquals(event.getFee(), Util.nullInt);
+		assertEquals(event.getFee(), Util.nullInt, 0.001);
 		assertEquals(event.getTitle(), "Single day party");
 	}
 	

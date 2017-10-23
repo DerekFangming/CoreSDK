@@ -26,10 +26,10 @@ public class JdbcCommentDao extends JdbcBaseDao<Comment> implements CommentDao{
 	  {
 	    NVPairList params = new NVPairList();
 	    params.addValue(CommentDao.Field.BODY.name, obj.getBody());
-	    params.addNullableIntValue(CommentDao.Field.MENTIONED_USER_ID.name, obj.getMentionedUserId());
+	    params.addNullableNumValue(CommentDao.Field.MENTIONED_USER_ID.name, obj.getMentionedUserId());
 	    params.addValue(CommentDao.Field.OWNER_ID.name, obj.getOwnerId());
 	    params.addValue(CommentDao.Field.TYPE.name, obj.getType());
-	    params.addNullableIntValue(CommentDao.Field.TYPE_MAPPING_ID.name, obj.getTypeMappingId());
+	    params.addNullableNumValue(CommentDao.Field.TYPE_MAPPING_ID.name, obj.getTypeMappingId());
 	    params.addValue(CommentDao.Field.ENABLED.name, obj.getEnabled());
 	    params.addValue(CommentDao.Field.CREATED_AT.name, Date.from(obj.getCreatedAt()));
 	        

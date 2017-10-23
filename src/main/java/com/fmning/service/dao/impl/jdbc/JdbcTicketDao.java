@@ -28,7 +28,7 @@ public class JdbcTicketDao extends JdbcBaseDao<Ticket> implements TicketDao{
 	    
 	    params.addValue(TicketDao.Field.TEMPLATE_ID.name, obj.getTemplateId());
 	    params.addValue(TicketDao.Field.TYPE.name, obj.getType());
-	    params.addNullableIntValue(TicketDao.Field.MAPPING_ID.name, obj.getMappingId());
+	    params.addNullableNumValue(TicketDao.Field.MAPPING_ID.name, obj.getMappingId());
 	    params.addValue(TicketDao.Field.LOCATION.name, obj.getLocation());
 	    params.addValue(TicketDao.Field.OWNER_ID.name, obj.getOwnerId());
 	    params.addValue(TicketDao.Field.CREATED_AT.name, Date.from(obj.getCreatedAt()));

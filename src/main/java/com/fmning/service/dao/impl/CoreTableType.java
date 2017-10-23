@@ -8,6 +8,7 @@ import com.fmning.service.dao.DataSourceRegistry;
 import com.fmning.service.dao.EventDao;
 import com.fmning.service.dao.FriendDao;
 import com.fmning.service.dao.ImageDao;
+import com.fmning.service.dao.PaymentDao;
 import com.fmning.service.dao.FeedDao;
 import com.fmning.service.dao.RelationshipDao;
 import com.fmning.service.dao.SchemaTable;
@@ -36,6 +37,7 @@ public enum CoreTableType implements SchemaTable
 	COMMENTS(SdkDataSourceType.CORE, CommentDao.FieldTypes),
 	TICKETS(SdkDataSourceType.CORE, TicketDao.FieldTypes),
 	TICKET_TEMPLATES(SdkDataSourceType.CORE, TicketTemplateDao.FieldTypes),
+	PAYMENTS(SdkDataSourceType.CORE, PaymentDao.FieldTypes),
 	
 	SG(SdkDataSourceType.CORE, SgDao.FieldTypes),
 	WC_REPORTS(SdkDataSourceType.CORE, WcReportDao.FieldTypes),

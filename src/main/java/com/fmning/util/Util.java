@@ -89,4 +89,8 @@ public class Util {
 	public static int getNullableInt(ResultSet rs, String colName) throws SQLException {
 		return rs.getObject(colName) != null ? rs.getInt(colName) : nullInt;
 	}
+	
+	public static double getNullableDouble(ResultSet rs, String colName) throws SQLException {
+		return rs.getObject(colName) != null ? rs.getDouble(colName) : nullInt;
+	}
 }

@@ -228,7 +228,7 @@ public class UserManagerImpl implements UserManager{
 		helperManager.checkSessionTimeOut((String)result.get("expire"));
 		
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm((String)result.get("username")));
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(((String)result.get("username")).toLowerCase()));
 		terms.add(UserDao.Field.AUTH_TOKEN.getQueryTerm(accessToken));
 		try{
 			return userDao.findObject(terms).getId();

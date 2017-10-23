@@ -26,7 +26,7 @@ public class JdbcWcReportDao extends JdbcBaseDao<WcReport> implements WcReportDa
 	  {
 	    NVPairList params = new NVPairList();
 	    params.addValue(WcReportDao.Field.MENU_ID.name, obj.getMenuId());
-	    params.addNullableIntValue(WcReportDao.Field.USER_ID.name, obj.getUserId());
+	    params.addNullableNumValue(WcReportDao.Field.USER_ID.name, obj.getUserId());
 	    params.addValue(WcReportDao.Field.EMAIL.name, obj.getEmail());
 	    params.addValue(WcReportDao.Field.REPORT.name, obj.getReport());
 	    params.addValue(WcReportDao.Field.CREATED_AT.name, Date.from(obj.getCreatedAt()));

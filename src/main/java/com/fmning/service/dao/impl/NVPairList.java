@@ -16,7 +16,7 @@ public class NVPairList {
 		this.pairList.add(new NVPair(name, value));
 	}
 
-	public void addNullableIntValue(String name, Object value) {
+	public void addNullableNumValue(String name, Object value) {
 		if((int)value == Util.nullInt){
 			this.pairList.add(new NVPair(name, null));
 		}else{

@@ -11,9 +11,10 @@ public class Event {
 	private Instant startTime;
 	private Instant endTime;
 	private String location;
-	private int fee;
+	private double fee;
 	private Instant createdAt;
 	private int ownerId;
+	private int ticketTemplateId;
 	
 	public int getId(){
 		return id;
@@ -79,11 +80,11 @@ public class Event {
 		this.location = location;
 	}
 	
-	public int getFee(){
+	public double getFee(){
 		return fee;
 	}
 	
-	public void setFee(int fee){
+	public void setFee(double fee){
 		this.fee = fee;
 	}
 	
@@ -102,5 +103,14 @@ public class Event {
 	public void setOwnerId(int ownerId){
 		this.ownerId = ownerId;
 	}
+
+	public int getTicketTemplateId() {
+		return ticketTemplateId;
+	}
+
+	public void setTicketTemplateId(int ticketTemplateId) {
+		this.ticketTemplateId = ticketTemplateId;
+	}
+
 	
 }

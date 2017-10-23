@@ -28,7 +28,7 @@ public class JdbcUserDetailDao extends JdbcBaseDao<UserDetail> implements UserDe
 	    params.addValue(UserDetailDao.Field.USER_ID.name, obj.getUserId());
 	    params.addValue(UserDetailDao.Field.NAME.name, obj.getName());
 	    params.addValue(UserDetailDao.Field.NICKNAME.name, obj.getNickname());
-	    params.addNullableIntValue(UserDetailDao.Field.AGE.name, obj.getAge());
+	    params.addNullableNumValue(UserDetailDao.Field.AGE.name, obj.getAge());
 	    params.addValue(UserDetailDao.Field.GENDER.name, obj.getGender());
 	    params.addValue(UserDetailDao.Field.LOCATION.name, obj.getLocation());
 	    params.addValue(UserDetailDao.Field.WHATS_UP.name, obj.getWhatsUp());
