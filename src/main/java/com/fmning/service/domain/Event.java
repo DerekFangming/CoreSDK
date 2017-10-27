@@ -15,6 +15,8 @@ public class Event {
 	private Instant createdAt;
 	private int ownerId;
 	private int ticketTemplateId;
+	private boolean active;
+	private String message;
 	
 	public int getId(){
 		return id;
@@ -110,6 +112,22 @@ public class Event {
 
 	public void setTicketTemplateId(int ticketTemplateId) {
 		this.ticketTemplateId = ticketTemplateId;
+	}
+
+	public boolean getActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	

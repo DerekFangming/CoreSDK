@@ -47,10 +47,12 @@ public enum ErrorMessage {
 	COMMENT_ALREADY_EXISTS("Cannot create this comment because it already exists"),
 	//Event related
 	EVENT_NOT_FOUND("The event you are looking for does not exist."),
+	EVENT_NOT_ACTIVE("The event is finished. No payment accepted."),
 	//Ticket related
 	TICKET_NOT_FOUND("The ticket you are looking for does not exist."),
 	TICKET_NOT_OWNED("You do not own this ticket."),
 	TICKET_TEMPLATE_NOT_FOUND("The ticket template you are looking for does not exist."),
+	TICKET_INTERNAL_ERROR("Ticket internal error."),
 	//Payment related
 	PAYMENT_NOT_FOUND("The payment you are looking for does not exist."),
 	PAYMENT_NOT_SUPPORTED("The payment type is not supported"),
