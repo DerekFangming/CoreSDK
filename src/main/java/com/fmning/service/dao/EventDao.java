@@ -23,7 +23,8 @@ public interface EventDao extends CommonDao<Event>{
 	    CREATED_AT,
 	    TICKET_TEMPLATE_ID,
 	    ACTIVE,
-	    MESSAGE;
+	    MESSAGE,
+	    TICKET_BALANCE;
 		
 		public boolean isPK = false;
 	    public String name;
@@ -66,6 +67,7 @@ public interface EventDao extends CommonDao<Event>{
 		    new Pair<Enum<?>, String>(Field.CREATED_AT, "TIMESTAMP WITHOUT TIME ZONE NOT NULL"),
 		    new Pair<Enum<?>, String>(Field.TICKET_TEMPLATE_ID, "INTEGER"),
 		    new Pair<Enum<?>, String>(Field.ACTIVE, "BOOLEAN NOT NULL DEFAULT TRUE"),
-		    new Pair<Enum<?>, String>(Field.MESSAGE, "TEXT"));
+		    new Pair<Enum<?>, String>(Field.MESSAGE, "TEXT"),
+		    new Pair<Enum<?>, String>(Field.TICKET_BALANCE, "INTEGER NOT NULL DEFAULT 0"));
 
 }

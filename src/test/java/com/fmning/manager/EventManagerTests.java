@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.fmning.service.domain.Event;
 import com.fmning.service.manager.EventManager;
 import com.fmning.util.EventType;
-import com.fmning.util.Util;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/sdkUnitTesting.xml")
@@ -28,24 +27,24 @@ public class EventManagerTests {
 	
 	@Test
 	public void testGetEventById(){
-		Event event = eventManager.getEventById(1);
-		assertEquals(event.getMappingId(), 9);
-		assertEquals(event.getTitle(), "Dragon night 2018");
+		Event event = eventManager.getEventById(2);
+		assertEquals(event.getMappingId(), 5);
+		assertEquals(event.getTitle(), "Hop Pot Event");
 	}
 	
 	@Test
 	public void testNullColumn(){
-		Event event = eventManager.getEventById(3);
-		assertEquals(event.getMappingId(), 8);
-		assertEquals(event.getFee(), Util.nullInt, 0.001);
-		assertEquals(event.getTitle(), "Single day party");
+		Event event = eventManager.getEventById(2);
+		assertEquals(event.getMappingId(), 5);
+		assertEquals(event.getFee(), 0, 0.001);
+		assertEquals(event.getTitle(), "Hop Pot Event");
 	}
 	
 	@Test
 	public void testGetEventByMapping(){
-		Event event = eventManager.getEventByType(EventType.FEED.getName(), 9);
-		assertEquals(event.getId(), 1);
-		assertEquals(event.getTitle(), "Dragon night 2018");
+		Event event = eventManager.getEventByType(EventType.FEED.getName(), 5);
+		assertEquals(event.getId(), 2);
+		assertEquals(event.getTitle(), "Hop Pot Event");
 	}
 
 }

@@ -58,4 +58,14 @@ public class EventManagerImpl implements EventManager{
 		}
 	}
 
+	@Override
+	public void setBalance(int id, int balance) throws NotFoundException {
+		try{
+			eventDao.update(id, EventDao.Field.TICKET_BALANCE.getQueryTerm(balance));
+		} catch (NotFoundException e){
+			throw new NotFoundException(ErrorMessage.EVENT_INTERNAL_ERROR.getMsg());
+		}
+		
+	}
+
 }

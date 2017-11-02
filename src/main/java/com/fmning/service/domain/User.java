@@ -13,6 +13,10 @@ public class User {
 	private String salt;
 	private int timezoneOffset;
 	
+	//Following params are not from DB
+	private boolean tokenUpdated = false;
+	private String tokenExp;
+	
 	public int getId(){
 		return id;
 	}
@@ -83,6 +87,22 @@ public class User {
 	
 	public void setTimezoneOffset(int timezoneOffset){
 		this.timezoneOffset = timezoneOffset;
+	}
+
+	public boolean isTokenUpdated() {
+		return tokenUpdated;
+	}
+
+	public void setTokenUpdated() {
+		this.tokenUpdated = true;
+	}
+
+	public String getTokenExp() {
+		return tokenExp;
+	}
+
+	public void setTokenExp(String tokenExp) {
+		this.tokenExp = tokenExp;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.fmning.service.manager.impl;
 
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import com.fmning.service.exceptions.NotFoundException;
 import com.fmning.service.manager.HelperManager;
 import com.fmning.service.manager.UserManager;
 import com.fmning.util.ErrorMessage;
+import com.fmning.util.Util;
 
 @Component
 public class UserManagerImpl implements UserManager{
@@ -63,7 +65,7 @@ public class UserManagerImpl implements UserManager{
 	}
 	
 	@Override
-	public void register(String username, String password) throws IllegalStateException, NotFoundException {
+	public int register(String username, String password) throws IllegalStateException, NotFoundException {
 		String lowerUsername = username.toLowerCase();
 		if(lowerUsername.length() > 32)
 			throw new IllegalStateException(ErrorMessage.USER_INTERN_ERROR.getMsg());
@@ -83,6 +85,7 @@ public class UserManagerImpl implements UserManager{
 		NVPair newValue = new NVPair(UserDao.Field.PASSWORD.name, password);
 		
 		userDao.update(user.getId(), newValue);
+		return user.getId();
 	}
 
 	@Override
@@ -169,7 +172,7 @@ public class UserManagerImpl implements UserManager{
 	}
 
 	@Override
-	public User login(String username, String password, String accessToken) throws NotFoundException {
+	public User login(String username, String password) throws NotFoundException {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
 		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
 		terms.add(UserDao.Field.PASSWORD.getQueryTerm(password));
@@ -180,10 +183,27 @@ public class UserManagerImpl implements UserManager{
 			throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
 		}
 		
-		NVPair pair = new NVPair(UserDao.Field.AUTH_TOKEN.name, accessToken);
+		boolean recFlag = false;
+		try{
+			Map<String, Object> result = helperManager.decodeJWT(user.getAuthToken());
+			Instant exp = Instant.parse((String)result.get("expire"));
+			
+			if(exp.compareTo(Instant.now()) < 0){
+				recFlag = true;
+			}
+		}catch (IllegalStateException e) {
+			recFlag = true;
+		}
 		
-		userDao.update(user.getId(), pair);
-		user.setAuthToken(accessToken);
+		if(recFlag){
+			Instant newExp = Instant.now().plus(Duration.ofDays(Util.tokenTimeout));
+			String accessToken = helperManager.createAccessToken(username, newExp);
+			NVPair pair = new NVPair(UserDao.Field.AUTH_TOKEN.name, accessToken);
+			
+			userDao.update(user.getId(), pair);
+			user.setAuthToken(accessToken);
+		}
+		
 		return user;
 	}
 
@@ -220,21 +240,38 @@ public class UserManagerImpl implements UserManager{
 		}
 	}
 	
-	public int validateAccessToken(Map<String, Object> request) 
-			throws NullPointerException, NotFoundException, IllegalStateException{
-		String accessToken = (String) request.get("accessToken");
-		Map<String, Object> result = helperManager.decodeJWT(accessToken);
-		
-		helperManager.checkSessionTimeOut((String)result.get("expire"));
-		
-		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(((String)result.get("username")).toLowerCase()));
-		terms.add(UserDao.Field.AUTH_TOKEN.getQueryTerm(accessToken));
+	public User validateAccessToken(Map<String, Object> request) throws IllegalStateException{
 		try{
-			return userDao.findObject(terms).getId();
-		}catch(NotFoundException e){
+			String accessToken = (String) request.get("accessToken");
+			Map<String, Object> result = helperManager.decodeJWT(accessToken);
+			Instant exp = Instant.parse((String)result.get("expire"));
+			
+			List<QueryTerm> terms = new ArrayList<QueryTerm>();
+			terms.add(UserDao.Field.USERNAME.getQueryTerm(((String)result.get("username")).toLowerCase()));
+			User user = userDao.findObject(terms);
+			
+			if(exp.compareTo(Instant.now()) < 0){
+				user.setTokenUpdated();//Token from client is out-dated and needs update
+				result = helperManager.decodeJWT(user.getAuthToken());
+				exp = Instant.parse((String)result.get("expire"));
+				
+				if(exp.compareTo(Instant.now()) < 0){//The token in DB is also expired
+					Instant newExp = Instant.now().plus(Duration.ofDays(Util.tokenTimeout));
+					String newToken = helperManager.createAccessToken(user.getUsername(), newExp);
+					NVPair pair = new NVPair(UserDao.Field.AUTH_TOKEN.name, newToken);
+					
+					userDao.update(user.getId(), pair);
+					user.setAuthToken(newToken);
+				}
+				
+				return user;
+			} else {
+				return user;
+			}
+		}catch (Exception e){
 			throw new NotFoundException(ErrorMessage.INVALID_ACCESS_TOKEN.getMsg());
 		}
+		
 	}
 	
 	@Override
@@ -258,7 +295,7 @@ public class UserManagerImpl implements UserManager{
 	}
 	
 	@Override
-	public void changePassword(String username, String oldPwd, String newPwd, String accessToken) throws IllegalStateException, NotFoundException {
+	public void changePassword(String username, String oldPwd, String newPwd) throws IllegalStateException, NotFoundException {
 		if(newPwd.length() != 32)
 			throw new IllegalStateException(ErrorMessage.USER_INTERN_ERROR.getMsg());
 		
@@ -274,7 +311,6 @@ public class UserManagerImpl implements UserManager{
 		
 		List<NVPair> newValues = new ArrayList<NVPair>();
 		newValues.add(new NVPair(UserDao.Field.PASSWORD.name, newPwd));
-		newValues.add(new NVPair(UserDao.Field.AUTH_TOKEN.name, accessToken));
 		
 		userDao.update(user.getId(), newValues);
 	}

@@ -39,6 +39,7 @@ public class JdbcEventDao extends JdbcBaseDao<Event> implements EventDao{
 	    params.addNullableNumValue(EventDao.Field.TICKET_TEMPLATE_ID.name, obj.getTicketTemplateId());
 	    params.addValue(EventDao.Field.ACTIVE.name, obj.getActive());
 	    params.addValue(EventDao.Field.MESSAGE.name, obj.getMessage());
+	    params.addValue(EventDao.Field.TICKET_BALANCE.name, obj.getTicketBalance());
 	    
 	    return params;
 	  }
@@ -66,6 +67,7 @@ public class JdbcEventDao extends JdbcBaseDao<Event> implements EventDao{
 	    	  obj.setTicketTemplateId(Util.getNullableInt(rs, EventDao.Field.TICKET_TEMPLATE_ID.name));
 	    	  obj.setActive(rs.getBoolean(EventDao.Field.ACTIVE.name));
 	    	  obj.setMessage(rs.getString(EventDao.Field.MESSAGE.name));
+	    	  obj.setTicketBalance(rs.getInt(EventDao.Field.TICKET_BALANCE.name));
 	    	  
 	        
 	        return obj;

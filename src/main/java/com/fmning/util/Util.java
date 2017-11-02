@@ -17,6 +17,7 @@ public class Util {
 	
 	public static String imagePath = "/Volumes/Data/images/";// This is configurable from outside of core SDK
 	public final static int nullInt = -1;
+	public final static int tokenTimeout = 7;//7 days
 
 	public static String verifyImageType(String type) {
 		if (type == null)

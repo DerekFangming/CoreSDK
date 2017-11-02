@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.fmning.service.domain.User;
 import com.fmning.service.exceptions.NotFoundException;
 import com.fmning.service.manager.UserManager;
 import com.fmning.util.ErrorMessage;
@@ -45,17 +46,20 @@ public class UserManagerTests {
 	@Test
 	public void testLogin(){
 		try {
-			userManager.login("TestUser@fmning.com", "testUserPassword", "");
+			User user = userManager.login("TestUser@fmning.com", "testUserPassword");
+			if(user.isTokenUpdated()) {
+				fail("Flag error for log in action");
+			}
 		} catch (NotFoundException e) {
 			fail(e.toString());
 		}
 		try{
-			userManager.login("TestUser@fmning.com", "WRONG", "");
+			userManager.login("TestUser@fmning.com", "WRONG");
 			fail(ErrorMessage.SHOULD_NOT_PASS_ERROR.getMsg());
 		} catch (NotFoundException e){
 		}
 		try{
-			userManager.login("WRONG", "testUserPassword", "");
+			userManager.login("WRONG", "testUserPassword");
 			fail(ErrorMessage.SHOULD_NOT_PASS_ERROR.getMsg());
 		} catch (NotFoundException e){
 			return;

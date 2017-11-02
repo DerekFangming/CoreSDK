@@ -17,6 +17,7 @@ public class Event {
 	private int ticketTemplateId;
 	private boolean active;
 	private String message;
+	private int ticketBalance;
 	
 	public int getId(){
 		return id;
@@ -128,6 +129,14 @@ public class Event {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public int getTicketBalance() {
+		return ticketBalance;
+	}
+
+	public void setTicketBalance(int ticketBalance) {
+		this.ticketBalance = ticketBalance;
 	}
 
 	

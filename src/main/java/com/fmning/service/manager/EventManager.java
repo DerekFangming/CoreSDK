@@ -40,4 +40,11 @@ public interface EventManager {
 	 */
 	public Event getEventByType(String type, int mappingId) throws NotFoundException;
 
+	/**
+	 * Update the ticket balance of a event
+	 * @param id the database id of the event
+	 * @param balance the new ticket balance for the event
+	 * @throws NotFoundException
+	 */
+	public void setBalance(int id, int balance) throws NotFoundException;
 }

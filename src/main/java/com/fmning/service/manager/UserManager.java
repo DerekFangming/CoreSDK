@@ -23,10 +23,11 @@ public interface UserManager {
 	 * Update the password that client sends. Do some check on the username and password
 	 * @param username the resisted username
 	 * @param password the password hashed by MD5
+	 * @return the user id
 	 * @throws IllegalStateException if username and password check fails
 	 * @throws NotFoundException if the username doen't exist
 	 */
-	public void register(String username, String password) throws IllegalStateException, NotFoundException;
+	public int register(String username, String password) throws IllegalStateException, NotFoundException;
 	
 	/**
 	 * Check if the username has been registered
@@ -78,10 +79,9 @@ public interface UserManager {
 	 * Check if the login username and password is correct
 	 * @param username the user
 	 * @param password the hashed password
-	 * @param accessToken the token string that need to be updated
 	 * @throws NotFoundException
 	 */
-	public User login (String username, String password, String accessToken) throws NotFoundException;
+	public User login (String username, String password) throws NotFoundException;
 
 	/**
 	 * Get user ID by username
@@ -109,13 +109,10 @@ public interface UserManager {
 	/**
 	 * Validate the access token. Check if the access token is valid, if it expires.
 	 * @param request the request object (JSON object, map)
-	 * @return the user id for this access token
-	 * @throws NullPointerException if the request does not have access token string
-	 * @throws NotFoundException if the user does not exist
+	 * @return the user for this access token
 	 * @throws IllegalStateException if the access token is invalid
 	 */
-	public int validateAccessToken(Map<String, Object> request) 
-			throws NullPointerException, NotFoundException, IllegalStateException;
+	public User validateAccessToken(Map<String, Object> request)  throws IllegalStateException;
 	
 	/**
 	 * Get a name of a user for displaying purpose. This method will try to get nickname from user detail.
@@ -134,7 +131,7 @@ public interface UserManager {
 	 * @throws IllegalStateException if password format is incorrect
 	 * @throws NotFoundException if the user does not exist
 	 */
-	public void changePassword(String username, String oldPwd, String newPwd, String accessToken) 
+	public void changePassword(String username, String oldPwd, String newPwd) 
 			throws IllegalStateException, NotFoundException;
 	
 	/* The following methods are for user details*/
