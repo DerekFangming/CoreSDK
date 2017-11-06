@@ -1,6 +1,9 @@
 package com.fmning.service.manager;
 
+import java.util.List;
+
 import com.fmning.service.domain.Payment;
+import com.fmning.service.domain.User;
 import com.fmning.service.exceptions.NotFoundException;
 
 public interface PaymentManager {
@@ -49,4 +52,13 @@ public interface PaymentManager {
 	 */
 	public Payment getPaymentByTypeAndPayer(String type, int mappingId, int payerId, int receiverId)
 			throws NotFoundException;
+	
+	/**
+	 * Get a list of user that successfully paid for the specific mapping
+	 * @param type the type of payment
+	 * @param mappingId the mapping id for the payment
+	 * @return List of users, if any
+	 * @throws NotFoundException if no users found
+	 */
+	public List<User> getPaidUserByType(String type, int mappingId) throws NotFoundException;
 }

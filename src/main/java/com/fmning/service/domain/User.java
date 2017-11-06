@@ -15,7 +15,7 @@ public class User {
 	
 	//Following params are not from DB
 	private boolean tokenUpdated = false;
-	private String tokenExp;
+	private String name;
 	
 	public int getId(){
 		return id;
@@ -97,12 +97,12 @@ public class User {
 		this.tokenUpdated = true;
 	}
 
-	public String getTokenExp() {
-		return tokenExp;
+	public String getName() {
+		return name;
 	}
 
-	public void setTokenExp(String tokenExp) {
-		this.tokenExp = tokenExp;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }
