@@ -25,8 +25,8 @@ public class JdbcFeedDao extends JdbcBaseDao<Feed> implements FeedDao{
 	  {
 	    NVPairList params = new NVPairList();
 	    
-		params.addValue(FeedDao.Field.TITLE.name, obj.getBody());
-		params.addValue(FeedDao.Field.TYPE.name, obj.getBody());
+		params.addValue(FeedDao.Field.TITLE.name, obj.getTitle());
+		params.addValue(FeedDao.Field.TYPE.name, obj.getType());
 		params.addValue(FeedDao.Field.BODY.name, obj.getBody());
 	    params.addValue(FeedDao.Field.OWNER_ID.name, obj.getOwnerId());
 	    params.addValue(FeedDao.Field.ENABLED.name, obj.getEnabled());

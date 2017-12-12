@@ -2,9 +2,8 @@ package com.fmning.util;
 
 public enum ImageType {
 	AVATAR("Avatar"),
-	COVER_IMG("Cover Image"),
 	FEED("Feed"),
-	FEED_COVER("Feed Cover"),
+	FEED_COVER("FeedCover"),
 	OTHERS("Others");
 	
 	private final String name;
