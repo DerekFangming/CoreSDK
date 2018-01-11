@@ -16,7 +16,9 @@ public interface UserManager {
 	 * @param offset the time zone offset from GMT
 	 * @return 32 digit salt 
 	 * @throws IllegalStateException if any of the username check fails
+	 * @deprecated This will be replaced by 1 http call register method
 	 */
+	@Deprecated
 	public String registerForSalt(String username, int offset) throws IllegalStateException ;
 	
 	/**
@@ -26,8 +28,20 @@ public interface UserManager {
 	 * @return the user id
 	 * @throws IllegalStateException if username and password check fails
 	 * @throws NotFoundException if the username doen't exist
+	 * @deprecated This will be replaced by 1 http call register method
 	 */
+	@Deprecated
 	public int register(String username, String password) throws IllegalStateException, NotFoundException;
+	
+	/**
+	 * The method that handles web register, where there is no sending of salt and the password is not encrypted
+	 * @param username the username
+	 * @param password the plain text password, without hashing
+	 * @return the user id
+	 * @throws IllegalStateException
+	 * @throws NotFoundException
+	 */
+	public User webRegister(String username, String password) throws IllegalStateException;
 	
 	/**
 	 * Check if the username has been registered
@@ -72,7 +86,9 @@ public interface UserManager {
 	 * @param username the user
 	 * @return the salt string of that user
 	 * @throws NotFoundException if the user name is not found
+	 * @deprecated This will be replaced by 1 http call login method
 	 */
+	@Deprecated
 	public String loginForSalt(String username) throws NotFoundException;
 	
 	/**
@@ -80,9 +96,20 @@ public interface UserManager {
 	 * @param username the user
 	 * @param password the hashed password
 	 * @throws NotFoundException
+	 * @deprecated This will be replaced by 1 http call login method
 	 */
+	@Deprecated
 	public User login (String username, String password) throws NotFoundException;
 
+	/**
+	 * The method that handles web login, where there is no sending of salt and the password is not encrypted
+	 * @param username the username
+	 * @param password the password that is not encrypted
+	 * @return the user
+	 * @throws NotFoundException if the user does not exist
+	 */
+	public User webLogin(String username, String password) throws NotFoundException;
+	
 	/**
 	 * Get user ID by username
 	 * @param username the username of this user

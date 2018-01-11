@@ -2,6 +2,9 @@ package com.fmning.util;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -93,5 +96,18 @@ public class Util {
 	
 	public static double getNullableDouble(ResultSet rs, String colName) throws SQLException {
 		return rs.getObject(colName) != null ? rs.getDouble(colName) : nullInt;
+	}
+	
+	public static String MD5(String plaintext) throws NoSuchAlgorithmException {
+		MessageDigest m = MessageDigest.getInstance("MD5");
+		m.reset();
+		m.update(plaintext.getBytes());
+		byte[] digest = m.digest();
+		BigInteger bigInt = new BigInteger(1,digest);
+		String hashtext = bigInt.toString(16);
+		while(hashtext.length() < 32 ){
+			hashtext = "0"+hashtext;
+		}
+		return hashtext;
 	}
 }

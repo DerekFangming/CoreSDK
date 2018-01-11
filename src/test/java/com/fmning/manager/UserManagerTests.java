@@ -95,14 +95,28 @@ public class UserManagerTests {
 		}
 	}
 	
-//	@Test
-//	public void createUser()
-//	  {
-//		final Random r = new SecureRandom();
-//		byte[] salt = new byte[32];
-//		r.nextBytes(salt);
-//		String encodedSalt = Base64.encodeBase64String(salt);
-//		assertEquals("", encodedSalt.substring(0, 32));
-//	  }
+	@Test
+	public void testNewRegister() {
+		try {
+			userManager.webRegister("TestUserNew@fmning.com", "testUserPassword");
+			fail(ErrorMessage.SHOULD_NOT_PASS_ERROR.getMsg());
+		} catch (IllegalStateException e) {
+			assertEquals(e.getMessage(), ErrorMessage.USERNAME_UNAVAILABLE.getMsg());
+		}
+	}
+	
+	@Test
+	public void testNewLogin() {
+		try {
+			userManager.webLogin("TestUserNew@fmning.com", "testUserPassword");
+		} catch (NotFoundException e) {
+			fail(e.toString());
+		}
+		try{
+			userManager.webLogin("TestUserNew@fmning.com", "WRONG");
+			fail(ErrorMessage.SHOULD_NOT_PASS_ERROR.getMsg());
+		} catch (NotFoundException e){
+		}
+	}
 
 }

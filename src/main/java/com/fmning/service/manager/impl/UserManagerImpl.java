@@ -1,5 +1,6 @@
 package com.fmning.service.manager.impl;
 
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.Instant;
@@ -45,8 +46,6 @@ public class UserManagerImpl implements UserManager{
 		if(!m.matches())
 			throw new IllegalStateException(ErrorMessage.USERNAME_NOT_EMAIL.getMsg());
 		
-		
-		
 		final Random r = new SecureRandom();
 		byte[] salt = new byte[32];
 		r.nextBytes(salt);
@@ -86,6 +85,47 @@ public class UserManagerImpl implements UserManager{
 		
 		userDao.update(user.getId(), newValue);
 		return user.getId();
+	}
+	
+	@Override
+	public User webRegister(String username, String password) throws IllegalStateException {
+		String lowerUsername = username.toLowerCase();
+		if(checkUsername(lowerUsername))
+			throw new IllegalStateException(ErrorMessage.USERNAME_UNAVAILABLE.getMsg());
+		if (lowerUsername.length() > 32)
+			throw new IllegalStateException(ErrorMessage.USERNAME_TOO_LONG.getMsg());
+		Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+		Matcher m = p.matcher(lowerUsername);
+		if(!m.matches())
+			throw new IllegalStateException(ErrorMessage.USERNAME_NOT_EMAIL.getMsg());
+		
+		final Random r = new SecureRandom();
+		byte[] salt = new byte[32];
+		r.nextBytes(salt);
+		String encodedSalt = Base64.encodeBase64String(salt).substring(0, 32);
+		
+		String encodedPassword;
+		try {
+			encodedPassword = Util.MD5(password + encodedSalt);
+		} catch (NoSuchAlgorithmException e) {
+			throw new IllegalStateException(ErrorMessage.INTERNAL_LOGIC_ERROR.getMsg());
+		}
+		
+		String veriCode = helperManager.getEmailConfirmCode(username);
+		Instant exp = Instant.now().plus(Duration.ofDays(Util.tokenTimeout));
+		String accessToken = helperManager.createAccessToken(username, exp);
+		
+		User user = new User();
+		user.setUsername(lowerUsername);
+		user.setPassword(encodedPassword);
+		user.setVeriToken(veriCode);
+		user.setAuthToken(accessToken);
+		user.setCreatedAt(Instant.now());
+		user.setEmailConfirmed(false);
+		user.setSalt(encodedSalt);
+		user.setTimezoneOffset(0);
+		userDao.persist(user);
+		return user;
 	}
 
 	@Override
@@ -180,6 +220,45 @@ public class UserManagerImpl implements UserManager{
 		try{
 			user = userDao.findObject(terms);
 		}catch(NotFoundException e){
+			throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
+		}
+		
+		boolean recFlag = false;
+		try{
+			Map<String, Object> result = helperManager.decodeJWT(user.getAuthToken());
+			Instant exp = Instant.parse((String)result.get("expire"));
+			
+			if(exp.compareTo(Instant.now()) < 0){
+				recFlag = true;
+			}
+		}catch (IllegalStateException e) {
+			recFlag = true;
+		}
+		
+		if(recFlag){
+			Instant newExp = Instant.now().plus(Duration.ofDays(Util.tokenTimeout));
+			String accessToken = helperManager.createAccessToken(username, newExp);
+			NVPair pair = new NVPair(UserDao.Field.AUTH_TOKEN.name, accessToken);
+			
+			userDao.update(user.getId(), pair);
+			user.setAuthToken(accessToken);
+		}
+		
+		return user;
+	}
+	
+	@Override
+	public User webLogin(String username, String password) throws NotFoundException {
+		List<QueryTerm> terms = new ArrayList<QueryTerm>();
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
+		User user;
+		try{
+			user = userDao.findObject(terms);
+			
+			if (!user.getPassword().equals(Util.MD5(password + user.getSalt())))
+				throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
+			
+		}catch(NotFoundException | NoSuchAlgorithmException e){
 			throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
 		}
 		
