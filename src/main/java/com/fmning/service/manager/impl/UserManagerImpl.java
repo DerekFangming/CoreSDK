@@ -320,8 +320,12 @@ public class UserManagerImpl implements UserManager{
 	}
 	
 	public User validateAccessToken(Map<String, Object> request) throws IllegalStateException{
+		return validateAccessToken((String) request.get("accessToken"));
+	}
+	
+	@Override
+	public User validateAccessToken(String accessToken)  throws IllegalStateException {
 		try{
-			String accessToken = (String) request.get("accessToken");
 			Map<String, Object> result = helperManager.decodeJWT(accessToken);
 			Instant exp = Instant.parse((String)result.get("expire"));
 			
@@ -350,7 +354,6 @@ public class UserManagerImpl implements UserManager{
 		}catch (Exception e){
 			throw new NotFoundException(ErrorMessage.INVALID_ACCESS_TOKEN.getMsg());
 		}
-		
 	}
 	
 	@Override

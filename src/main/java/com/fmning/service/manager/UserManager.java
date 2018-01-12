@@ -134,12 +134,22 @@ public interface UserManager {
 	public String getUsername(int userId) throws NotFoundException;
 	
 	/**
-	 * Validate the access token. Check if the access token is valid, if it expires.
+	 * Validate the access token.
+	 * If it expired, get a new one from DB or create a new one if DB version is also expired
 	 * @param request the request object (JSON object, map)
 	 * @return the user for this access token
 	 * @throws IllegalStateException if the access token is invalid
 	 */
 	public User validateAccessToken(Map<String, Object> request)  throws IllegalStateException;
+	
+	/**
+	 * Validate the access token itself.
+	 * If it expired, get a new one from DB or create a new one if DB version is also expired
+	 * @param accessToken the accessToken string
+	 * @return the user for this access token
+	 * @throws IllegalStateException if the access token is invalid
+	 */
+	public User validateAccessToken(String accessToken)  throws IllegalStateException;
 	
 	/**
 	 * Get a name of a user for displaying purpose. This method will try to get nickname from user detail.
