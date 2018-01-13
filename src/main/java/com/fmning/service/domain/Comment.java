@@ -11,68 +11,68 @@ public class Comment {
 	private int ownerId;
 	private boolean enabled;
 	private Instant createdAt;
-	
-	public int getId(){
+
+	public int getId() {
 		return id;
 	}
-	
-	public void setId(int id){
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public String getBody(){
+
+	public String getBody() {
 		return body;
 	}
-	
-	public void setBody(String body){
+
+	public void setBody(String body) {
 		this.body = body;
 	}
-	
-	public int getMentionedUserId(){
+
+	public int getMentionedUserId() {
 		return mentionedUserId;
 	}
-	
-	public void setMentionedUserId(int mentionedUserId){
+
+	public void setMentionedUserId(int mentionedUserId) {
 		this.mentionedUserId = mentionedUserId;
 	}
-	
-	public String getType(){
+
+	public String getType() {
 		return type;
 	}
-	
-	public void setType(String type){
+
+	public void setType(String type) {
 		this.type = type;
 	}
-	
-	public int getTypeMappingId(){
+
+	public int getTypeMappingId() {
 		return typeMappingId;
 	}
-	
-	public void setTypeMappingId(int typeMappingId){
+
+	public void setTypeMappingId(int typeMappingId) {
 		this.typeMappingId = typeMappingId;
 	}
-	
-	public int getOwnerId(){
+
+	public int getOwnerId() {
 		return ownerId;
 	}
-	
-	public void setOwnerId(int ownerId){
+
+	public void setOwnerId(int ownerId) {
 		this.ownerId = ownerId;
 	}
-	
-	public boolean getEnabled(){
+
+	public boolean getEnabled() {
 		return enabled;
 	}
-	
-	public void setEnabled(boolean enabled){
+
+	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
-	public Instant getCreatedAt(){
+
+	public Instant getCreatedAt() {
 		return createdAt;
 	}
-	
-	public void setCreatedAt(Instant createdAt){
+
+	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
 	}
 

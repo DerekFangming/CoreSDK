@@ -12,75 +12,75 @@ public class Image {
 	private boolean enabled;
 	private String title;
 	private String imageData;
-	
-	public int getId(){
+
+	public int getId() {
 		return id;
 	}
-	
-	public void setId(int id){
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public String getLocation(){
+
+	public String getLocation() {
 		return location;
 	}
-	
-	public void setLocation(String location){
+
+	public void setLocation(String location) {
 		this.location = location;
 	}
-	
-	public String getType(){
+
+	public String getType() {
 		return type;
 	}
-	
-	public void setType(String type){
+
+	public void setType(String type) {
 		this.type = type;
 	}
-	
-	public int getTypeMappingId(){
+
+	public int getTypeMappingId() {
 		return typeMappingId;
 	}
-	
-	public void setTypeMappingId(int typeMappingId){
+
+	public void setTypeMappingId(int typeMappingId) {
 		this.typeMappingId = typeMappingId;
 	}
-	
-	public int getOwnerId(){
+
+	public int getOwnerId() {
 		return ownerId;
 	}
-	
-	public void setOwnerId(int ownerId){
+
+	public void setOwnerId(int ownerId) {
 		this.ownerId = ownerId;
 	}
-	
-	public Instant getCreatedAt(){
+
+	public Instant getCreatedAt() {
 		return createdAt;
 	}
-	
-	public void setCreatedAt(Instant createdAt){
+
+	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
 	}
-	
-	public boolean getEnabled(){
+
+	public boolean getEnabled() {
 		return enabled;
 	}
-	
-	public void setEnabled(boolean enabled){
+
+	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
-	public String getTitle(){
+
+	public String getTitle() {
 		return title;
 	}
-	
-	public void setTitle(String title){
+
+	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	public String getImageData(){
+
+	public String getImageData() {
 		return imageData;
 	}
-	
+
 	public void setImageData(String imageData){
 		this.imageData = imageData;
 	}

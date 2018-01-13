@@ -9,52 +9,52 @@ public class WcReport {
 	private String email;
 	private String report;
 	private Instant createdAt;
-	
-	public int getId(){
+
+	public int getId() {
 		return id;
 	}
-	
-	public void setId(int id){
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public int getUserId(){
+
+	public int getUserId() {
 		return userId;
 	}
-	
-	public void setUserId(int userId){
+
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	
-	public int getMenuId(){
+
+	public int getMenuId() {
 		return menuId;
 	}
-	
-	public void setMenuId(int menuId){
+
+	public void setMenuId(int menuId) {
 		this.menuId = menuId;
 	}
-	
-	public String getEmail(){
+
+	public String getEmail() {
 		return email;
 	}
-	
-	public void setEmail(String email){
+
+	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	public String getReport(){
+
+	public String getReport() {
 		return report;
 	}
-	
-	public void setReport(String report){
+
+	public void setReport(String report) {
 		this.report = report;
 	}
-	
-	public Instant getCreatedAt(){
+
+	public Instant getCreatedAt() {
 		return createdAt;
 	}
-	
-	public void setCreatedAt(Instant createdAt){
+
+	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
 	}
 

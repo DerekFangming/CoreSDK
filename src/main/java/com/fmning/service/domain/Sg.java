@@ -8,44 +8,44 @@ public class Sg {
 	private String title;
 	private String content;
 	private Instant createdAt;
-	
-	public int getId(){
+
+	public int getId() {
 		return id;
 	}
-	
-	public void setId(int id){
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public int getMenuId(){
+
+	public int getMenuId() {
 		return menuId;
 	}
-	
-	public void setMenuId(int menuId){
+
+	public void setMenuId(int menuId) {
 		this.menuId = menuId;
 	}
-	
-	public String getTitle(){
+
+	public String getTitle() {
 		return title;
 	}
-	
-	public void setTitle(String title){
+
+	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	public String getContent(){
+
+	public String getContent() {
 		return content;
 	}
-	
-	public void setContent(String content){
+
+	public void setContent(String content) {
 		this.content = content;
 	}
-	
-	public Instant getCreatedAt(){
+
+	public Instant getCreatedAt() {
 		return createdAt;
 	}
-	
-	public void setCreatedAt(Instant createdAt){
+
+	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
 	}
 

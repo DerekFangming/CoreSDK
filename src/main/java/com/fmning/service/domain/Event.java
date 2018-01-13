@@ -12,99 +12,99 @@ public class Event {
 	private Instant endTime;
 	private String location;
 	private double fee;
-	private Instant createdAt;
 	private int ownerId;
+	private Instant createdAt;
 	private int ticketTemplateId;
 	private boolean active;
 	private String message;
 	private int ticketBalance;
-	
-	public int getId(){
+
+	public int getId() {
 		return id;
 	}
-	
-	public void setId(int id){
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public String getType(){
+
+	public String getType() {
 		return type;
 	}
-	
-	public void setType(String type){
+
+	public void setType(String type) {
 		this.type = type;
 	}
-	
-	public int getMappingId(){
+
+	public int getMappingId() {
 		return mappingId;
 	}
-	
-	public void setMappingId(int mappingId){
+
+	public void setMappingId(int mappingId) {
 		this.mappingId = mappingId;
 	}
-	
-	public String getTitle(){
+
+	public String getTitle() {
 		return title;
 	}
-	
-	public void setTitle(String title){
+
+	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	public String getDescription(){
+
+	public String getDescription() {
 		return description;
 	}
-	
-	public void setDescription(String description){
+
+	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	public Instant getStartTime(){
+
+	public Instant getStartTime() {
 		return startTime;
 	}
-	
-	public void setStartTime(Instant startTime){
+
+	public void setStartTime(Instant startTime) {
 		this.startTime = startTime;
 	}
-	
-	public Instant getEndTime(){
+
+	public Instant getEndTime() {
 		return endTime;
 	}
-	
-	public void setEndTime(Instant endTime){
+
+	public void setEndTime(Instant endTime) {
 		this.endTime = endTime;
 	}
-	
-	public String getLocation(){
+
+	public String getLocation() {
 		return location;
 	}
-	
-	public void setLocation(String location){
+
+	public void setLocation(String location) {
 		this.location = location;
 	}
-	
-	public double getFee(){
+
+	public double getFee() {
 		return fee;
 	}
-	
-	public void setFee(double fee){
+
+	public void setFee(double fee) {
 		this.fee = fee;
 	}
-	
-	public Instant getCreatedAt(){
-		return createdAt;
-	}
-	
-	public void setCreatedAt(Instant createdAt){
-		this.createdAt = createdAt;
-	}
-	
-	public int getOwnerId(){
+
+	public int getOwnerId() {
 		return ownerId;
 	}
-	
-	public void setOwnerId(int ownerId){
+
+	public void setOwnerId(int ownerId) {
 		this.ownerId = ownerId;
+	}
+
+	public Instant getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Instant createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public int getTicketTemplateId() {
@@ -139,5 +139,4 @@ public class Event {
 		this.ticketBalance = ticketBalance;
 	}
 
-	
 }

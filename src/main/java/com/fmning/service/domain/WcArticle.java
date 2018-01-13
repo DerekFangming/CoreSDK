@@ -9,52 +9,52 @@ public class WcArticle {
 	private int menuId;
 	private int userId;
 	private Instant createdAt;
-	
-	public int getId(){
+
+	public int getId() {
 		return id;
 	}
-	
-	public void setId(int id){
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public String getTitle(){
+
+	public String getTitle() {
 		return title;
 	}
-	
-	public void setTitle(String title){
+
+	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	public String getArticle(){
+
+	public String getArticle() {
 		return article;
 	}
-	
-	public void setArticle(String article){
+
+	public void setArticle(String article) {
 		this.article = article;
 	}
-	
-	public int getMenuId(){
+
+	public int getMenuId() {
 		return menuId;
 	}
-	
-	public void setMenuId(int menuId){
+
+	public void setMenuId(int menuId) {
 		this.menuId = menuId;
 	}
-	
-	public int getUserId(){
+
+	public int getUserId() {
 		return userId;
 	}
-	
-	public void setUserId(int userId){
+
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	
-	public Instant getCreatedAt(){
+
+	public Instant getCreatedAt() {
 		return createdAt;
 	}
-	
-	public void setCreatedAt(Instant createdAt){
+
+	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
 	}
 
