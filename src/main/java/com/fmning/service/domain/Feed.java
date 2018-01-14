@@ -10,6 +10,9 @@ public class Feed {
 	private int ownerId;
 	private boolean enabled;
 	private Instant createdAt;
+	
+	//Extra fields
+	private int coverImageId;
 
 	public int getId() {
 		return id;
@@ -65,6 +68,14 @@ public class Feed {
 
 	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public int getCoverImageId() {
+		return coverImageId;
+	}
+
+	public void setCoverImageId(int coverImageId) {
+		this.coverImageId = coverImageId;
 	}
 
 }

@@ -124,7 +124,9 @@ public class UserManagerImpl implements UserManager{
 		user.setEmailConfirmed(false);
 		user.setSalt(encodedSalt);
 		user.setTimezoneOffset(0);
-		userDao.persist(user);
+		int userId = userDao.persist(user);
+		user.setId(userId);
+		
 		return user;
 	}
 
