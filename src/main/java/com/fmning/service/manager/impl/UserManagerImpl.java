@@ -158,9 +158,15 @@ public class UserManagerImpl implements UserManager{
 	public void checkVeriCode(String username, String code) throws NotFoundException {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
 		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
-		terms.add(UserDao.Field.VERI_TOKEN.getQueryTerm(code));
+		//terms.add(UserDao.Field.VERI_TOKEN.getQueryTerm(code));
 		try{
-			userDao.findObject(terms);
+			User user = userDao.findObject(terms);
+			if (user.getEmailConfirmed()) {
+				throw new NotFoundException(ErrorMessage.EMAIL_ALREADY_VERIFIED.getMsg());
+			}
+			if (user.getVeriToken() != code) {
+				throw new NotFoundException(ErrorMessage.INVALID_VERIFICATION_CODE.getMsg());
+			}
 		}catch(NotFoundException e){
 			throw new NotFoundException(ErrorMessage.INVALID_VERIFICATION_CODE.getMsg());
 		}
