@@ -164,7 +164,7 @@ public class UserManagerImpl implements UserManager{
 			if (user.getEmailConfirmed()) {
 				throw new NotFoundException(ErrorMessage.EMAIL_ALREADY_VERIFIED.getMsg());
 			}
-			if (user.getVeriToken() != code) {
+			if (!user.getVeriToken().equals(code)) {
 				throw new NotFoundException(ErrorMessage.INVALID_VERIFICATION_CODE.getMsg());
 			}
 		}catch(NotFoundException e){
