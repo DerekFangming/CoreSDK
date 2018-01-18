@@ -17,7 +17,8 @@ public enum ErrorMessage {
 	USER_INTERN_ERROR("Internal error. Please only use methods provided in SDK."),
 	LOGIN_FAIL("The username or password you entered is not correct. Please try again."),
 	INTERNAL_LOGIC_ERROR("Internal user error. Please report to admin."),
-	EMAIL_ALREADY_VERIFIED("Your email address is already verified. Please restart your app or log out and log back in again"),
+	EMAIL_ALREADY_VERIFIED("Your email address is already verified. Please restart your app or log out and log back in again."),
+	EMAIL_NOT_CONFIRMED("Please confirm your email before getting ticket."),
 	//User detail related
 	USER_DETAIL_NOT_FOUND("The user does not have detail information."),
 	//Image related
@@ -46,20 +47,26 @@ public enum ErrorMessage {
 	COMMENT_NOT_FOUND("The comment you are looking for does not exist."),
 	NO_COMMENT_TO_DELETE("The comment you are trying to delete does not exist."),
 	UNAUTHORIZED_COMMENT_DELETE("Cannot delete a comment that is not yours."),
-	COMMENT_ALREADY_EXISTS("Cannot create this comment because it already exists"),
+	COMMENT_ALREADY_EXISTS("Cannot create this comment because it already exists."),
 	//Event related
 	EVENT_NOT_FOUND("The event you are looking for does not exist."),
 	EVENT_NOT_ACTIVE("The event is finished. No payment accepted."),
 	EVENT_INTERNAL_ERROR("Internal error. Event not found. Please contact support."),
+	EVENT_WITHOUT_TICKET_TEMPLATE("Payment is processed but there is no ticket template. Please contact support."),
 	//Ticket related
 	TICKET_NOT_FOUND("The ticket you are looking for does not exist."),
 	TICKET_NOT_OWNED("You do not own this ticket."),
 	TICKET_SOLD_OUT("Tickets have been sold out."),
 	TICKET_TEMPLATE_NOT_FOUND("The ticket template you are looking for does not exist."),
-	TICKET_INTERNAL_ERROR("Ticket internal error."),
+	TICKET_INTERNAL_ERROR("Payment is processed successfully but ticket is not generated due to error. Please contact support."),
+	TICKET_CREATION_FAILED("Payment is processed but ticket failed to be created. Please contact support."),
+	FREE_TICKET_INVALID_EMAIL("You can only get free ticket using wpi email account."),
 	//Payment related
 	PAYMENT_NOT_FOUND("The payment you are looking for does not exist."),
-	PAYMENT_NOT_SUPPORTED("The payment type is not supported"),
+	PAYMENT_NOT_SUPPORTED("The payment type is not supported."),
+	INVALID_PAYMENT_TOKEN("The payment token is invalid."),
+	PAYMENT_AMOUNT_INVALID("Payment amount is not correct."),
+	PAYMENT_REJECTED("The payment is rejected for your payment method. Please double check your payment info."),
 	//Test case related
 	SHOULD_NOT_PASS_ERROR("This method should fail, but passed."),;
 	

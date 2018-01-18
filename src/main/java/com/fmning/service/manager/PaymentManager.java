@@ -9,7 +9,8 @@ import com.fmning.service.exceptions.NotFoundException;
 public interface PaymentManager {
 	
 	/**
-	 * Create a payment object and save it into database
+	 * Create a payment object and save it into database if it does not exist by type, mapping id, payer and payee id
+	 * If such combination exists, update other fields
 	 * @param type
 	 * @param mappingId
 	 * @param amount
@@ -21,7 +22,7 @@ public interface PaymentManager {
 	 * @param nonce
 	 * @return
 	 */
-	public int createPayment(String type, int mappingId, double amount, String status, String message,
+	public int savePayment(String type, int mappingId, double amount, String status, String message,
 			int payerId, int receiverId, String method, String nonce);
 	
 	/**
@@ -61,4 +62,5 @@ public interface PaymentManager {
 	 * @throws NotFoundException if no users found
 	 */
 	public List<User> getPaidUserByType(String type, int mappingId) throws NotFoundException;
+	
 }

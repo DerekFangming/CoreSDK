@@ -1,9 +1,8 @@
 package com.fmning.util;
 
-//TODO: Status should only be Done, Not exists or Rejected
 public enum PaymentStatusType {
 	DONE("Done"),
-	ALREADY_PAID("AlreadyPaid"),//TODO: Remove this
+	ALREADY_PAID("AlreadyPaid"),
 	NOT_EXIST("NotExist"),
 	REJECTED("Rejected");
 	

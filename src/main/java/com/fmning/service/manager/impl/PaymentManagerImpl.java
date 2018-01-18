@@ -30,20 +30,38 @@ public class PaymentManagerImpl implements PaymentManager{
 	@Autowired private UserDao userDao;
 
 	@Override
-	public int createPayment(String type, int mappingId, double amount, String status, String message, int payerId,
+	public int savePayment(String type, int mappingId, double amount, String status, String message, int payerId,
 			int receiverId, String method, String nonce) {
-		Payment payment = new Payment();
-		payment.setType(type);
-		payment.setMappingId(mappingId);
-		payment.setAmount(amount);
-		payment.setStatus(status);
-		payment.setMessage(message);
-		payment.setPayerId(payerId);
-		payment.setReceiverId(receiverId);
-		payment.setMethod(method);
-		payment.setNonce(nonce);
-		payment.setCreatedAt(Instant.now());
-		return paymentDao.persist(payment);
+		List<QueryTerm> terms = new ArrayList<QueryTerm>();
+		terms.add(PaymentDao.Field.TYPE.getQueryTerm(type));
+		terms.add(PaymentDao.Field.MAPPING_ID.getQueryTerm(mappingId));
+		terms.add(PaymentDao.Field.PAYER_ID.getQueryTerm(payerId));
+		terms.add(PaymentDao.Field.RECEIVER_ID.getQueryTerm(receiverId));
+		
+		try {
+			Payment payment = paymentDao.findObject(terms);
+			payment.setAmount(amount);
+			payment.setStatus(status);
+			payment.setMessage(message);
+			payment.setMethod(method);
+			payment.setNonce(nonce);
+			paymentDao.update(payment.getId(), payment);
+			return payment.getId();
+		} catch (NotFoundException e) {
+			Payment payment = new Payment();
+			payment.setType(type);
+			payment.setMappingId(mappingId);
+			payment.setAmount(amount);
+			payment.setStatus(status);
+			payment.setMessage(message);
+			payment.setPayerId(payerId);
+			payment.setReceiverId(receiverId);
+			payment.setMethod(method);
+			payment.setNonce(nonce);
+			payment.setCreatedAt(Instant.now());
+			return paymentDao.persist(payment);
+		}
+		
 	}
 
 	@Override
