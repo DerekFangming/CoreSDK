@@ -119,7 +119,7 @@ public class UserManagerImpl implements UserManager{
 		user.setUsername(lowerUsername);
 		user.setPassword(encodedPassword);
 		user.setVeriToken(veriCode);
-		user.setAuthToken(accessToken);
+		user.setAccessToken(accessToken);
 		user.setCreatedAt(Instant.now());
 		user.setEmailConfirmed(false);
 		user.setSalt(encodedSalt);
@@ -158,16 +158,16 @@ public class UserManagerImpl implements UserManager{
 	public void checkVeriCode(String username, String code) throws NotFoundException {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
 		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
-		//terms.add(UserDao.Field.VERI_TOKEN.getQueryTerm(code));
-		try{
-			User user = userDao.findObject(terms);
-			if (user.getEmailConfirmed()) {
-				throw new NotFoundException(ErrorMessage.EMAIL_ALREADY_VERIFIED.getMsg());
-			}
-			if (!user.getVeriToken().equals(code)) {
-				throw new NotFoundException(ErrorMessage.INVALID_VERIFICATION_CODE.getMsg());
-			}
-		}catch(NotFoundException e){
+		User user;
+		try {
+			 user = userDao.findObject(terms);
+		} catch (NotFoundException e) {
+			throw new NotFoundException(ErrorMessage.INVALID_VERIFICATION_CODE.getMsg());
+		}
+		if (user.getEmailConfirmed()) {
+			throw new NotFoundException(ErrorMessage.EMAIL_ALREADY_VERIFIED.getMsg());
+		}
+		if (!user.getVeriToken().equals(code)) {
 			throw new NotFoundException(ErrorMessage.INVALID_VERIFICATION_CODE.getMsg());
 		}
 	}
@@ -202,7 +202,7 @@ public class UserManagerImpl implements UserManager{
 			throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
 		}
 		
-		NVPair pair = new NVPair(UserDao.Field.AUTH_TOKEN.name, token);
+		NVPair pair = new NVPair(UserDao.Field.ACCESS_TOKEN.name, token);
 		
 		userDao.update(user.getId(), pair);
 		
@@ -233,7 +233,7 @@ public class UserManagerImpl implements UserManager{
 		
 		boolean recFlag = false;
 		try{
-			Map<String, Object> result = helperManager.decodeJWT(user.getAuthToken());
+			Map<String, Object> result = helperManager.decodeJWT(user.getAccessToken());
 			Instant exp = Instant.parse((String)result.get("expire"));
 			
 			if(exp.compareTo(Instant.now()) < 0){
@@ -246,10 +246,10 @@ public class UserManagerImpl implements UserManager{
 		if(recFlag){
 			Instant newExp = Instant.now().plus(Duration.ofDays(Util.tokenTimeout));
 			String accessToken = helperManager.createAccessToken(username, newExp);
-			NVPair pair = new NVPair(UserDao.Field.AUTH_TOKEN.name, accessToken);
+			NVPair pair = new NVPair(UserDao.Field.ACCESS_TOKEN.name, accessToken);
 			
 			userDao.update(user.getId(), pair);
-			user.setAuthToken(accessToken);
+			user.setAccessToken(accessToken);
 		}
 		
 		return user;
@@ -264,31 +264,32 @@ public class UserManagerImpl implements UserManager{
 			user = userDao.findObject(terms);
 			
 			if (!user.getPassword().equals(Util.MD5(password + user.getSalt())))
-				throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
+				throw new NotFoundException();
 			
 		}catch(NotFoundException | NoSuchAlgorithmException e){
 			throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
 		}
 		
-		boolean recFlag = false;
+		boolean recreateAccessToken = false;
 		try{
-			Map<String, Object> result = helperManager.decodeJWT(user.getAuthToken());
+			Map<String, Object> result = helperManager.decodeJWT(user.getAccessToken());
 			Instant exp = Instant.parse((String)result.get("expire"));
 			
 			if(exp.compareTo(Instant.now()) < 0){
-				recFlag = true;
+				recreateAccessToken = true;
 			}
 		}catch (IllegalStateException e) {
-			recFlag = true;
+			recreateAccessToken = true;
 		}
 		
-		if(recFlag){
+		if(recreateAccessToken){
 			Instant newExp = Instant.now().plus(Duration.ofDays(Util.tokenTimeout));
 			String accessToken = helperManager.createAccessToken(username, newExp);
-			NVPair pair = new NVPair(UserDao.Field.AUTH_TOKEN.name, accessToken);
+			NVPair pair = new NVPair(UserDao.Field.ACCESS_TOKEN.name, accessToken);
 			
 			userDao.update(user.getId(), pair);
-			user.setAuthToken(accessToken);
+			user.setAccessToken(accessToken);
+			user.setTokenUpdated();
 		}
 		
 		return user;
@@ -327,12 +328,13 @@ public class UserManagerImpl implements UserManager{
 		}
 	}
 	
-	public User validateAccessToken(Map<String, Object> request) throws IllegalStateException{
+	@Override
+	public User validateAccessToken(Map<String, Object> request) throws NotFoundException{
 		return validateAccessToken((String) request.get("accessToken"));
 	}
 	
 	@Override
-	public User validateAccessToken(String accessToken)  throws IllegalStateException {
+	public User validateAccessToken(String accessToken)  throws NotFoundException {
 		try{
 			Map<String, Object> result = helperManager.decodeJWT(accessToken);
 			Instant exp = Instant.parse((String)result.get("expire"));
@@ -343,16 +345,16 @@ public class UserManagerImpl implements UserManager{
 			
 			if(exp.compareTo(Instant.now()) < 0){
 				user.setTokenUpdated();//Token from client is out-dated and needs update
-				result = helperManager.decodeJWT(user.getAuthToken());
+				result = helperManager.decodeJWT(user.getAccessToken());
 				exp = Instant.parse((String)result.get("expire"));
 				
 				if(exp.compareTo(Instant.now()) < 0){//The token in DB is also expired
 					Instant newExp = Instant.now().plus(Duration.ofDays(Util.tokenTimeout));
 					String newToken = helperManager.createAccessToken(user.getUsername(), newExp);
-					NVPair pair = new NVPair(UserDao.Field.AUTH_TOKEN.name, newToken);
+					NVPair pair = new NVPair(UserDao.Field.ACCESS_TOKEN.name, newToken);
 					
 					userDao.update(user.getId(), pair);
-					user.setAuthToken(newToken);
+					user.setAccessToken(newToken);
 				}
 				
 				return user;

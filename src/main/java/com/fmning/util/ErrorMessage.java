@@ -12,7 +12,7 @@ public enum ErrorMessage {
 	USERNAME_UNAVAILABLE("The username is already taken. Please try a different one."),
 	USERNAME_TOO_LONG("Username cannot be logger than 32 characters."),
 	USERNAME_NOT_EMAIL("Username must be an email."),
-	USER_NOT_FOUND("The user does not exist."),
+	USER_NOT_FOUND("The user does not exist. Please double check your username or password."),
 	SESSION_EXPIRED("Session expired. Please login again."),
 	USER_INTERN_ERROR("Internal error. Please only use methods provided in SDK."),
 	LOGIN_FAIL("The username or password you entered is not correct. Please try again."),

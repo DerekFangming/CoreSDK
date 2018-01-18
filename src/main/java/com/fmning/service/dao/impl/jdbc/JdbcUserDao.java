@@ -26,7 +26,7 @@ public class JdbcUserDao extends JdbcBaseDao<User> implements UserDao{
 
 		params.addValue(UserDao.Field.USERNAME.name, obj.getUsername());
 		params.addValue(UserDao.Field.PASSWORD.name, obj.getPassword());
-		params.addValue(UserDao.Field.AUTH_TOKEN.name, Util.emptyStringToNull(obj.getAuthToken()));
+		params.addValue(UserDao.Field.ACCESS_TOKEN.name, Util.emptyStringToNull(obj.getAccessToken()));
 		params.addValue(UserDao.Field.VERI_TOKEN.name, Util.emptyStringToNull(obj.getVeriToken()));
 		params.addValue(UserDao.Field.CREATED_AT.name, Date.from(obj.getCreatedAt()));
 		params.addValue(UserDao.Field.EMAIL_CONFIRMED.name, obj.getEmailConfirmed());
@@ -46,7 +46,7 @@ public class JdbcUserDao extends JdbcBaseDao<User> implements UserDao{
 				obj.setId(rs.getInt(UserDao.Field.ID.name));
 				obj.setUsername(rs.getString(UserDao.Field.USERNAME.name));
 				obj.setPassword(rs.getString(UserDao.Field.PASSWORD.name));
-				obj.setAuthToken(rs.getString(UserDao.Field.AUTH_TOKEN.name));
+				obj.setAccessToken(rs.getString(UserDao.Field.ACCESS_TOKEN.name));
 				obj.setVeriToken(rs.getString(UserDao.Field.VERI_TOKEN.name));
 				obj.setCreatedAt(rs.getTimestamp(UserDao.Field.CREATED_AT.name).toInstant());
 				obj.setEmailConfirmed(rs.getBoolean(UserDao.Field.EMAIL_CONFIRMED.name));

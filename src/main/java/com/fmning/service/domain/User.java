@@ -6,7 +6,7 @@ public class User {
 	private int id;
 	private String username;
 	private String password;
-	private String authToken;
+	private String accessToken;
 	private String veriToken;
 	private Instant createdAt;
 	private boolean emailConfirmed;
@@ -41,12 +41,12 @@ public class User {
 		this.password = password;
 	}
 
-	public String getAuthToken() {
-		return authToken;
+	public String getAccessToken() {
+		return accessToken;
 	}
 
-	public void setAuthToken(String authToken) {
-		this.authToken = authToken;
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
 	}
 
 	public String getVeriToken() {
