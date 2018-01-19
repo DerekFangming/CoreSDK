@@ -18,7 +18,7 @@ public interface UserDao extends CommonDao<User>{
 		CREATED_AT,
 		EMAIL_CONFIRMED,
 		SALT,
-		TIMEZONE_OFFSET;
+		ROLE_ID;
 
 		public boolean isPK = false;
 		public String name;
@@ -52,6 +52,6 @@ public interface UserDao extends CommonDao<User>{
 		new Pair<Enum<?>, String>(Field.CREATED_AT, "TIMESTAMP WITHOUT TIME ZONE NOT NULL"),
 		new Pair<Enum<?>, String>(Field.EMAIL_CONFIRMED, "BOOLEAN NOT NULL"),
 		new Pair<Enum<?>, String>(Field.SALT, "TEXT NOT NULL"),
-		new Pair<Enum<?>, String>(Field.TIMEZONE_OFFSET, "INTEGER NOT NULL"));
+		new Pair<Enum<?>, String>(Field.ROLE_ID, "INTEGER NOT NULL"));
 
 }

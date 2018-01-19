@@ -11,6 +11,9 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,59 +36,6 @@ public class UserManagerImpl implements UserManager{
 	@Autowired private UserDao userDao;
 	@Autowired private UserDetailDao userDetailDao;
 	@Autowired private HelperManager helperManager;
-	
-	@Override
-	public String registerForSalt(String username, int offset) throws IllegalStateException {
-		String lowerUsername = username.toLowerCase();
-		if(checkUsername(lowerUsername))
-			throw new IllegalStateException(ErrorMessage.USERNAME_UNAVAILABLE.getMsg());
-		if (lowerUsername.length() > 32)
-			throw new IllegalStateException(ErrorMessage.USERNAME_TOO_LONG.getMsg());
-		Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
-		Matcher m = p.matcher(lowerUsername);
-		if(!m.matches())
-			throw new IllegalStateException(ErrorMessage.USERNAME_NOT_EMAIL.getMsg());
-		
-		final Random r = new SecureRandom();
-		byte[] salt = new byte[32];
-		r.nextBytes(salt);
-		String encodedSalt = Base64.encodeBase64String(salt).substring(0, 32);
-		
-		User user = new User();
-		user.setUsername(lowerUsername);
-		user.setPassword("password");
-		user.setCreatedAt(Instant.now());
-		user.setEmailConfirmed(false);
-		user.setSalt(encodedSalt);
-		user.setTimezoneOffset(offset);
-		userDao.persist(user);
-		
-		return encodedSalt;
-	}
-	
-	@Override
-	public int register(String username, String password) throws IllegalStateException, NotFoundException {
-		String lowerUsername = username.toLowerCase();
-		if(lowerUsername.length() > 32)
-			throw new IllegalStateException(ErrorMessage.USER_INTERN_ERROR.getMsg());
-		if(password.length() != 32)
-			throw new IllegalStateException(ErrorMessage.USER_INTERN_ERROR.getMsg());
-		
-		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(lowerUsername));
-		terms.add(UserDao.Field.PASSWORD.getQueryTerm("password"));
-		User user;
-		try{
-			user = userDao.findObject(terms);
-		}catch(NotFoundException e){
-			throw new NotFoundException(ErrorMessage.USER_INTERN_ERROR.getMsg());
-		}
-		
-		NVPair newValue = new NVPair(UserDao.Field.PASSWORD.name, password);
-		
-		userDao.update(user.getId(), newValue);
-		return user.getId();
-	}
 	
 	@Override
 	public User webRegister(String username, String password) throws IllegalStateException {
@@ -123,7 +73,7 @@ public class UserManagerImpl implements UserManager{
 		user.setCreatedAt(Instant.now());
 		user.setEmailConfirmed(false);
 		user.setSalt(encodedSalt);
-		user.setTimezoneOffset(0);
+		user.setRoleId(3);//NormalUser
 		int userId = userDao.persist(user);
 		user.setId(userId);
 		
@@ -209,18 +159,7 @@ public class UserManagerImpl implements UserManager{
 	}
 
 	@Override
-	public String loginForSalt(String username) throws NotFoundException {
-		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
-		try{
-			return userDao.findObject(terms).getSalt();
-		}catch(NotFoundException e){
-			throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
-		}
-	}
-
-	@Override
-	public User login(String username, String password) throws NotFoundException {
+	public User loginMigrate(String username, String password) throws NotFoundException {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
 		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
 		terms.add(UserDao.Field.PASSWORD.getQueryTerm(password));
@@ -294,43 +233,23 @@ public class UserManagerImpl implements UserManager{
 		
 		return user;
 	}
-
-	@Override
-	public int getUserId(String username) throws NotFoundException {
-		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
-		try{
-			return userDao.findObject(terms).getId();
-		}catch(NotFoundException e){
-			throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
-		}
-	}
-
-	@Override
-	public void checkUserIdExistance(int id) throws NotFoundException {
-		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.ID.getQueryTerm(id));
-		try{
-			userDao.findObject(terms);
-		}catch(NotFoundException e){
-			throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
-		}
-	}
-	
-	@Override
-	public String getUsername(int userId) throws NotFoundException{
-		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.ID.getQueryTerm(userId));
-		try{
-			return userDao.findObject(terms).getUsername();
-		}catch(NotFoundException e){
-			throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
-		}
-	}
 	
 	@Override
 	public User validateAccessToken(Map<String, Object> request) throws NotFoundException{
 		return validateAccessToken((String) request.get("accessToken"));
+	}
+	
+	@Override
+	public User validateAccessToken(HttpServletRequest request)  throws NotFoundException {
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null) {
+			for(Cookie c : cookies){
+				if (c.getName().equals("accessToken")) {
+					return validateAccessToken(c.getValue());
+				}
+			}
+		}
+		throw new NotFoundException(ErrorMessage.INVALID_ACCESS_TOKEN.getMsg());
 	}
 	
 	@Override
@@ -379,7 +298,7 @@ public class UserManagerImpl implements UserManager{
 			}
 		}catch(NotFoundException e){
 			try{
-				return getUsername(userId);
+				return "Unknown";
 			}catch(NotFoundException ex){
 				throw new IllegalStateException(ErrorMessage.USER_NOT_FOUND.getMsg());
 			}

@@ -3,3 +3,4 @@
 
 src/test/resources/dataSource.properties
 .DS_Store
+logging.out

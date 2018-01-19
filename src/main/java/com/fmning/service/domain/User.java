@@ -11,7 +11,7 @@ public class User {
 	private Instant createdAt;
 	private boolean emailConfirmed;
 	private String salt;
-	private int timezoneOffset;
+	private int roleId;
 	
 	//Following params are not from DB
 	private boolean tokenUpdated = false;
@@ -81,12 +81,12 @@ public class User {
 		this.salt = salt;
 	}
 
-	public int getTimezoneOffset() {
-		return timezoneOffset;
+	public int getRoleId() {
+		return roleId;
 	}
 
-	public void setTimezoneOffset(int timezoneOffset) {
-		this.timezoneOffset = timezoneOffset;
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
 	
 	public boolean isTokenUpdated() {

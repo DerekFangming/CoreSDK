@@ -26,34 +26,9 @@ public class UserManagerTests {
 	@Autowired private HelperManager helperManager;
 	
 	@Test
-	public void testRegister(){
+	public void testLoginMigrate(){
 		try {
-			userManager.registerForSalt("TestUser@fmning.com", 0);
-			fail(ErrorMessage.SHOULD_NOT_PASS_ERROR.getMsg());
-		} catch (IllegalStateException e) {
-			assertEquals(e.getMessage(), ErrorMessage.USERNAME_UNAVAILABLE.getMsg());
-		}
-	}
-	
-	@Test
-	public void testLoginForSalt(){
-		try {
-			assertEquals(userManager.loginForSalt("TestUser@fmning.com"), "testUserSalt");
-		} catch (NotFoundException e) {
-			fail(e.toString());
-		}
-		try {
-			userManager.loginForSalt("wrongUser");
-			fail(ErrorMessage.SHOULD_NOT_PASS_ERROR.getMsg());
-		} catch (NotFoundException e) {
-			return;
-		}
-	}
-	
-	@Test
-	public void testLogin(){
-		try {
-			User user = userManager.login("TestUser@fmning.com", "testUserPassword");
+			User user = userManager.loginMigrate("TestUser@fmning.com", "testUserPassword");
 			if(user.isTokenUpdated()) {
 				fail("Flag error for log in action");
 			}
@@ -61,12 +36,12 @@ public class UserManagerTests {
 			fail(e.toString());
 		}
 		try{
-			userManager.login("TestUser@fmning.com", "WRONG");
+			userManager.loginMigrate("TestUser@fmning.com", "WRONG");
 			fail(ErrorMessage.SHOULD_NOT_PASS_ERROR.getMsg());
 		} catch (NotFoundException e){
 		}
 		try{
-			userManager.login("WRONG", "testUserPassword");
+			userManager.loginMigrate("WRONG", "testUserPassword");
 			fail(ErrorMessage.SHOULD_NOT_PASS_ERROR.getMsg());
 		} catch (NotFoundException e){
 			return;

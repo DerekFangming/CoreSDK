@@ -2,36 +2,13 @@ package com.fmning.service.manager;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.fmning.service.domain.User;
 import com.fmning.service.domain.UserDetail;
 import com.fmning.service.exceptions.NotFoundException;
 
 public interface UserManager {
-	
-	/**
-	 * Create user in database and generate a random salt for the user
-	 * Password was set to a temporary one in this method
-	 * Username is checked to be not existed, looks like email address, and less than 32 digits
-	 * @param username the username
-	 * @param offset the time zone offset from GMT
-	 * @return 32 digit salt 
-	 * @throws IllegalStateException if any of the username check fails
-	 * @deprecated This will be replaced by 1 http call register method
-	 */
-	@Deprecated
-	public String registerForSalt(String username, int offset) throws IllegalStateException ;
-	
-	/**
-	 * Update the password that client sends. Do some check on the username and password
-	 * @param username the resisted username
-	 * @param password the password hashed by MD5
-	 * @return the user id
-	 * @throws IllegalStateException if username and password check fails
-	 * @throws NotFoundException if the username doen't exist
-	 * @deprecated This will be replaced by 1 http call register method
-	 */
-	@Deprecated
-	public int register(String username, String password) throws IllegalStateException, NotFoundException;
 	
 	/**
 	 * The method that handles web register, where there is no sending of salt and the password is not encrypted
@@ -81,25 +58,15 @@ public interface UserManager {
 	 */
 	public void updateAccessToken(String username, String token) throws NotFoundException;
 	
-	/**
-	 * Return salt string of a given username for login purpose
-	 * @param username the user
-	 * @return the salt string of that user
-	 * @throws NotFoundException if the user name is not found
-	 * @deprecated This will be replaced by 1 http call login method
-	 */
-	@Deprecated
-	public String loginForSalt(String username) throws NotFoundException;
+	
 	
 	/**
 	 * Check if the login username and password is correct
 	 * @param username the user
 	 * @param password the hashed password
 	 * @throws NotFoundException
-	 * @deprecated This will be replaced by 1 http call login method
 	 */
-	@Deprecated
-	public User login (String username, String password) throws NotFoundException;
+	public User loginMigrate (String username, String password) throws NotFoundException;
 
 	/**
 	 * The method that handles web login, where there is no sending of salt and the password is not encrypted
@@ -111,36 +78,22 @@ public interface UserManager {
 	public User webLogin(String username, String password) throws NotFoundException;
 	
 	/**
-	 * Get user ID by username
-	 * @param username the username of this user
-	 * @return the database id of the user
-	 * @throws NotFoundException if the user is not found
-	 */
-	public int getUserId(String username) throws NotFoundException;
-	
-	/**
-	 * Check if the given user id exists in the user table or not
-	 * @param id the user id
-	 * @throws NotFoundException if the user doesn't exist
-	 */
-	public void checkUserIdExistance(int id) throws NotFoundException;
-	
-	/**
-	 * Return the username of the user
-	 * @param userId the id of the user
-	 * @return the username of the user
-	 * @throws NotFoundException if the user with the id does not exist
-	 */
-	public String getUsername(int userId) throws NotFoundException;
-	
-	/**
-	 * Validate the access token.
+	 * Validate the access token from post request params
 	 * If it expired, get a new one from DB or create a new one if DB version is also expired
 	 * @param request the request object (JSON object, map)
 	 * @return the user for this access token
 	 * @throws NotFoundException if the access token is invalid
 	 */
 	public User validateAccessToken(Map<String, Object> request)  throws NotFoundException;
+	
+	/**
+	 * Validate the access token from request cookies
+	 * If it expired, get a new one from DB or create a new one if DB version is also expired
+	 * @param request the servlet request
+	 * @return the user for this access token
+	 * @throws NotFoundException if the access token is invalid
+	 */
+	public User validateAccessToken(HttpServletRequest request)  throws NotFoundException;
 	
 	/**
 	 * Validate the access token itself.
