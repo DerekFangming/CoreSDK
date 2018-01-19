@@ -162,13 +162,12 @@ public interface UserManager {
 	
 	/**
 	 * Change the password of a given user
-	 * @param username the username
-	 * @param oldPwd original md5 encrypted password
-	 * @param newPwd the new md5 encrypted password
+	 * @param userId the id of the user
+	 * @param password the new password
 	 * @throws IllegalStateException if password format is incorrect
 	 * @throws NotFoundException if the user does not exist
 	 */
-	public void changePassword(String username, String oldPwd, String newPwd) 
+	public void changePassword(int userId, String password) 
 			throws IllegalStateException, NotFoundException;
 	
 	/* The following methods are for user details*/

@@ -387,13 +387,9 @@ public class UserManagerImpl implements UserManager{
 	}
 	
 	@Override
-	public void changePassword(String username, String oldPwd, String newPwd) throws IllegalStateException, NotFoundException {
-		if(newPwd.length() != 32)
-			throw new IllegalStateException(ErrorMessage.USER_INTERN_ERROR.getMsg());
-		
+	public void changePassword(int userId, String password) throws IllegalStateException, NotFoundException {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
-		terms.add(UserDao.Field.PASSWORD.getQueryTerm(oldPwd));
+		terms.add(UserDao.Field.ID.getQueryTerm(userId));
 		User user;
 		try{
 			user = userDao.findObject(terms);
@@ -401,8 +397,15 @@ public class UserManagerImpl implements UserManager{
 			throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
 		}
 		
+		String encodedPassword;
+		try {
+			encodedPassword = Util.MD5(password + user.getSalt());
+		} catch (NoSuchAlgorithmException e) {
+			throw new IllegalStateException(ErrorMessage.INTERNAL_LOGIC_ERROR.getMsg());
+		}
+		
 		List<NVPair> newValues = new ArrayList<NVPair>();
-		newValues.add(new NVPair(UserDao.Field.PASSWORD.name, newPwd));
+		newValues.add(new NVPair(UserDao.Field.PASSWORD.name, encodedPassword));
 		
 		userDao.update(user.getId(), newValues);
 	}

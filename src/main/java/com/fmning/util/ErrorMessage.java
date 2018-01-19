@@ -19,6 +19,7 @@ public enum ErrorMessage {
 	INTERNAL_LOGIC_ERROR("Internal user error. Please report to admin."),
 	EMAIL_ALREADY_VERIFIED("Your email address is already verified. Please restart your app or log out and log back in again."),
 	EMAIL_NOT_CONFIRMED("Please confirm your email before getting ticket."),
+	INCORRECT_PASSWORD("The password you enterred is not correct."),
 	//User detail related
 	USER_DETAIL_NOT_FOUND("The user does not have detail information."),
 	//Image related
