@@ -68,8 +68,10 @@ public enum ErrorMessage {
 	INVALID_PAYMENT_TOKEN("The payment token is invalid."),
 	PAYMENT_AMOUNT_INVALID("Payment amount is not correct."),
 	PAYMENT_REJECTED("The payment is rejected for your payment method. Please double check your payment info."),
+	//Survival Guide related
+	SURVIVAL_GUIDE_NOT_FOUND("The survival guide article you are looking for does not exist."),
 	//Test case related
-	SHOULD_NOT_PASS_ERROR("This method should fail, but passed."),;
+	SHOULD_NOT_PASS_ERROR("This method should fail, but passed.");
 	
 	private final String msg;
 	

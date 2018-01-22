@@ -51,6 +51,14 @@ public enum RelationalOpType{
 			return super.defualtLikeMakeTerm(term);
 		}
 	}, 
+	ISNULL("ISNULL") {
+		@Override
+		public StringBuilder makeSymbolicTerm(QueryTerm term){
+			return new StringBuilder()
+				.append(term.getField())
+				.append(" IS NULL");
+		}
+	}, 
 	IN("IN"){
 
 		@Override

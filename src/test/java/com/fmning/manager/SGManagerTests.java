@@ -13,8 +13,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.fmning.service.domain.SurvivalGuide;
-import com.fmning.service.domain.TicketTemplate;
 import com.fmning.service.manager.SGManager;
+import com.fmning.util.Util;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/sdkUnitTesting.xml")
@@ -28,11 +28,20 @@ public class SGManagerTests {
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
 	
+	@Test
+	public void testGetArticle(){
+		SurvivalGuide sg = sgManager.getArticleById(1);
+		assertEquals(sg.getTitle(), "关于我们");
+		assertEquals(sg.getPosition(), 0);
+	}
 	
 	@Test
-	public void testGetTicketTemplate(){
-		List<SurvivalGuide> menuList = sgManager.getMenu();
-		assertEquals(menuList.size(), 85);
+	public void testGetChildArticles(){
+		List<SurvivalGuide> menuList = sgManager.getChildArticles(9999);
+		assertEquals(menuList.size(), 0);
+		
+		menuList = sgManager.getChildArticles(Util.nullInt);
+		assertEquals(menuList.size(), 11);
 	}
 	
 }

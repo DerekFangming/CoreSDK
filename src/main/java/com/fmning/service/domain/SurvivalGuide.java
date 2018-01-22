@@ -1,6 +1,7 @@
 package com.fmning.service.domain;
 
 import java.time.Instant;
+import java.util.List;
 
 public class SurvivalGuide {
 	private int id;
@@ -10,6 +11,8 @@ public class SurvivalGuide {
 	private int position;
 	private Instant createdAt;
 	private int ownerId;
+	
+	private List<SurvivalGuide> childList;
 
 	public int getId() {
 		return id;
@@ -65,6 +68,14 @@ public class SurvivalGuide {
 
 	public void setOwnerId(int ownerId) {
 		this.ownerId = ownerId;
+	}
+
+	public List<SurvivalGuide> getChildList() {
+		return childList;
+	}
+
+	public void setChildList(List<SurvivalGuide> childList) {
+		this.childList = childList;
 	}
 
 }
