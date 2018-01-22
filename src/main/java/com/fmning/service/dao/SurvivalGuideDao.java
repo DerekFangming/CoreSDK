@@ -5,16 +5,18 @@ import java.util.List;
 
 import com.fmning.service.dao.impl.QueryTerm;
 import com.fmning.service.dao.impl.RelationalOpType;
-import com.fmning.service.domain.Sg;
+import com.fmning.service.domain.SurvivalGuide;
 import com.fmning.util.Pair;
 
-public interface SgDao extends CommonDao<Sg>{
+public interface SurvivalGuideDao extends CommonDao<SurvivalGuide>{
 	enum Field implements DaoFieldEnum{
 		ID(true),
-		MENU_ID,
 		TITLE,
 		CONTENT,
-		CREATED_AT;
+		PARENT_ID,
+		POSITION,
+		CREATED_AT,
+		OWNER_ID;
 
 		public boolean isPK = false;
 		public String name;
@@ -41,9 +43,11 @@ public interface SgDao extends CommonDao<Sg>{
 
 	List<Pair<Enum<?>, String>> FieldTypes = Arrays.asList(
 		new Pair<Enum<?>, String>(Field.ID, "SERIAL NOT NULL"),
-		new Pair<Enum<?>, String>(Field.MENU_ID, "INTEGER NOT NULL"),
-		new Pair<Enum<?>, String>(Field.TITLE, "TEXT"),
+		new Pair<Enum<?>, String>(Field.TITLE, "TEXT NOT NULL"),
 		new Pair<Enum<?>, String>(Field.CONTENT, "TEXT"),
-		new Pair<Enum<?>, String>(Field.CREATED_AT, "TIMESTAMP WITHOUT TIME ZONE"));
+		new Pair<Enum<?>, String>(Field.PARENT_ID, "INTEGER"),
+		new Pair<Enum<?>, String>(Field.POSITION, "INTEGER NOT NULL"),
+		new Pair<Enum<?>, String>(Field.CREATED_AT, "TIMESTAMP WITHOUT TIME ZONE NOT NULL"),
+		new Pair<Enum<?>, String>(Field.OWNER_ID, "INTEGER NOT NULL DEFAULT 0"));
 
 }
