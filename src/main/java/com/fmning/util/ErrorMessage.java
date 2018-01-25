@@ -6,6 +6,7 @@ public enum ErrorMessage {
 	//Security related
 	INVALID_ACCESS_TOKEN("The access token you are using is not valid. Please login again."),
 	INVALID_VERIFICATION_CODE("The verification code does not match what's on the record."),
+	NO_USER_LOGGED_IN("Please login first before using this feature."),
 	//HTTP related
 	INCORRECT_PARAM("Request parameters incorrect."),
 	//User related
@@ -18,7 +19,7 @@ public enum ErrorMessage {
 	LOGIN_FAIL("The username or password you entered is not correct. Please try again."),
 	INTERNAL_LOGIC_ERROR("Internal user error. Please report to admin."),
 	EMAIL_ALREADY_VERIFIED("Your email address is already verified. Please restart your app or log out and log back in again."),
-	EMAIL_NOT_CONFIRMED("Please confirm your email before getting ticket."),
+	EMAIL_NOT_CONFIRMED("Please confirm your email first."),
 	INCORRECT_PASSWORD("The password you enterred is not correct."),
 	//User detail related
 	USER_DETAIL_NOT_FOUND("The user does not have detail information."),

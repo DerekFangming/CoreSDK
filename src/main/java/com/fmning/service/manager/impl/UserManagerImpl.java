@@ -73,7 +73,7 @@ public class UserManagerImpl implements UserManager{
 		user.setCreatedAt(Instant.now());
 		user.setEmailConfirmed(false);
 		user.setSalt(encodedSalt);
-		user.setRoleId(3);//NormalUser
+		user.setRoleId(10);//NormalUser
 		int userId = userDao.persist(user);
 		user.setId(userId);
 		
