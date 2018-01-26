@@ -87,9 +87,9 @@ public class FeedManagerImpl implements FeedManager{
 	    qb.setLimit(limit);
 	    
 	    try{
-	    	return feedDao.findAllObjects(qb.createQuery());
+	    		return feedDao.findAllObjects(qb.createQuery());
 	    }catch(NotFoundException e){
-	    	throw new NotFoundException(ErrorMessage.NO_MORE_FEEDS_FOUND.getMsg());
+	    		throw new NotFoundException(ErrorMessage.NO_MORE_FEEDS_FOUND.getMsg());
 	    }
 	}
 

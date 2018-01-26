@@ -2,13 +2,20 @@ package com.fmning.service.manager.impl;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fmning.service.dao.EventDao;
+import com.fmning.service.dao.impl.CoreTableType;
+import com.fmning.service.dao.impl.NVPair;
+import com.fmning.service.dao.impl.QueryBuilder;
 import com.fmning.service.dao.impl.QueryTerm;
+import com.fmning.service.dao.impl.QueryType;
+import com.fmning.service.dao.impl.RelationalOpType;
+import com.fmning.service.dao.impl.ResultsOrderType;
 import com.fmning.service.domain.Event;
 import com.fmning.service.exceptions.NotFoundException;
 import com.fmning.service.manager.EventManager;
@@ -57,15 +64,43 @@ public class EventManagerImpl implements EventManager{
 			throw new NotFoundException(ErrorMessage.EVENT_NOT_FOUND.getMsg());
 		}
 	}
+	
+	@Override
+	public List<Event> getRecentEventByDate(Instant date, int limit) throws NotFoundException {
+		QueryBuilder qb = QueryType.getQueryBuilder(CoreTableType.EVENTS, QueryType.FIND);
+	    
+	    qb.addFirstQueryExpression(new QueryTerm(EventDao.Field.CREATED_AT.name, RelationalOpType.LT, Date.from(date)));
+	    qb.setOrdering(EventDao.Field.CREATED_AT.name, ResultsOrderType.DESCENDING);
+	    qb.setLimit(limit);
+	    
+	    try{
+	    		return eventDao.findAllObjects(qb.createQuery());
+	    }catch(NotFoundException e){
+	    		throw new NotFoundException(ErrorMessage.NO_MORE_EVENTS_FOUND.getMsg());
+	    }
+	}
 
 	@Override
 	public void setBalance(int id, int balance) throws NotFoundException {
 		try{
 			eventDao.update(id, EventDao.Field.TICKET_BALANCE.getQueryTerm(balance));
 		} catch (NotFoundException e){
-			throw new NotFoundException(ErrorMessage.EVENT_INTERNAL_ERROR.getMsg());
+			throw new NotFoundException(ErrorMessage.EVENT_NOT_FOUND.getMsg());
 		}
 		
+	}
+
+	@Override
+	public void setStatus(int id, boolean active, String message) throws NotFoundException {
+		List<NVPair> newValues = new ArrayList<NVPair>();
+		newValues.add(new NVPair(EventDao.Field.ACTIVE.name, active));
+		newValues.add(new NVPair(EventDao.Field.MESSAGE.name, active ? "" : message));
+		
+		try{
+			eventDao.update(id, newValues);
+		} catch (NotFoundException e){
+			throw new NotFoundException(ErrorMessage.EVENT_NOT_FOUND.getMsg());
+		}
 	}
 
 }

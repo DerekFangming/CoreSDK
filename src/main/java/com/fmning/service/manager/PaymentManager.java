@@ -63,4 +63,12 @@ public interface PaymentManager {
 	 */
 	public List<User> getPaidUserByType(String type, int mappingId) throws NotFoundException;
 	
+	/**
+	 * Get a count of how many users has registered for the event
+	 * @param type the type of payment
+	 * @param mappingId the mapping id for the payment
+	 * @return the count
+	 */
+	public int getPaidUsersCountByType(String type, int mappingId);
+	
 }

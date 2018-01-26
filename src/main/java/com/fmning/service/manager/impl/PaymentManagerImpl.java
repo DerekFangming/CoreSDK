@@ -123,4 +123,14 @@ public class PaymentManagerImpl implements PaymentManager{
 	    } 
 	}
 
+	@Override
+	public int getPaidUsersCountByType(String type, int mappingId) {
+		List<QueryTerm> values = new ArrayList<QueryTerm>();
+		values.add(PaymentDao.Field.TYPE.getQueryTerm(type));
+		values.add(PaymentDao.Field.MAPPING_ID.getQueryTerm(mappingId));
+		values.add(PaymentDao.Field.STATUS.getQueryTerm(PaymentStatusType.DONE.getName()));
+		
+		return paymentDao.getCount(values);
+	}
+
 }

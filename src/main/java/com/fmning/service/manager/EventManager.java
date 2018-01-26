@@ -1,6 +1,7 @@
 package com.fmning.service.manager;
 
 import java.time.Instant;
+import java.util.List;
 
 import com.fmning.service.domain.Event;
 import com.fmning.service.exceptions.NotFoundException;
@@ -39,6 +40,15 @@ public interface EventManager {
 	 * @throws NotFoundException
 	 */
 	public Event getEventByType(String type, int mappingId) throws NotFoundException;
+	
+	/**
+	 * Get a list of most recent events by provided date
+	 * @param date the date for the most recent line
+	 * @param limit the maximum of event that will be returned at once
+	 * @return a list of events that meet the criteria
+	 * @throws NotFoundException if no event meets the criteria
+	 */
+	public List<Event> getRecentEventByDate(Instant date, int limit) throws NotFoundException;
 
 	/**
 	 * Update the ticket balance of a event
@@ -47,4 +57,14 @@ public interface EventManager {
 	 * @throws NotFoundException
 	 */
 	public void setBalance(int id, int balance) throws NotFoundException;
+	
+	/**
+	 * Update the ticket active status of a event
+	 * If set to active, message will be set to empty string and the input is ignored
+	 * @param id the database id of the event
+	 * @param active the active status of the ticket
+	 * @param message the message for the reason of an inactive ticket
+	 * @throws NotFoundException
+	 */
+	public void setStatus(int id, boolean active, String message) throws NotFoundException;
 }

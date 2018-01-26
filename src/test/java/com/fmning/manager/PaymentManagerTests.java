@@ -39,4 +39,13 @@ public class PaymentManagerTests {
 		assertEquals(payment.getPayerId(), 11);
 		assertEquals(payment.getReceiverId(), 11);
 	}
+	
+	@Test
+	public void testGetPaymentCountByType(){
+//		int count = paymentManager.getPaidUsersCountByType(PaymentType.EVENT.getName(), 2);
+//		assertEquals(count, 4);
+
+		int count = paymentManager.getPaidUsersCountByType(PaymentType.EVENT.getName(), 9999);
+		assertEquals(count, 0);
+	}
 }

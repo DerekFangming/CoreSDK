@@ -53,7 +53,8 @@ public enum ErrorMessage {
 	//Event related
 	EVENT_NOT_FOUND("The event you are looking for does not exist."),
 	EVENT_NOT_ACTIVE("The event is finished. No payment accepted."),
-	EVENT_INTERNAL_ERROR("Internal error. Event not found. Please contact support."),
+	NO_MORE_EVENTS_FOUND("There are no more events."),
+	CHANGE_STATUS_NOT_ALLOWED("You do not have permission to change event status."),
 	EVENT_WITHOUT_TICKET_TEMPLATE("Payment is processed but there is no ticket template. Please contact support."),
 	//Ticket related
 	TICKET_NOT_FOUND("The ticket you are looking for does not exist."),
