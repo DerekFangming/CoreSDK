@@ -43,6 +43,14 @@ public interface PaymentManager {
 	public Payment getPaymentByType(String type, int mappingId) throws NotFoundException;
 	
 	/**
+	 * Get a list of all successful payments
+	 * @param type
+	 * @param mappingId
+	 * @return the payment list, empty if not found
+	 */
+	public List<Payment> getSuccessfulPaymentsByType(String type, int mappingId);
+	
+	/**
 	 * Get payment by type, mapping id, payer id and receiver id
 	 * @param type
 	 * @param mappingId

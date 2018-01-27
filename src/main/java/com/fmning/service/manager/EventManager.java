@@ -25,6 +25,23 @@ public interface EventManager {
 			Instant endTime, String location, int fee, int ownerId);
 	
 	/**
+	 * Update an event by id.
+	 * If any column is null, skip the update
+	 * @param id
+	 * @param type
+	 * @param mappingId
+	 * @param title
+	 * @param description
+	 * @param startTime
+	 * @param endTime
+	 * @param location
+	 * @param fee
+	 * @throws NotFoundException
+	 */
+	public void updateEventDetails(int id, String title, String description,
+			Instant startTime, Instant endTime, String location, int fee) throws NotFoundException;
+	
+	/**
 	 * Get event by database id
 	 * @param id database id of the row
 	 * @return Event object
@@ -67,4 +84,5 @@ public interface EventManager {
 	 * @throws NotFoundException
 	 */
 	public void setStatus(int id, boolean active, String message) throws NotFoundException;
+	
 }

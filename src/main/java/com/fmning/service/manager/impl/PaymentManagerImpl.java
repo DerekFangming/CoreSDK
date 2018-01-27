@@ -85,6 +85,20 @@ public class PaymentManagerImpl implements PaymentManager{
 			throw new NotFoundException(ErrorMessage.PAYMENT_NOT_FOUND.getMsg());
 		}
 	}
+	
+	@Override
+	public List<Payment> getSuccessfulPaymentsByType(String type, int mappingId) {
+		try {
+			List<QueryTerm> values = new ArrayList<QueryTerm>();
+			values.add(PaymentDao.Field.TYPE.getQueryTerm(type));
+			values.add(PaymentDao.Field.MAPPING_ID.getQueryTerm(mappingId));
+			values.add(PaymentDao.Field.STATUS.getQueryTerm(PaymentStatusType.DONE.getName()));
+			
+			return paymentDao.findAllObjects(values);
+		} catch (NotFoundException e) {
+			return new ArrayList<Payment>();
+		}
+	}
 
 	@Override
 	public Payment getPaymentByTypeAndPayer(String type, int mappingId, int payerId, int receiverId)

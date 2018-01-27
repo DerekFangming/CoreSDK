@@ -20,6 +20,7 @@ import com.fmning.service.domain.Event;
 import com.fmning.service.exceptions.NotFoundException;
 import com.fmning.service.manager.EventManager;
 import com.fmning.util.ErrorMessage;
+import com.fmning.util.Util;
 
 @Component
 public class EventManagerImpl implements EventManager{
@@ -41,6 +42,31 @@ public class EventManagerImpl implements EventManager{
 		event.setOwnerId(ownerId);
 		event.setCreatedAt(Instant.now());
 		return eventDao.persist(event);
+	}
+	
+	public void updateEventDetails(int id, String title, String description,
+			Instant startTime, Instant endTime, String location, int fee) throws NotFoundException {
+		List<NVPair> newValues = new ArrayList<NVPair>();
+		if (title != null)
+			newValues.add(new NVPair(EventDao.Field.TITLE.name, title));
+		if (description != null)
+			newValues.add(new NVPair(EventDao.Field.DESCRIPTION.name, description));
+		if (startTime != null)
+			newValues.add(new NVPair(EventDao.Field.START_TIME.name, Date.from(startTime)));
+		if (endTime != null)
+			newValues.add(new NVPair(EventDao.Field.END_TIME.name, Date.from(endTime)));
+		if (location != null)
+			newValues.add(new NVPair(EventDao.Field.LOCATION.name, location));
+		if (fee != Util.nullInt)
+			newValues.add(new NVPair(EventDao.Field.FEE.name, fee));
+		
+		if(newValues.size() > 0) {
+			try{
+				eventDao.update(id, newValues);
+			} catch (NotFoundException e){
+				throw new NotFoundException(ErrorMessage.EVENT_NOT_FOUND.getMsg());
+			}
+		}
 	}
 
 	@Override

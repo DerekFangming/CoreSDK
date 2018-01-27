@@ -54,7 +54,11 @@ public enum ErrorMessage {
 	EVENT_NOT_FOUND("The event you are looking for does not exist."),
 	EVENT_NOT_ACTIVE("The event is finished. No payment accepted."),
 	NO_MORE_EVENTS_FOUND("There are no more events."),
+	CHANGE_EVENT_NOT_ALLOWED("You do not have permission to edit the event."),
+	VIEW_PARTICIPANTS_NOT_ALLOWED("You do not have permission to view paticipants list."),
 	CHANGE_STATUS_NOT_ALLOWED("You do not have permission to change event status."),
+	CHANGE_BALANCE_NOT_ALLOWED("You do not have permission to change event balance."),
+	TICKET_BALANCE_RANGE_ERROR("Ticket balance has to be in range 0 to 500."),
 	EVENT_WITHOUT_TICKET_TEMPLATE("Payment is processed but there is no ticket template. Please contact support."),
 	//Ticket related
 	TICKET_NOT_FOUND("The ticket you are looking for does not exist."),
