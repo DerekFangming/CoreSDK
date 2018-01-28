@@ -3,6 +3,7 @@ package com.fmning.util;
 public enum ErrorMessage {
 	//General
 	UNKNOWN_ERROR("Unknown error."),
+	NO_PERMISSION("You do not have permission to do this."),
 	//Security related
 	INVALID_ACCESS_TOKEN("The access token you are using is not valid. Please login again."),
 	INVALID_VERIFICATION_CODE("The verification code does not match what's on the record."),
@@ -20,6 +21,7 @@ public enum ErrorMessage {
 	INTERNAL_LOGIC_ERROR("Internal user error. Please report to admin."),
 	EMAIL_ALREADY_VERIFIED("Your email address is already verified. Please restart your app or log out and log back in again."),
 	EMAIL_NOT_CONFIRMED("Please confirm your email first."),
+	REQUESTED_USER_EMAIL_VERIFIED("The email for this user is already verified. Please refresh this page."),
 	INCORRECT_PASSWORD("The password you enterred is not correct."),
 	//User detail related
 	USER_DETAIL_NOT_FOUND("The user does not have detail information."),

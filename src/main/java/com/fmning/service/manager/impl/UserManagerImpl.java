@@ -38,6 +38,17 @@ public class UserManagerImpl implements UserManager{
 	@Autowired private HelperManager helperManager;
 	
 	@Override
+	public User getUserById(int id) throws NotFoundException {
+		List<QueryTerm> terms = new ArrayList<QueryTerm>();
+		terms.add(UserDao.Field.ID.getQueryTerm(id));
+		try{
+			return userDao.findObject(terms);
+		}catch(NotFoundException e){
+			throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
+		}
+	}
+	
+	@Override
 	public User webRegister(String username, String password) throws IllegalStateException {
 		String lowerUsername = username.toLowerCase();
 		if(checkUsername(lowerUsername))
@@ -327,6 +338,14 @@ public class UserManagerImpl implements UserManager{
 		newValues.add(new NVPair(UserDao.Field.PASSWORD.name, encodedPassword));
 		
 		userDao.update(user.getId(), newValues);
+	}
+	
+	public List<User> getAllUsers() {
+		try {
+			return userDao.findAllObjects();
+		} catch (NotFoundException e) {
+			return new ArrayList<User>();
+		}
 	}
 	
 	/* The following methods are for user details*/

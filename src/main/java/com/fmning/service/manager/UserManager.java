@@ -1,5 +1,6 @@
 package com.fmning.service.manager;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,14 @@ import com.fmning.service.domain.UserDetail;
 import com.fmning.service.exceptions.NotFoundException;
 
 public interface UserManager {
+	
+	/**
+	 * Get user by database Id
+	 * @param id the user db id
+	 * @return the user object
+	 * @throws NotFoundException if user with the id does not exist
+	 */
+	public User getUserById(int id) throws NotFoundException;
 	
 	/**
 	 * The method that handles web register, where there is no sending of salt and the password is not encrypted
@@ -122,6 +131,12 @@ public interface UserManager {
 	 */
 	public void changePassword(int userId, String password) 
 			throws IllegalStateException, NotFoundException;
+	
+	/**
+	 * Get all the users from database
+	 * @return
+	 */
+	public List<User> getAllUsers();
 	
 	/* The following methods are for user details*/
 
