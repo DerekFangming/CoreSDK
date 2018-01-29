@@ -66,12 +66,12 @@ public class UserManagerTests {
 	@Test
 	public void testCheckVerificationCode(){
 		try{
-			userManager.checkVeriCode("WRONG","");
+			userManager.checkVeriCode("WRONG","", "emailVeri");
 			fail(ErrorMessage.SHOULD_NOT_PASS_ERROR.getMsg());
 		}catch(NotFoundException e){
 		}
 		try{
-			userManager.checkVeriCode("TestUser@fmning.com","");
+			userManager.checkVeriCode("TestUser@fmning.com","", "emailVeri");
 		}catch(NotFoundException e){
 			if (!e.getMessage().equals(ErrorMessage.EMAIL_ALREADY_VERIFIED.getMsg())) {
 				fail(e.toString());

@@ -22,6 +22,13 @@ public interface HelperManager {
 	 * @return JWT code
 	 */
 	public String getEmailConfirmCode(String username);
+	
+	/**
+	 * Gnerate JWT auth token for changing password
+	 * @param username the username of the user
+	 * @return JWT code
+	 */
+	public String getChangePasswordCode(String username);
 
 	/**
 	 * Decode string formed JWT to a Java Map object containing all the key value pairs

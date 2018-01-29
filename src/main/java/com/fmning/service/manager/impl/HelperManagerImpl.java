@@ -69,6 +69,21 @@ public class HelperManagerImpl implements HelperManager{
 			return null;
 		}
 	}
+	
+	public String getChangePasswordCode(String username) {
+		String exp = Instant.now().plus(Duration.ofDays(1)).toString();
+		try {
+			Algorithm algorithm = Algorithm.HMAC256(SECRET);
+		    String token = JWT.create()
+		    		.withClaim("username", username)
+		    		.withClaim("action", "pwdVeri")
+		    		.withClaim("expire", exp)
+		    		.sign(algorithm);
+		    return token;
+		} catch (IllegalArgumentException | UnsupportedEncodingException e) {
+			return null;
+		}
+	}
 
 	@Override
 	public Map<String, Object> decodeJWT(String JWTStr) throws IllegalStateException{

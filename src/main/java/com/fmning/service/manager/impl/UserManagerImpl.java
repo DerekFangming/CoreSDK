@@ -49,6 +49,17 @@ public class UserManagerImpl implements UserManager{
 	}
 	
 	@Override
+	public User getUserByUsername(String username) throws NotFoundException {
+		List<QueryTerm> terms = new ArrayList<QueryTerm>();
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(username));
+		try{
+			return userDao.findObject(terms);
+		}catch(NotFoundException e){
+			throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
+		}
+	}
+	
+	@Override
 	public User webRegister(String username, String password) throws IllegalStateException {
 		String lowerUsername = username.toLowerCase();
 		if(checkUsername(lowerUsername))
@@ -116,7 +127,7 @@ public class UserManagerImpl implements UserManager{
 	}
 
 	@Override
-	public void checkVeriCode(String username, String code) throws NotFoundException {
+	public void checkVeriCode(String username, String code, String action) throws NotFoundException {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
 		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
 		User user;
@@ -125,8 +136,10 @@ public class UserManagerImpl implements UserManager{
 		} catch (NotFoundException e) {
 			throw new NotFoundException(ErrorMessage.INVALID_VERIFICATION_CODE.getMsg());
 		}
-		if (user.getEmailConfirmed()) {
-			throw new NotFoundException(ErrorMessage.EMAIL_ALREADY_VERIFIED.getMsg());
+		if (action.equals("emailVeri")) {//Return already confiemed meesgae before not on record
+			if (user.getEmailConfirmed()) {
+				throw new NotFoundException(ErrorMessage.EMAIL_ALREADY_VERIFIED.getMsg());
+			}
 		}
 		if (!user.getVeriToken().equals(code)) {
 			throw new NotFoundException(ErrorMessage.INVALID_VERIFICATION_CODE.getMsg());

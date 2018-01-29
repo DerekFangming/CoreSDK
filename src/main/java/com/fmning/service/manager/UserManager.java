@@ -20,6 +20,14 @@ public interface UserManager {
 	public User getUserById(int id) throws NotFoundException;
 	
 	/**
+	 * Get user by username
+	 * @param username the username
+	 * @return the user object
+	 * @throws NotFoundException if such user does not exist
+	 */
+	public User getUserByUsername(String username) throws NotFoundException;
+	
+	/**
 	 * The method that handles web register, where there is no sending of salt and the password is not encrypted
 	 * @param username the username
 	 * @param password the plain text password, without hashing
@@ -48,9 +56,10 @@ public interface UserManager {
 	 * Check if the verification code matches what exists on the user
 	 * @param username the user to be checked
 	 * @param code the verification code
+	 * @param action change email or password
 	 * @throws NotFoundException if the user with the verification code does not exist
 	 */
-	public void checkVeriCode(String username, String code) throws NotFoundException;
+	public void checkVeriCode(String username, String code, String action) throws NotFoundException;
 	
 	/**
 	 * Confirm that the email address of the user has been confirmed
@@ -66,7 +75,6 @@ public interface UserManager {
 	 * @throws NotFoundException id the user is not found by its username
 	 */
 	public void updateAccessToken(String username, String token) throws NotFoundException;
-	
 	
 	
 	/**
