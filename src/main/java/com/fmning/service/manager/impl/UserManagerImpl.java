@@ -51,7 +51,7 @@ public class UserManagerImpl implements UserManager{
 	@Override
 	public User getUserByUsername(String username) throws NotFoundException {
 		List<QueryTerm> terms = new ArrayList<QueryTerm>();
-		terms.add(UserDao.Field.USERNAME.getQueryTerm(username));
+		terms.add(UserDao.Field.USERNAME.getQueryTerm(username.toLowerCase()));
 		try{
 			return userDao.findObject(terms);
 		}catch(NotFoundException e){
@@ -230,7 +230,7 @@ public class UserManagerImpl implements UserManager{
 				throw new NotFoundException();
 			
 		}catch(NotFoundException | NoSuchAlgorithmException e){
-			throw new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMsg());
+			throw new NotFoundException(ErrorMessage.USERNAME_OR_PASSWORD_INCORRECT.getMsg());
 		}
 		
 		boolean recreateAccessToken = false;

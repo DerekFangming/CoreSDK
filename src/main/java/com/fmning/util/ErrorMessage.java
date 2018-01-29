@@ -14,7 +14,8 @@ public enum ErrorMessage {
 	USERNAME_UNAVAILABLE("The username is already taken. Please try a different one."),
 	USERNAME_TOO_LONG("Username cannot be logger than 32 characters."),
 	USERNAME_NOT_EMAIL("Username must be an email."),
-	USER_NOT_FOUND("Username or password is not correct. Please double check."),
+	USER_NOT_FOUND("The user does not exist."),
+	USERNAME_OR_PASSWORD_INCORRECT("Username or password is not correct. Please double check and try again."),
 	SESSION_EXPIRED("Session expired. Please login again."),
 	USER_INTERN_ERROR("Internal error. Please only use methods provided in SDK."),
 	LOGIN_FAIL("The username or password you entered is not correct. Please try again."),
@@ -23,7 +24,7 @@ public enum ErrorMessage {
 	EMAIL_NOT_CONFIRMED("Please confirm your email first."),
 	REQUESTED_USER_EMAIL_VERIFIED("The email for this user is already verified. Please refresh this page."),
 	INCORRECT_PASSWORD("The password you enterred is not correct."),
-	CHANGE_PWD_BUT_NOT_VERIFIED("You have to confirm your email before changing password."),
+	CHANGE_PWD_BUT_NOT_VERIFIED("You have to confirm your email before changing password. A email to confirm your email address has been sent to your inbox. Please check junk of trash folder if you can\' see it."),
 	//User detail related
 	USER_DETAIL_NOT_FOUND("The user does not have detail information."),
 	//Image related
