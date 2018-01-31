@@ -146,6 +146,14 @@ public interface UserManager {
 	 */
 	public List<User> getAllUsers();
 	
+	/**
+	 * Update the role id of user
+	 * @param userId the user
+	 * @param roleId the new role id
+	 * @throws NotFoundException if the user is not found
+	 */
+	public void setUserRole(int userId, int roleId) throws NotFoundException;
+	
 	/* The following methods are for user details*/
 
 	/**

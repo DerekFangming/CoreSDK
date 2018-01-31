@@ -353,12 +353,21 @@ public class UserManagerImpl implements UserManager{
 		userDao.update(user.getId(), newValues);
 	}
 	
+	@Override
 	public List<User> getAllUsers() {
 		try {
 			return userDao.findAllObjects();
 		} catch (NotFoundException e) {
 			return new ArrayList<User>();
 		}
+	}
+	
+	@Override
+	public void setUserRole(int userId, int roleId) throws NotFoundException {
+		List<NVPair> newValues = new ArrayList<NVPair>();
+		newValues.add(new NVPair(UserDao.Field.ROLE_ID.name, roleId));
+		
+		userDao.update(userId, newValues);
 	}
 	
 	/* The following methods are for user details*/
