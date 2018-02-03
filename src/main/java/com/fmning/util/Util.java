@@ -35,7 +35,7 @@ public class Util {
 		return ImageType.OTHERS.getName();
     }
 	
-	public static Map<String, Object> createErrorRespondFromException(Exception e){
+	/*public static Map<String, Object> createErrorRespondFromException(Exception e){
 		Map<String, Object> respond = new HashMap<String, Object>();
 		if(e instanceof NullPointerException || e instanceof NumberFormatException){
 			respond.put("error", ErrorMessage.INCORRECT_PARAM.getMsg());
@@ -57,7 +57,7 @@ public class Util {
 			respond.put("error", ErrorMessage.UNKNOWN_ERROR.getMsg());
 		}
 		return respond;
-	}
+	}*/
 	
 	public static String nullToEmptyString(String input){
 		if(input == null){

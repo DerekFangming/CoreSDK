@@ -1,0 +1,26 @@
+package com.fmning.service.manager;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+public interface ErrorManager {
+	
+	/**
+	 * Create error respond base on the exception. If exception is not acceptable, record to error log table
+	 * @param e the exception
+	 * @param request the servlet request object
+	 * @return a map with key error with error message
+	 */
+	public Map<String, Object> createErrorRespondFromException(Exception e, HttpServletRequest request);
+	
+	/**
+	 * Create error respond base on the exception. If exception is not acceptable, record to error log table
+	 * @param e the exception
+	 * @param url the url for current request
+	 * @param request the request object
+	 * @return a map with key error with error message
+	 */
+	public Map<String, Object> createErrorRespondFromException(Exception e, String url, Map<String, Object> request);
+
+}

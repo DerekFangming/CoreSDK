@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fmning.service.dao.CommentDao;
 import com.fmning.service.dao.DataSourceRegistry;
+import com.fmning.service.dao.ErrorLogDao;
 import com.fmning.service.dao.EventDao;
 import com.fmning.service.dao.FriendDao;
 import com.fmning.service.dao.ImageDao;
@@ -38,12 +39,13 @@ public enum CoreTableType implements SchemaTable
 	TICKETS(SdkDataSourceType.CORE, TicketDao.FieldTypes),
 	TICKET_TEMPLATES(SdkDataSourceType.CORE, TicketTemplateDao.FieldTypes),
 	PAYMENTS(SdkDataSourceType.CORE, PaymentDao.FieldTypes),
+	ERROR_LOGS(SdkDataSourceType.CORE, ErrorLogDao.FieldTypes),
 	
 	SURVIVAL_GUIDES(SdkDataSourceType.CORE, SurvivalGuideDao.FieldTypes),
 	WC_REPORTS(SdkDataSourceType.CORE, WcReportDao.FieldTypes),
 	WC_APP_VERSIONS(SdkDataSourceType.CORE, WcAppVersionDao.FieldTypes),
-	WC_ARTICLES(SdkDataSourceType.CORE, WcArticleDao.FieldTypes)
-;
+	WC_ARTICLES(SdkDataSourceType.CORE, WcArticleDao.FieldTypes),
+	;
 
 
 	private String dsNickname;
