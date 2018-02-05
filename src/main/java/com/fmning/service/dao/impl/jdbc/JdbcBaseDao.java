@@ -163,16 +163,11 @@ public abstract class JdbcBaseDao<T extends Object> implements CommonDao<T>
     qb.addNameValuePairs(values.getList());
     
     QueryInstance qi = qb.createQuery();
-try {
   
 
     // If something goes wrong, the caller will have to deal with it.
     namedTemplate.update(qi.getQueryStr(), qi.getParams(), generatedKeyHolder, RETURN_PK_NAME);
-}
-catch(Throwable t)
-{
-  System.out.println(t.toString());
-}
+
     int dbid = generatedKeyHolder.getKey().intValue();
       
     // Return the row's new ID

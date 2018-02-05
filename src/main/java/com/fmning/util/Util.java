@@ -1,5 +1,8 @@
 package com.fmning.util;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -12,6 +15,8 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import com.fmning.service.exceptions.NotFoundException;
 import com.fmning.service.exceptions.SessionExpiredException;
@@ -35,29 +40,38 @@ public class Util {
 		return ImageType.OTHERS.getName();
     }
 	
-	/*public static Map<String, Object> createErrorRespondFromException(Exception e){
-		Map<String, Object> respond = new HashMap<String, Object>();
-		if(e instanceof NullPointerException || e instanceof NumberFormatException){
-			respond.put("error", ErrorMessage.INCORRECT_PARAM.getMsg());
-		}else if(e instanceof IllegalStateException){
-			respond.put("error", e.getMessage());
-		}else if(e instanceof NotFoundException){
-			respond.put("error", e.getMessage());
-		}else if(e instanceof SessionExpiredException){
-			respond.put("error", ErrorMessage.SESSION_EXPIRED.getMsg());
-		}else if(e instanceof FileNotFoundException) {
-			respond.put("error", ErrorMessage.INCORRECT_INTER_IMG_PATH.getMsg());
-		}else if(e instanceof IOException){
-			respond.put("error", ErrorMessage.INCORRECT_INTER_IMG_IO.getMsg());
-		}else if(e instanceof InterruptedException){
-			// test delay only
-		}else{
-			//TODO Put into db
-			e.printStackTrace();
-			respond.put("error", ErrorMessage.UNKNOWN_ERROR.getMsg());
+	public static String shrinkImageAndGetDimension(int id) throws IOException {
+		String fileName = imagePath + Integer.toString(id) + ".jpg";
+		File outputfile = new File(fileName); 
+		BufferedImage img;
+		img = ImageIO.read(outputfile);
+		int width = img.getWidth();
+		int height = img.getHeight();
+		if (width > height) {
+			if (width > 2000) {
+				int newHeight = height * 2000 / width;
+				BufferedImage newImage = new BufferedImage(2000, newHeight, BufferedImage.TYPE_INT_RGB);
+
+				Graphics g = newImage.createGraphics();
+				g.drawImage(img, 0, 0, 2000, newHeight, null);
+				g.dispose();
+				ImageIO.write(newImage, "jpg", outputfile);
+				return "width=\"2000\" height=\"" + Integer.toString(newHeight) + "\"";
+			}
+		} else {
+			if (height > 2000) {
+				int newWidth = width * 2000 / height;
+				BufferedImage newImage = new BufferedImage(newWidth, 2000, BufferedImage.TYPE_INT_RGB);
+
+				Graphics g = newImage.createGraphics();
+				g.drawImage(img, 0, 0, newWidth, 2000, null);
+				g.dispose();
+				ImageIO.write(newImage, "jpg", outputfile);
+				return "width=\"" + Integer.toString(newWidth) + "\" height=\"2000\"";
+			}
 		}
-		return respond;
-	}*/
+		return "width=\"" + Integer.toString(width) + "\" height=\"" + Integer.toString(height) + "\"";
+	}
 	
 	public static String nullToEmptyString(String input){
 		if(input == null){

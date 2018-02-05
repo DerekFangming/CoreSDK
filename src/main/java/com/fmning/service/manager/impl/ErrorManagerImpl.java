@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -60,6 +61,9 @@ public class ErrorManagerImpl implements ErrorManager {
 		} else if (e instanceof IOException) {
 			writeToLog = true;
 			respond.put("error", ErrorMessage.INCORRECT_INTER_IMG_IO.getMsg());
+		} else if (e instanceof DataIntegrityViolationException) {
+			writeToLog = true;
+			respond.put("error", ErrorMessage.INTERNAL_LOGIC_ERROR.getMsg());
 		} else{
 			writeToLog = true;
 			respond.put("error", ErrorMessage.UNKNOWN_ERROR.getMsg());

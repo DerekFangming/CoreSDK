@@ -19,7 +19,7 @@ public enum ErrorMessage {
 	SESSION_EXPIRED("Session expired. Please login again."),
 	USER_INTERN_ERROR("Internal error. Please only use methods provided in SDK."),
 	LOGIN_FAIL("The username or password you entered is not correct. Please try again."),
-	INTERNAL_LOGIC_ERROR("Internal user error. Please report to admin."),
+	INTERNAL_LOGIC_ERROR("Internal error. Please report to admin@fmning.com."),
 	EMAIL_ALREADY_VERIFIED("Your email address is already verified. Please restart your app or log out and log back in again."),
 	EMAIL_NOT_CONFIRMED("Please confirm your email first."),
 	REQUESTED_USER_EMAIL_VERIFIED("The email for this user is already verified. Please refresh this page."),
