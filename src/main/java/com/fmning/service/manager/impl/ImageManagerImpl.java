@@ -6,7 +6,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +79,28 @@ public class ImageManagerImpl implements ImageManager{
 		File outputfile = new File(Util.imagePath + Integer.toString(id) + ".jpg");
     	ImageIO.write(img, "jpg", outputfile);
     	return id;
+	}
+	
+	public int createImage(URL url, String type, int typeMappingId, int ownerId, String title) 
+			throws FileNotFoundException, IOException {
+		try(InputStream in = url.openStream()){
+			Image image = new Image();
+			image.setLocation("");
+			image.setType(Util.verifyImageType(type));
+			image.setTypeMappingId(typeMappingId);
+			image.setCreatedAt(Instant.now());
+			image.setOwnerId(ownerId);
+			image.setEnabled(true);
+			image.setTitle(title);
+			
+			int id = imageDao.persist(image);
+			NVPair pair = new NVPair(ImageDao.Field.LOCATION.name, Util.imagePath + Integer.toString(id) + ".jpg");
+			imageDao.update(id, pair);
+			
+		    Files.copy(in, Paths.get(Util.imagePath + Integer.toString(id) + ".jpg"));
+		    return id;
+		}
+
 	}
 	
 	@Override
