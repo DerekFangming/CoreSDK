@@ -4,6 +4,7 @@ public enum ImageType {
 	AVATAR("Avatar"),
 	FEED("Feed"),
 	FEED_COVER("FeedCover"),
+	SURVIVAL_GUIDE("SG"),
 	OTHERS("Others");
 	
 	private final String name;

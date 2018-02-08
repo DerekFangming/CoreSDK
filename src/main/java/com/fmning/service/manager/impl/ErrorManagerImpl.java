@@ -29,6 +29,20 @@ import com.fmning.util.ErrorMessage;
 public class ErrorManagerImpl implements ErrorManager {
 	
 	@Autowired private ErrorLogDao errorLogDao;
+	
+	@Override
+	public void logError(Exception e) {
+		Writer writer = new StringWriter();
+		e.printStackTrace(new PrintWriter(writer));
+		String stackTrace = writer.toString();
+		
+		ErrorLog errorLog = new ErrorLog();
+		errorLog.setUrl(null);
+		errorLog.setParam(null);
+		errorLog.setTrace(stackTrace);
+		errorLog.setCreatedAt(Instant.now());
+		errorLogDao.persist(errorLog);
+	}
 
 	@Override
 	public Map<String, Object> createErrorRespondFromException(Exception e, HttpServletRequest request) {
@@ -52,7 +66,7 @@ public class ErrorManagerImpl implements ErrorManager {
 			respond.put("error", e.getMessage());
 		} else if(e instanceof SessionExpiredException) {
 			respond.put("error", ErrorMessage.SESSION_EXPIRED.getMsg());
-		} else if (e instanceof NullPointerException || e instanceof NumberFormatException) {
+		} else if (e instanceof NullPointerException || e instanceof NumberFormatException || e instanceof ClassCastException) {
 			writeToLog = true;
 			respond.put("error", ErrorMessage.INCORRECT_PARAM.getMsg());
 		} else if (e instanceof FileNotFoundException) {

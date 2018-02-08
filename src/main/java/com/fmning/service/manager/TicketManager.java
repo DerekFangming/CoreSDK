@@ -9,14 +9,13 @@ public interface TicketManager {
 	/**
 	 * Create ticket template object and save to database
 	 * @param location
-	 * @param serial the serial number for the ticket
 	 * @param description ticket description
 	 * @param logoText
 	 * @param bgColor background color in strip mode ticket
 	 * @param ownerId
 	 * @return database id of the new row
 	 */
-	public int createTicketTemplate(String location, int serial, String description, String logoText,
+	public int createTicketTemplate(String location, String description, String logoText,
 			String bgColor, int ownerId);
 	
 	/**

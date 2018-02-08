@@ -64,6 +64,8 @@ public enum ErrorMessage {
 	CHANGE_BALANCE_NOT_ALLOWED("You do not have permission to change event balance."),
 	TICKET_BALANCE_RANGE_ERROR("Ticket balance has to be in range 0 to 500."),
 	EVENT_WITHOUT_TICKET_TEMPLATE("Payment is processed but there is no ticket template. Please contact support."),
+	EVENT_NO_PERMISSION("Article is created but you do not have permission to create event."),
+	EVENT_NOT_CREATED("Article created but event failed to be created due to incorrect parameters. Please go to Admin portal and try adding event again to this article."),
 	//Ticket related
 	TICKET_NOT_FOUND("The ticket you are looking for does not exist."),
 	TICKET_NOT_OWNED("You do not own this ticket."),

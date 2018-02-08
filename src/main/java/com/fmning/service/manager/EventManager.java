@@ -19,10 +19,15 @@ public interface EventManager {
 	 * @param location
 	 * @param fee
 	 * @param ownerId
+	 * @param ticketTemplaceId
+	 * @param active
+	 * @param message
+	 * @param ticketBalance
 	 * @return the database id of the row
 	 */
 	public int createEvent(String type, int mappingId, String title, String description, Instant startTime,
-			Instant endTime, String location, int fee, int ownerId);
+			Instant endTime, String location, int fee, int ownerId, int ticketTemplaceId, boolean active,
+			String message, int ticketBalance);
 	
 	/**
 	 * Update an event by id.

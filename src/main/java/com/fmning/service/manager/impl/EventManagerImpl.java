@@ -29,7 +29,8 @@ public class EventManagerImpl implements EventManager{
 
 	@Override
 	public int createEvent(String type, int mappingId, String title, String description, Instant startTime,
-			Instant endTime, String location, int fee, int ownerId) {
+			Instant endTime, String location, int fee, int ownerId, int ticketTemplaceId, boolean active,
+			String message, int ticketBalance) {
 		Event event = new Event();
 		event.setType(type);
 		event.setMappingId(mappingId);

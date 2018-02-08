@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.fmning.service.dao.TicketDao;
 import com.fmning.service.dao.TicketTemplateDao;
+import com.fmning.service.dao.impl.NVPair;
 import com.fmning.service.dao.impl.QueryTerm;
 import com.fmning.service.domain.Ticket;
 import com.fmning.service.domain.TicketTemplate;
@@ -23,17 +24,22 @@ public class TicketManagerImpl implements TicketManager{
 	@Autowired private TicketTemplateDao ticketTemplateDao;
 
 	@Override
-	public int createTicketTemplate(String location, int serial, String description, String logoText, String bgColor,
+	public int createTicketTemplate(String location, String description, String logoText, String bgColor,
 			int ownerId) {
 		TicketTemplate ticketTemplate = new TicketTemplate();
 		ticketTemplate.setLocation(location);
-		ticketTemplate.setSerialNumber(serial);
+		ticketTemplate.setSerialNumber(0);
 		ticketTemplate.setDescription(description);
 		ticketTemplate.setLogoText(logoText);
 		ticketTemplate.setBgColor(bgColor);
 		ticketTemplate.setOwnerId(ownerId);
 		ticketTemplate.setCreatedAt(Instant.now());
-		return ticketTemplateDao.persist(ticketTemplate);
+		int dbId = ticketTemplateDao.persist(ticketTemplate);
+		
+		NVPair pair = new NVPair(TicketTemplateDao.Field.SERIAL_NUMBER.name, 1000000000 + dbId);
+		ticketTemplateDao.update(dbId, pair);
+		
+		return dbId;
 	}
 
 	@Override

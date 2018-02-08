@@ -7,6 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 public interface ErrorManager {
 	
 	/**
+	 * Log an exception into error log table
+	 * @param e the exception
+	 */
+	public void logError(Exception e);
+	
+	/**
 	 * Create error respond base on the exception. If exception is not acceptable, record to error log table
 	 * @param e the exception
 	 * @param request the servlet request object
