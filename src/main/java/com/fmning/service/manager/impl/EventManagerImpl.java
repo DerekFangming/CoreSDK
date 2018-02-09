@@ -29,7 +29,7 @@ public class EventManagerImpl implements EventManager{
 
 	@Override
 	public int createEvent(String type, int mappingId, String title, String description, Instant startTime,
-			Instant endTime, String location, double fee, int ownerId, int ticketTemplaceId, boolean active,
+			Instant endTime, String location, double fee, int ownerId, int ticketTemplateId, boolean active,
 			String message, int ticketBalance) {
 		Event event = new Event();
 		event.setType(type);
@@ -42,6 +42,10 @@ public class EventManagerImpl implements EventManager{
 		event.setFee(fee);
 		event.setOwnerId(ownerId);
 		event.setCreatedAt(Instant.now());
+		event.setTicketTemplateId(ticketTemplateId);
+		event.setActive(active);
+		event.setMessage(message);
+		event.setTicketBalance(ticketBalance);
 		return eventDao.persist(event);
 	}
 	
