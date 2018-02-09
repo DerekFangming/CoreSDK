@@ -31,7 +31,7 @@ public class JdbcEventDao extends JdbcBaseDao<Event> implements EventDao{
 		params.addValue(EventDao.Field.START_TIME.name, Util.parseDate(obj.getStartTime()));
 		params.addValue(EventDao.Field.END_TIME.name, Util.parseDate(obj.getEndTime()));
 		params.addValue(EventDao.Field.LOCATION.name, obj.getLocation());
-		params.addNullableNumValue(EventDao.Field.FEE.name, obj.getFee());
+		params.addValue(EventDao.Field.FEE.name, obj.getFee());
 		params.addValue(EventDao.Field.OWNER_ID.name, obj.getOwnerId());
 		params.addValue(EventDao.Field.CREATED_AT.name, Date.from(obj.getCreatedAt()));
 		params.addNullableNumValue(EventDao.Field.TICKET_TEMPLATE_ID.name, obj.getTicketTemplateId());
