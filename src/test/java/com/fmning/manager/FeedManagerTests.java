@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.TimeZone;
 
 import org.junit.BeforeClass;
@@ -43,14 +44,24 @@ public class FeedManagerTests {
 	
 	@Test
 	public void testPersistFeed() {
-		
-		
 		try {
 			feedManager.createFeed("title", "very very long type that will cause exception", "the body", 1);
 			fail(ErrorMessage.SHOULD_NOT_PASS_ERROR.getMsg());
 		} catch (Exception e) {
 			assertEquals(e.getClass().toString(), "class org.springframework.dao.DataIntegrityViolationException");
 		}
+	}
+	
+	@Test
+	public void testSearchFeed(){
+		List<Feed> feedList = feedManager.searchFeed("Trade", null);
+		assertEquals(feedList.size(), 1);
+	}
+	
+	@Test
+	public void testSearchFeed2(){
+		List<Feed> feedList = feedManager.searchFeed("Event", "%DRAGON NIGHT%");
+		assertEquals(feedList.size(), 1);
 	}
 
 }

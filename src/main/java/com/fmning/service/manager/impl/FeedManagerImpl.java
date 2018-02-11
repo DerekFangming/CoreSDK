@@ -75,6 +75,36 @@ public class FeedManagerImpl implements FeedManager{
 		feedDao.update(feed.getId(), pair);
 	}
 	
+	public List<Feed> searchFeed(String type, String keyword) throws NotFoundException {
+		boolean addFirst = true;
+		QueryBuilder qb = QueryType.getQueryBuilder(CoreTableType.FEEDS, QueryType.FIND);
+		
+		if (type != null) {
+			if (addFirst) {
+				addFirst = false;
+				qb.addFirstQueryExpression(new QueryTerm(FeedDao.Field.TYPE.name, RelationalOpType.EQ, type));
+			}
+		}
+		
+		if(keyword != null) {
+			keyword = "%" + keyword.toUpperCase() + "%";
+			if (addFirst) {
+				addFirst = false;
+				qb.addFirstQueryExpression(new QueryTerm(FeedDao.Field.BODY.name, RelationalOpType.LIKE, keyword));
+			} else {
+				qb.addNextQueryExpression(LogicalOpType.AND, 
+						new QueryTerm(FeedDao.Field.BODY.name, RelationalOpType.LIKE, keyword));
+			}
+		}
+		qb.setOrdering(FeedDao.Field.CREATED_AT.name, ResultsOrderType.DESCENDING);
+	    
+	    try{
+	    		return feedDao.findAllObjects(qb.createQuery());
+	    }catch(NotFoundException e){
+	    		throw new NotFoundException(ErrorMessage.NO_MORE_FEEDS_FOUND.getMsg());
+	    }
+	}
+	
 	@Override
 	public List<Feed> getRecentFeedByDate (Instant date, int limit) throws NotFoundException {
 		QueryBuilder qb = QueryType.getQueryBuilder(CoreTableType.FEEDS, QueryType.FIND);

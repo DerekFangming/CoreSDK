@@ -139,10 +139,12 @@ public enum RelationalOpType{
 	// Via: http://stackoverflow.com/questions/3246807/spring-like-clause
 	private StringBuilder defualtLikeMakeTerm(QueryTerm term)		{
 		return new StringBuilder()
+			.append("upper(")
 			.append(term.getField())
+			.append(")")
 			.append(this.asString)
-			.append("%")
-			.append(term.getSymbolicName())
-			.append("%");
+			//.append("%")
+			.append(term.getSymbolicName());
+			//.append("%");
 	}
 }

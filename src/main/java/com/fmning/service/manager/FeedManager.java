@@ -36,6 +36,15 @@ public interface FeedManager {
 	public void softDeleteFeed(int feedId, int ownerId) throws NotFoundException, IllegalStateException;
 	
 	/**
+	 * Search feeds by type and & or keyword. If they are null, skip them
+	 * @param type the feed type
+	 * @param keyword keyword of the feed
+	 * @return list of feed matching the search cretira
+	 * @throws NotFoundException if no feed found matching the search
+	 */
+	public List<Feed> searchFeed(String type, String keyword) throws NotFoundException;
+	
+	/**
 	 * Get a list of most recent feed by the provided date. The maximum number of feed returned
 	 * is smaller or equal to the limit
 	 * All feeds are posted by the given user
