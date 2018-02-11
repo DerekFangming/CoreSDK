@@ -25,6 +25,7 @@ import com.fmning.service.exceptions.NotFoundException;
 import com.fmning.service.manager.FeedManager;
 import com.fmning.util.ErrorMessage;
 import com.fmning.util.ImageType;
+import com.fmning.util.Util;
 
 @Component
 public class FeedManagerImpl implements FeedManager{
@@ -34,6 +35,12 @@ public class FeedManagerImpl implements FeedManager{
 	@Override
 	public int createFeed(String title, String type, String body, int ownerId){
 		
+		return createFeed(title, type, body, ownerId, Util.nullInt);
+	}
+	
+	@Override
+	public int createFeed(String title, String type, String body, int ownerId, int updatedBy){
+		
 		Feed feed = new Feed();
 		feed.setTitle(title);
 		feed.setType(type);
@@ -41,6 +48,7 @@ public class FeedManagerImpl implements FeedManager{
 		feed.setEnabled(true);
 		feed.setOwnerId(ownerId);
 		feed.setCreatedAt(Instant.now());
+		feed.setUpdatedBy(updatedBy);
 		
 		return feedDao.persist(feed);
 	}

@@ -16,7 +16,8 @@ public interface FeedDao extends CommonDao<Feed>{
 		BODY,
 		OWNER_ID,
 		ENABLED,
-		CREATED_AT;
+		CREATED_AT,
+		UPDATED_BY;
 
 		public boolean isPK = false;
 		public String name;
@@ -48,6 +49,7 @@ public interface FeedDao extends CommonDao<Feed>{
 		new Pair<Enum<?>, String>(Field.BODY, "TEXT"),
 		new Pair<Enum<?>, String>(Field.OWNER_ID, "INTEGER NOT NULL"),
 		new Pair<Enum<?>, String>(Field.ENABLED, "BOOLEAN NOT NULL"),
-		new Pair<Enum<?>, String>(Field.CREATED_AT, "TIMESTAMP WITHOUT TIME ZONE NOT NULL"));
+		new Pair<Enum<?>, String>(Field.CREATED_AT, "TIMESTAMP WITHOUT TIME ZONE NOT NULL"),
+		new Pair<Enum<?>, String>(Field.UPDATED_BY, "INTEGER"));
 
 }

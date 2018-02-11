@@ -11,6 +11,7 @@ import com.fmning.service.dao.FeedDao;
 import com.fmning.service.dao.impl.CoreTableType;
 import com.fmning.service.dao.impl.NVPairList;
 import com.fmning.service.domain.Feed;
+import com.fmning.util.Util;
 
 @Repository
 @Jdbc
@@ -29,6 +30,7 @@ public class JdbcFeedDao extends JdbcBaseDao<Feed> implements FeedDao{
 		params.addValue(FeedDao.Field.OWNER_ID.name, obj.getOwnerId());
 		params.addValue(FeedDao.Field.ENABLED.name, obj.getEnabled());
 		params.addValue(FeedDao.Field.CREATED_AT.name, Date.from(obj.getCreatedAt()));
+		params.addNullableNumValue(FeedDao.Field.UPDATED_BY.name, obj.getUpdatedBy());
 
 		return params;
 	}
@@ -47,6 +49,7 @@ public class JdbcFeedDao extends JdbcBaseDao<Feed> implements FeedDao{
 				obj.setOwnerId(rs.getInt(FeedDao.Field.OWNER_ID.name));
 				obj.setEnabled(rs.getBoolean(FeedDao.Field.ENABLED.name));
 				obj.setCreatedAt(rs.getTimestamp(FeedDao.Field.CREATED_AT.name).toInstant());
+				obj.setUpdatedBy(Util.getNullableInt(rs, FeedDao.Field.UPDATED_BY.name));
 
 				return obj;
 			}

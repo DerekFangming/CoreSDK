@@ -10,6 +10,7 @@ public class Feed {
 	private int ownerId;
 	private boolean enabled;
 	private Instant createdAt;
+	private int updatedBy;
 
 	public int getId() {
 		return id;
@@ -65,6 +66,14 @@ public class Feed {
 
 	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public int getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(int updatedBy) {
+		this.updatedBy = updatedBy;
 	}
 
 }

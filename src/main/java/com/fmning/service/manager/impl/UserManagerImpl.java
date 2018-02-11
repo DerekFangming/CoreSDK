@@ -313,10 +313,10 @@ public class UserManagerImpl implements UserManager{
 	public String getUserDisplayedName(int userId) throws NotFoundException{
 		try{
 			UserDetail userDetail = getUserDetail(userId);
-			if(userDetail.getNickname() != null){
-				return userDetail.getNickname();
-			}else if(userDetail.getName() != null){
+			if(userDetail.getName() != null){
 				return userDetail.getName();
+			}else if(userDetail.getNickname() != null){
+				return userDetail.getNickname();
 			}else{
 				throw new NotFoundException();
 			}

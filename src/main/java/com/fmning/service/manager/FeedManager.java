@@ -14,9 +14,11 @@ public interface FeedManager {
 	 * @param type the type of the feed
 	 * @param body the feed body of this 
 	 * @param ownerId the user id of the owner of this feed
+	 * @param updatedBy the user who updated the article
 	 * @return the id of this feed
 	 */
 	public int createFeed(String title, String type, String body, int ownerId);
+	public int createFeed(String title, String type, String body, int ownerId, int updatedBy);
 	
 	/**
 	 * Get feed object from feed id

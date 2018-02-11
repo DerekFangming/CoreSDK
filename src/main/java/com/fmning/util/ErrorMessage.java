@@ -49,6 +49,7 @@ public enum ErrorMessage {
 	UNAUTHORIZED_FEED_DELETE("Cannot delete an feed that is not yours."),
 	INVALID_FEED_COVER("This feed has an invalid cover image."),
 	INVALID_FEED_INPUT("Can not create feed with empty title, body or type."),
+	FEED_NO_PERMISSION("You do not have permission to create an event. You do not have an admin role."),
 	//Comment related
 	COMMENT_NOT_FOUND("The comment you are looking for does not exist."),
 	NO_COMMENT_TO_DELETE("The comment you are trying to delete does not exist."),
