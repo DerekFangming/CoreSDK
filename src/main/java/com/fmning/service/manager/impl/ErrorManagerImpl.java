@@ -59,27 +59,24 @@ public class ErrorManagerImpl implements ErrorManager {
 	
 	private Map<String, Object> createErrorRespondFromException (Exception e, String url, String params) {
 		Map<String, Object> respond = new HashMap<String, Object>();
-		boolean writeToLog = false;
-		if (e instanceof IllegalStateException) {
-			respond.put("error", e.getMessage());
-		} else if (e instanceof NotFoundException) {
+		boolean writeToLog = true;
+		if (e instanceof NotFoundException) {
+			writeToLog = false;
 			respond.put("error", e.getMessage());
 		} else if(e instanceof SessionExpiredException) {
+			writeToLog = false;
 			respond.put("error", ErrorMessage.SESSION_EXPIRED.getMsg());
+		} else if (e instanceof IllegalStateException) {
+			respond.put("error", e.getMessage());
 		} else if (e instanceof NullPointerException || e instanceof NumberFormatException || e instanceof ClassCastException) {
-			writeToLog = true;
 			respond.put("error", ErrorMessage.INCORRECT_PARAM.getMsg());
 		} else if (e instanceof FileNotFoundException) {
-			writeToLog = true;
 			respond.put("error", ErrorMessage.INCORRECT_INTER_IMG_PATH.getMsg());
 		} else if (e instanceof IOException) {
-			writeToLog = true;
 			respond.put("error", ErrorMessage.INCORRECT_INTER_IMG_IO.getMsg());
 		} else if (e instanceof DataIntegrityViolationException) {
-			writeToLog = true;
 			respond.put("error", ErrorMessage.INTERNAL_LOGIC_ERROR.getMsg());
 		} else{
-			writeToLog = true;
 			respond.put("error", ErrorMessage.UNKNOWN_ERROR.getMsg());
 		}
 		

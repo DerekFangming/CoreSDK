@@ -59,7 +59,7 @@ public class EventManagerTests {
 	@Test
 	public void testGetRecentEvents(){
 		List<Event> eventList = eventManager.getRecentEventByDate(Instant.now(), 20);
-		assertEquals(eventList.size(), 3);
+		assertEquals(eventList.size(), 6);
 		
 		eventList = eventManager.getRecentEventByDate(Instant.now(), 1);
 		assertEquals(eventList.size(), 1);

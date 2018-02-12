@@ -150,9 +150,10 @@ public interface UserManager {
 	 * Update the role id of user
 	 * @param userId the user
 	 * @param roleId the new role id
+	 * @param updatedBy the user that performs the update
 	 * @throws NotFoundException if the user is not found
 	 */
-	public void setUserRole(int userId, int roleId) throws NotFoundException;
+	public void setUserRole(int userId, int roleId, int updatedBy) throws NotFoundException;
 	
 	/* The following methods are for user details*/
 

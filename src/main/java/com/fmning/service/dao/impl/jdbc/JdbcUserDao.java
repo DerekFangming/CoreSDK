@@ -32,6 +32,7 @@ public class JdbcUserDao extends JdbcBaseDao<User> implements UserDao{
 		params.addValue(UserDao.Field.EMAIL_CONFIRMED.name, obj.getEmailConfirmed());
 		params.addValue(UserDao.Field.SALT.name, obj.getSalt());
 		params.addValue(UserDao.Field.ROLE_ID.name, obj.getRoleId());
+		params.addNullableNumValue(UserDao.Field.UPDATED_BY.name, obj.getUpdatedBy());
 
 		return params;
 	}
@@ -52,6 +53,7 @@ public class JdbcUserDao extends JdbcBaseDao<User> implements UserDao{
 				obj.setEmailConfirmed(rs.getBoolean(UserDao.Field.EMAIL_CONFIRMED.name));
 				obj.setSalt(rs.getString(UserDao.Field.SALT.name));
 				obj.setRoleId(rs.getInt(UserDao.Field.ROLE_ID.name));
+				obj.setUpdatedBy(Util.getNullableInt(rs,UserDao.Field.UPDATED_BY.name));
 
 				return obj;
 			}

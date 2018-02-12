@@ -12,6 +12,7 @@ public class User {
 	private boolean emailConfirmed;
 	private String salt;
 	private int roleId;
+	private int updatedBy;
 	
 	//Following params are not from DB
 	private boolean tokenUpdated = false;
@@ -87,6 +88,14 @@ public class User {
 
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
+	}
+
+	public int getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(int updatedBy) {
+		this.updatedBy = updatedBy;
 	}
 	
 	public boolean isTokenUpdated() {

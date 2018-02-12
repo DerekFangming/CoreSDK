@@ -117,7 +117,6 @@ public class FeedManagerImpl implements FeedManager{
 	public List<Feed> getRecentFeedByDate (Instant date, int limit) throws NotFoundException {
 		QueryBuilder qb = QueryType.getQueryBuilder(CoreTableType.FEEDS, QueryType.FIND);
 	    
-	    //qb.addFirstQueryExpression(new QueryTerm(FeedDao.Field.OWNER_ID.name, RelationalOpType.EQ, ownerId));
 	    qb.addFirstQueryExpression(new QueryTerm(FeedDao.Field.CREATED_AT.name, RelationalOpType.LT, Date.from(date)));
 	    qb.addNextQueryExpression(LogicalOpType.AND,
 	    		new QueryTerm(FeedDao.Field.ENABLED.name, RelationalOpType.EQ, true));
@@ -129,6 +128,28 @@ public class FeedManagerImpl implements FeedManager{
 	    }catch(NotFoundException e){
 	    		throw new NotFoundException(ErrorMessage.NO_MORE_FEEDS_FOUND.getMsg());
 	    }
+	}
+	
+	@Override
+	public List<Feed> getRecentFeedByPageIndex(int index, int limit) throws NotFoundException {
+		
+		QueryBuilder qb = QueryType.getQueryBuilder(CoreTableType.FEEDS, QueryType.FIND);
+	    
+	    qb.addFirstQueryExpression(new QueryTerm(FeedDao.Field.ENABLED.name, RelationalOpType.EQ, true));
+	    qb.setOrdering(FeedDao.Field.CREATED_AT.name, ResultsOrderType.DESCENDING);
+	    qb.setLimit(limit);
+	    qb.setOffset(index * limit);
+	    
+	    try{
+	    		return feedDao.findAllObjects(qb.createQuery());
+	    }catch(NotFoundException e){
+	    		throw new NotFoundException(ErrorMessage.NO_MORE_FEEDS_FOUND.getMsg());
+	    }
+	}
+	
+	@Override
+	public int getFeedCount() {
+		return feedDao.getCount(new QueryTerm(FeedDao.Field.ENABLED.name, RelationalOpType.EQ, true));
 	}
 
 	@Override

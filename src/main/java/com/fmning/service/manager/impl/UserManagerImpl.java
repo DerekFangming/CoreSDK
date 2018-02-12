@@ -363,9 +363,10 @@ public class UserManagerImpl implements UserManager{
 	}
 	
 	@Override
-	public void setUserRole(int userId, int roleId) throws NotFoundException {
+	public void setUserRole(int userId, int roleId, int updatedBy) throws NotFoundException {
 		List<NVPair> newValues = new ArrayList<NVPair>();
 		newValues.add(new NVPair(UserDao.Field.ROLE_ID.name, roleId));
+		newValues.add(new NVPair(UserDao.Field.UPDATED_BY.name, updatedBy));
 		
 		userDao.update(userId, newValues);
 	}

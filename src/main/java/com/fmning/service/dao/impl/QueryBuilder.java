@@ -20,6 +20,7 @@ public class QueryBuilder
 	private MapSqlParameterSource params = null;
 	
 	private int limit = 0;
+	private int offset = 0;
 	private ResultsOrderType ordering = ResultsOrderType.NONE;
 	private String orderingField = null;
 	
@@ -377,6 +378,12 @@ public class QueryBuilder
 		return this;
 	}
 	
+	public QueryBuilder setOffset(int offset){
+		this.offset = offset;
+		
+		return this;
+	}
+	
 	public QueryBuilder setOrdering(String orderingField, ResultsOrderType orderType){
 		this.ordering = orderType;
 		this.orderingField = orderingField;
@@ -396,6 +403,11 @@ public class QueryBuilder
 		if(this.limit > 0){
 			querySB.append(" LIMIT ")
 			.append(this.limit);
+		}
+		
+		if(this.offset > 0){
+			querySB.append(" OFFSET ")
+			.append(this.offset);
 		}
 		
 		String query = querySB.toString();

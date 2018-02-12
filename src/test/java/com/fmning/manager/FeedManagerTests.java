@@ -3,10 +3,10 @@ package com.fmning.manager;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.TimeZone;
 
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.fmning.service.domain.Feed;
 import com.fmning.service.manager.FeedManager;
 import com.fmning.util.ErrorMessage;
-import com.fmning.util.Util;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/sdkUnitTesting.xml")
@@ -62,6 +61,18 @@ public class FeedManagerTests {
 	public void testSearchFeed2(){
 		List<Feed> feedList = feedManager.searchFeed("Event", "%DRAGON NIGHT%");
 		assertEquals(feedList.size(), 1);
+	}
+	
+	@Test
+	public void testGetFeedByPageIndex(){
+		List<Feed> feedList = feedManager.getRecentFeedByPageIndex(0, 10);
+		assertEquals(feedList.size(), 10);
+	}
+	
+	@Test
+	public void testGetFeedCount(){
+		int count = feedManager.getFeedCount();
+		Assert.assertTrue(count > 10);
 	}
 
 }
