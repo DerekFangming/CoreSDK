@@ -68,6 +68,16 @@ public interface FeedManager {
 	public List<Feed> getRecentFeedByPageIndex(int index, int limit) throws NotFoundException;
 	
 	/**
+	 * Get a list of most recent feed by creator id. The maximum number of feed returned
+	 * is smaller or equal to the limit.
+	 * @param index the page index, starts from 0
+	 * @param limit number of feeds per page
+	 * @return a list of feeds that meet the criteria
+	 * @throws NotFoundException
+	 */
+	public List<Feed> getRecentFeedByCreator(int ownerId, int limit) throws NotFoundException;
+	
+	/**
 	 * Get the number of all enabled feeds in database
 	 * @return the count of all feeds
 	 */

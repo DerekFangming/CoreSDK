@@ -99,9 +99,15 @@ public class FeedManagerImpl implements FeedManager{
 			if (addFirst) {
 				addFirst = false;
 				qb.addFirstQueryExpression(new QueryTerm(FeedDao.Field.BODY.name, RelationalOpType.LIKE, keyword));
+				qb.addNextQueryExpression(LogicalOpType.OR,
+						new QueryTerm(FeedDao.Field.TITLE.name, RelationalOpType.LIKE, keyword));
 			} else {
 				qb.addNextQueryExpression(LogicalOpType.AND, 
 						new QueryTerm(FeedDao.Field.BODY.name, RelationalOpType.LIKE, keyword));
+				qb.addNextQueryExpression(LogicalOpType.OR,
+						new QueryTerm(FeedDao.Field.TYPE.name, RelationalOpType.EQ, type));
+				qb.addNextQueryExpression(LogicalOpType.AND,
+						new QueryTerm(FeedDao.Field.TITLE.name, RelationalOpType.LIKE, keyword));
 			}
 		}
 		qb.setOrdering(FeedDao.Field.CREATED_AT.name, ResultsOrderType.DESCENDING);
@@ -124,9 +130,9 @@ public class FeedManagerImpl implements FeedManager{
 	    qb.setLimit(limit);
 	    
 	    try{
-	    		return feedDao.findAllObjects(qb.createQuery());
+	    	return feedDao.findAllObjects(qb.createQuery());
 	    }catch(NotFoundException e){
-	    		throw new NotFoundException(ErrorMessage.NO_MORE_FEEDS_FOUND.getMsg());
+	    	throw new NotFoundException(ErrorMessage.NO_MORE_FEEDS_FOUND.getMsg());
 	    }
 	}
 	
@@ -141,9 +147,27 @@ public class FeedManagerImpl implements FeedManager{
 	    qb.setOffset(index * limit);
 	    
 	    try{
-	    		return feedDao.findAllObjects(qb.createQuery());
+	    	return feedDao.findAllObjects(qb.createQuery());
 	    }catch(NotFoundException e){
-	    		throw new NotFoundException(ErrorMessage.NO_MORE_FEEDS_FOUND.getMsg());
+	    	throw new NotFoundException(ErrorMessage.NO_MORE_FEEDS_FOUND.getMsg());
+	    }
+	}
+	
+	@Override
+	public List<Feed> getRecentFeedByCreator(int ownerId, int limit) throws NotFoundException {
+
+		QueryBuilder qb = QueryType.getQueryBuilder(CoreTableType.FEEDS, QueryType.FIND);
+	    
+	    qb.addFirstQueryExpression(new QueryTerm(FeedDao.Field.ENABLED.name, RelationalOpType.EQ, true));
+	    qb.addNextQueryExpression(LogicalOpType.AND,
+	    		new QueryTerm(FeedDao.Field.OWNER_ID.name, RelationalOpType.EQ, ownerId));
+	    qb.setOrdering(FeedDao.Field.CREATED_AT.name, ResultsOrderType.DESCENDING);
+	    qb.setLimit(limit);
+	    
+	    try{
+	    	return feedDao.findAllObjects(qb.createQuery());
+	    }catch(NotFoundException e){
+	    	throw new NotFoundException(ErrorMessage.NO_MORE_FEEDS_FOUND.getMsg());
 	    }
 	}
 	
