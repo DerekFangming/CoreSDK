@@ -32,10 +32,12 @@ public interface FeedManager {
 	 * Soft delete a feed
 	 * @param feedId the Id of the feed object
 	 * @param ownserId the owner id of the feed
+	 * @param updatedBy the user who updated the article
 	 * @throws NotFoundException if the feed does not exist
 	 * @throws IllegalStateException if the user is not the owner of the image
 	 */
 	public void softDeleteFeed(int feedId, int ownerId) throws NotFoundException, IllegalStateException;
+	public void softDeleteFeed(int feedId, int ownerId, int updatedBy) throws NotFoundException, IllegalStateException;
 	
 	/**
 	 * Search feeds by type and & or keyword. If they are null, skip them

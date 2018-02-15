@@ -36,12 +36,27 @@ public class ErrorManagerImpl implements ErrorManager {
 		e.printStackTrace(new PrintWriter(writer));
 		String stackTrace = writer.toString();
 		
-		ErrorLog errorLog = new ErrorLog();
-		errorLog.setUrl(null);
-		errorLog.setParam(null);
-		errorLog.setTrace(stackTrace);
-		errorLog.setCreatedAt(Instant.now());
-		errorLogDao.persist(errorLog);
+		saveToErrorLog(null, null, stackTrace);
+	}
+	
+	@Override
+	public void logError(Exception e, HttpServletRequest request) {
+		Writer writer = new StringWriter();
+		e.printStackTrace(new PrintWriter(writer));
+		String stackTrace = writer.toString();
+		
+		StringBuffer requestURL = request.getRequestURL();
+	    String queryString = request.getQueryString();
+	    saveToErrorLog(requestURL.toString(), queryString, stackTrace);
+	}
+	
+	@Override
+	public void logError(Exception e, String url, Map<String, Object> request) {
+		Writer writer = new StringWriter();
+		e.printStackTrace(new PrintWriter(writer));
+		String stackTrace = writer.toString();
+		
+		saveToErrorLog(url, getPostRequestsString(request), stackTrace); 
 	}
 
 	@Override
@@ -53,7 +68,6 @@ public class ErrorManagerImpl implements ErrorManager {
 
 	@Override
 	public Map<String, Object> createErrorRespondFromException(Exception e, String url, Map<String, Object> request) {
-		// TODO Auto-generated method stub
 		return createErrorRespondFromException(e, url, getPostRequestsString(request));
 	}
 	
@@ -81,30 +95,33 @@ public class ErrorManagerImpl implements ErrorManager {
 		}
 		
 		if(writeToLog) {
-			try {
-				Writer writer = new StringWriter();
-				e.printStackTrace(new PrintWriter(writer));
-				String stackTrace = writer.toString();
-				
-				ErrorLog errorLog = new ErrorLog();
-				errorLog.setUrl(StringUtils.abbreviate(url, 100));
-				errorLog.setParam(params);
-				errorLog.setTrace(stackTrace);
-				errorLog.setCreatedAt(Instant.now());
-				errorLogDao.persist(errorLog);
-			} catch (Exception e1) {
-				try {
-					ErrorLog errorLog = new ErrorLog();
-					errorLog.setUrl(StringUtils.abbreviate(url, 100));
-					errorLog.setParam(params);
-					errorLog.setTrace("Cannot read or having other issues");
-					errorLog.setCreatedAt(Instant.now());
-					errorLogDao.persist(errorLog);
-				} catch(Exception e2){}
-			}
+			Writer writer = new StringWriter();
+			e.printStackTrace(new PrintWriter(writer));
+			String stackTrace = writer.toString();
+			saveToErrorLog(url, params, stackTrace);
 		}
 		
 		return respond;
+	}
+	
+	private void saveToErrorLog(String url, String params, String trace) {
+		try {
+			ErrorLog errorLog = new ErrorLog();
+			errorLog.setUrl(StringUtils.abbreviate(url, 100));
+			errorLog.setParam(params);
+			errorLog.setTrace(trace);
+			errorLog.setCreatedAt(Instant.now());
+			errorLogDao.persist(errorLog);
+		} catch (Exception e1) {
+			try {
+				ErrorLog errorLog = new ErrorLog();
+				errorLog.setUrl(StringUtils.abbreviate(url, 100));
+				errorLog.setParam(params);
+				errorLog.setTrace("Cannot read or having other issues");
+				errorLog.setCreatedAt(Instant.now());
+				errorLogDao.persist(errorLog);
+			} catch(Exception e2){}
+		}
 	}
 	
 	private String getPostRequestsString(Map<String, Object> request) {

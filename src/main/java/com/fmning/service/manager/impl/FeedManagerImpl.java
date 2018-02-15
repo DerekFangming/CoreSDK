@@ -68,6 +68,11 @@ public class FeedManagerImpl implements FeedManager{
 	
 	@Override
 	public void softDeleteFeed(int feedId, int ownerId) throws NotFoundException, IllegalStateException{
+		softDeleteFeed(feedId, ownerId, Util.nullInt);
+	}
+	
+	@Override
+	public void softDeleteFeed(int feedId, int ownerId, int updatedBy) throws NotFoundException, IllegalStateException {
 		QueryTerm value = FeedDao.Field.ID.getQueryTerm(feedId);
 		Feed feed;
 		try{
@@ -78,9 +83,12 @@ public class FeedManagerImpl implements FeedManager{
 		
 		if(feed.getOwnerId() != ownerId)
 			throw new IllegalStateException(ErrorMessage.UNAUTHORIZED_FEED_DELETE.getMsg());
-		
-		NVPair pair = new NVPair(FeedDao.Field.ENABLED.name, false);
-		feedDao.update(feed.getId(), pair);
+		List<NVPair> newValues = new ArrayList<>();
+		newValues.add(new NVPair(FeedDao.Field.ENABLED.name, false));
+		if (updatedBy != Util.nullInt) {
+			newValues.add(new NVPair(FeedDao.Field.UPDATED_BY.name, updatedBy));
+		}
+		feedDao.update(feed.getId(), newValues);
 	}
 	
 	public List<Feed> searchFeed(String type, String keyword) throws NotFoundException {
@@ -99,15 +107,30 @@ public class FeedManagerImpl implements FeedManager{
 			if (addFirst) {
 				addFirst = false;
 				qb.addFirstQueryExpression(new QueryTerm(FeedDao.Field.BODY.name, RelationalOpType.LIKE, keyword));
+				qb.addNextQueryExpression(LogicalOpType.AND,
+						new QueryTerm(FeedDao.Field.ENABLED.name, RelationalOpType.EQ, true));
 				qb.addNextQueryExpression(LogicalOpType.OR,
 						new QueryTerm(FeedDao.Field.TITLE.name, RelationalOpType.LIKE, keyword));
+				qb.addNextQueryExpression(LogicalOpType.AND,
+						new QueryTerm(FeedDao.Field.ENABLED.name, RelationalOpType.EQ, true));
 			} else {
 				qb.addNextQueryExpression(LogicalOpType.AND, 
 						new QueryTerm(FeedDao.Field.BODY.name, RelationalOpType.LIKE, keyword));
+				qb.addNextQueryExpression(LogicalOpType.AND,
+						new QueryTerm(FeedDao.Field.ENABLED.name, RelationalOpType.EQ, true));
 				qb.addNextQueryExpression(LogicalOpType.OR,
 						new QueryTerm(FeedDao.Field.TYPE.name, RelationalOpType.EQ, type));
 				qb.addNextQueryExpression(LogicalOpType.AND,
 						new QueryTerm(FeedDao.Field.TITLE.name, RelationalOpType.LIKE, keyword));
+				qb.addNextQueryExpression(LogicalOpType.AND,
+						new QueryTerm(FeedDao.Field.ENABLED.name, RelationalOpType.EQ, true));
+			}
+		} else {
+			if (addFirst) {
+				qb.addFirstQueryExpression(new QueryTerm(FeedDao.Field.ENABLED.name, RelationalOpType.EQ, true));
+			} else {
+				qb.addNextQueryExpression(LogicalOpType.AND,
+						new QueryTerm(FeedDao.Field.ENABLED.name, RelationalOpType.EQ, true));
 			}
 		}
 		qb.setOrdering(FeedDao.Field.CREATED_AT.name, ResultsOrderType.DESCENDING);

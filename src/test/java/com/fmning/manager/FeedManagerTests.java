@@ -54,7 +54,7 @@ public class FeedManagerTests {
 	@Test
 	public void testSearchFeed(){
 		List<Feed> feedList = feedManager.searchFeed("Trade", null);
-		assertEquals(feedList.size(), 1);
+		assertEquals(feedList.size() > 1, true);
 	}
 	
 	@Test

@@ -9,8 +9,12 @@ public interface ErrorManager {
 	/**
 	 * Log an exception into error log table
 	 * @param e the exception
+	 * @param url the url for current request
+	 * @param request the request object
 	 */
 	public void logError(Exception e);
+	public void logError(Exception e, HttpServletRequest request);
+	public void logError(Exception e, String url, Map<String, Object> request);
 	
 	/**
 	 * Create error respond base on the exception. If exception is not acceptable, record to error log table
