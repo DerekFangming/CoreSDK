@@ -7,12 +7,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.springframework.stereotype.Component;
 import com.auth0.jwt.*;
@@ -30,27 +36,54 @@ public class HelperManagerImpl implements HelperManager{
 	public static final String SECRET = "PJNing";
 	
 	@Override
-	public void sendEmail(String from, String to, String subject, String content){
+	public void sendEmail(String from, String to, String subject, String content) throws MessagingException{
+		String host = "localhost";
+		Properties properties = System.getProperties();
+		properties.setProperty("mail.smtp.host", host);
 
-	      String host = "localhost";
-	      Properties properties = System.getProperties();
-	      properties.setProperty("mail.smtp.host", host);
+		Session session = Session.getDefaultInstance(properties);
+		MimeMessage message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(from));
+		if (to.indexOf(',') > 0){
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+		} else {
+			message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+		}
+		message.setSubject(subject);
+		message.setText(content);
+		Transport.send(message);
+	}
+	
+	public void sendEmail(String from, String to, String subject, String content, String filePath, String fileName) throws MessagingException {
+		String host = "localhost";
+		Properties properties = System.getProperties();
+		properties.setProperty("mail.smtp.host", host);
 
-	      Session session = Session.getDefaultInstance(properties);
-	      try{
-	         MimeMessage message = new MimeMessage(session);
-	         message.setFrom(new InternetAddress(from));
-	         if (to.indexOf(',') > 0){
-	        	 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));   
-	         } else {
-	        	 message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-	         }
-	         message.setSubject(subject);
-	         message.setText(content);
-	         Transport.send(message);
-	      }catch (MessagingException mex) {
-	         mex.printStackTrace();
-	      }
+		Session session = Session.getDefaultInstance(properties);
+		MimeMessage message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(from));
+		if (to.indexOf(',') > 0){
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+		} else {
+			message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+		}
+		message.setSubject(subject);
+		
+		Multipart multipart = new MimeMultipart();
+
+        MimeBodyPart textBodyPart = new MimeBodyPart();
+        textBodyPart.setText(content);
+
+        MimeBodyPart attachmentBodyPart= new MimeBodyPart();
+        DataSource source = new FileDataSource(filePath);
+        attachmentBodyPart.setDataHandler(new DataHandler(source));
+        attachmentBodyPart.setFileName(fileName);
+
+        multipart.addBodyPart(textBodyPart);
+        multipart.addBodyPart(attachmentBodyPart);
+		
+		
+		Transport.send(message);
 	}
 
 	@Override

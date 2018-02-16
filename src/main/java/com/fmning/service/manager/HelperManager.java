@@ -3,6 +3,8 @@ package com.fmning.service.manager;
 import java.time.Instant;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+
 import com.fmning.service.exceptions.SessionExpiredException;
 
 public interface HelperManager {
@@ -13,8 +15,11 @@ public interface HelperManager {
 	 * @param to recipient email address
 	 * @param subject email subject
 	 * @param content email body
+	 * @param filePath the path to the attachment file
+	 * @param fileName the attachment file name
 	 */
-	public void sendEmail(String from, String to, String subject, String content);
+	public void sendEmail(String from, String to, String subject, String content) throws MessagingException;
+	public void sendEmail(String from, String to, String subject, String content, String filePath, String fileName) throws MessagingException;
 	
 	/**
 	 * Generate JWT auth token for email confirmation

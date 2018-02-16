@@ -110,6 +110,9 @@ public class ImageManagerImpl implements ImageManager{
 		values.add(ImageDao.Field.TYPE.getQueryTerm(type));
 		values.add(ImageDao.Field.OWNER_ID.getQueryTerm(ownerId));
 		values.add(ImageDao.Field.ENABLED.getQueryTerm(true));
+		if (typeMappingId != Util.nullInt) {
+			values.add(ImageDao.Field.TYPE_MAPPING_ID.getQueryTerm(typeMappingId));
+		}
 		
 		try{
 			List<Image> imageList = imageDao.findAllObjects(values);

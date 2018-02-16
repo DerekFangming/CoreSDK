@@ -29,7 +29,7 @@ public interface FeedManager {
 	public Feed getFeedById(int feedId) throws NotFoundException;
 	
 	/**
-	 * Soft delete a feed
+	 * Disable a feed
 	 * @param feedId the Id of the feed object
 	 * @param ownserId the owner id of the feed
 	 * @param updatedBy the user who updated the article
@@ -38,6 +38,17 @@ public interface FeedManager {
 	 */
 	public void softDeleteFeed(int feedId, int ownerId) throws NotFoundException, IllegalStateException;
 	public void softDeleteFeed(int feedId, int ownerId, int updatedBy) throws NotFoundException, IllegalStateException;
+	
+	/**
+	 * Update feed if input value is not null
+	 * @param feedId the Id of the feed
+	 * @param title new title if not null
+	 * @param body new body if not null
+	 * @param type new type if not null
+	 * @param updatedBy the user who updates this article
+	 * @throws NotFoundException if the article is not found by id
+	 */
+	public void softUpdateFeed(int feedId, String title, String body, String type, int updatedBy) throws NotFoundException;
 	
 	/**
 	 * Search feeds by type and & or keyword. If they are null, skip them

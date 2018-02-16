@@ -91,6 +91,29 @@ public class FeedManagerImpl implements FeedManager{
 		feedDao.update(feed.getId(), newValues);
 	}
 	
+	@Override
+	public void softUpdateFeed(int feedId, String title, String body, String type, int updatedBy) throws NotFoundException {
+		Feed feed = getFeedById(feedId);
+		
+		List<NVPair> newValues = new ArrayList<>();
+		if (title != null) {
+			newValues.add(new NVPair(FeedDao.Field.TITLE.name, title));
+		}
+		
+		if (body != null) {
+			newValues.add(new NVPair(FeedDao.Field.BODY.name, body));
+		}
+		
+		if (type != null) {
+			newValues.add(new NVPair(FeedDao.Field.TYPE.name, type));
+		}
+		
+		newValues.add(new NVPair(FeedDao.Field.UPDATED_BY.name, updatedBy));
+		
+		feedDao.update(feed.getId(), newValues);
+	}
+	
+	@Override
 	public List<Feed> searchFeed(String type, String keyword) throws NotFoundException {
 		boolean addFirst = true;
 		QueryBuilder qb = QueryType.getQueryBuilder(CoreTableType.FEEDS, QueryType.FIND);
