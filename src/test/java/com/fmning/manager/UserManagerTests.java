@@ -16,7 +16,6 @@ import com.fmning.service.exceptions.NotFoundException;
 import com.fmning.service.manager.HelperManager;
 import com.fmning.service.manager.UserManager;
 import com.fmning.util.ErrorMessage;
-import com.fmning.util.Util;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/sdkUnitTesting.xml")

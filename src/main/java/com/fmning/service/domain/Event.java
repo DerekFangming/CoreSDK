@@ -18,6 +18,7 @@ public class Event {
 	private boolean active;
 	private String message;
 	private int ticketBalance;
+	private int updatedBy;
 
 	public int getId() {
 		return id;
@@ -137,6 +138,14 @@ public class Event {
 
 	public void setTicketBalance(int ticketBalance) {
 		this.ticketBalance = ticketBalance;
+	}
+
+	public int getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(int updatedBy) {
+		this.updatedBy = updatedBy;
 	}
 
 }

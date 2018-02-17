@@ -24,7 +24,8 @@ public interface EventDao extends CommonDao<Event>{
 		TICKET_TEMPLATE_ID,
 		ACTIVE,
 		MESSAGE,
-		TICKET_BALANCE;
+		TICKET_BALANCE,
+		UPDATED_BY;
 
 		public boolean isPK = false;
 		public String name;
@@ -64,6 +65,7 @@ public interface EventDao extends CommonDao<Event>{
 		new Pair<Enum<?>, String>(Field.TICKET_TEMPLATE_ID, "INTEGER"),
 		new Pair<Enum<?>, String>(Field.ACTIVE, "BOOLEAN NOT NULL DEFAULT TRUE"),
 		new Pair<Enum<?>, String>(Field.MESSAGE, "TEXT"),
-		new Pair<Enum<?>, String>(Field.TICKET_BALANCE, "INTEGER NOT NULL DEFAULT 0"));
+		new Pair<Enum<?>, String>(Field.TICKET_BALANCE, "INTEGER NOT NULL DEFAULT 0"),
+		new Pair<Enum<?>, String>(Field.UPDATED_BY, "INTEGER"));
 
 }

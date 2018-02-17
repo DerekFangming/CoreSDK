@@ -30,7 +30,7 @@ public class EventManagerImpl implements EventManager{
 	@Override
 	public int createEvent(String type, int mappingId, String title, String description, Instant startTime,
 			Instant endTime, String location, double fee, int ownerId, int ticketTemplateId, boolean active,
-			String message, int ticketBalance) {
+			String message, int ticketBalance, int updatedBy) {
 		Event event = new Event();
 		event.setType(type);
 		event.setMappingId(mappingId);
@@ -46,11 +46,13 @@ public class EventManagerImpl implements EventManager{
 		event.setActive(active);
 		event.setMessage(message);
 		event.setTicketBalance(ticketBalance);
+		event.setUpdatedBy(updatedBy);
 		return eventDao.persist(event);
 	}
 	
+	@Override
 	public void updateEventDetails(int id, String title, String description,
-			Instant startTime, Instant endTime, String location, int fee) throws NotFoundException {
+			Instant startTime, Instant endTime, String location, int fee, int updatedBy) throws NotFoundException {
 		List<NVPair> newValues = new ArrayList<NVPair>();
 		if (title != null)
 			newValues.add(new NVPair(EventDao.Field.TITLE.name, title));
@@ -64,6 +66,9 @@ public class EventManagerImpl implements EventManager{
 			newValues.add(new NVPair(EventDao.Field.LOCATION.name, location));
 		if (fee != Util.nullInt)
 			newValues.add(new NVPair(EventDao.Field.FEE.name, fee));
+		if (updatedBy != Util.nullInt) {
+			newValues.add(new NVPair(EventDao.Field.UPDATED_BY.name, updatedBy));
+		}
 		
 		if(newValues.size() > 0) {
 			try{
@@ -112,9 +117,15 @@ public class EventManagerImpl implements EventManager{
 	}
 
 	@Override
-	public void setBalance(int id, int balance) throws NotFoundException {
+	public void setBalance(int id, int balance, int updatedBy) throws NotFoundException {
 		try{
-			eventDao.update(id, EventDao.Field.TICKET_BALANCE.getQueryTerm(balance));
+			List<NVPair> newValues = new ArrayList<NVPair>();
+			newValues.add(EventDao.Field.TICKET_BALANCE.getQueryTerm(balance));
+			if (updatedBy != Util.nullInt) {
+				newValues.add(new NVPair(EventDao.Field.UPDATED_BY.name, updatedBy));
+			}
+			
+			eventDao.update(id, newValues);
 		} catch (NotFoundException e){
 			throw new NotFoundException(ErrorMessage.EVENT_NOT_FOUND.getMsg());
 		}
@@ -122,10 +133,11 @@ public class EventManagerImpl implements EventManager{
 	}
 
 	@Override
-	public void setStatus(int id, boolean active, String message) throws NotFoundException {
+	public void setStatus(int id, boolean active, String message, int updatedBy) throws NotFoundException {
 		List<NVPair> newValues = new ArrayList<NVPair>();
 		newValues.add(new NVPair(EventDao.Field.ACTIVE.name, active));
 		newValues.add(new NVPair(EventDao.Field.MESSAGE.name, active ? "" : message));
+		newValues.add(EventDao.Field.UPDATED_BY.getQueryTerm(updatedBy));
 		
 		try{
 			eventDao.update(id, newValues);

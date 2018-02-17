@@ -4,9 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.time.Instant;
-import java.time.Year;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -45,7 +43,7 @@ public class EventManagerTests {
 	public void testNullColumn(){
 		Event event = eventManager.getEventById(2);
 		assertEquals(event.getMappingId(), 5);
-		assertEquals(event.getFee(), 0, 0.001);
+		assertEquals(event.getFee(), 1.0, 0.001);
 		assertEquals(event.getTitle(), "Hop Pot Event");
 	}
 	

@@ -81,7 +81,7 @@ public class HelperManagerImpl implements HelperManager{
 
         multipart.addBodyPart(textBodyPart);
         multipart.addBodyPart(attachmentBodyPart);
-		
+		message.setContent(multipart);
 		
 		Transport.send(message);
 	}

@@ -23,11 +23,12 @@ public interface EventManager {
 	 * @param active
 	 * @param message
 	 * @param ticketBalance
+	 * @param updatedBy
 	 * @return the database id of the row
 	 */
 	public int createEvent(String type, int mappingId, String title, String description, Instant startTime,
 			Instant endTime, String location, double fee, int ownerId, int ticketTemplateId, boolean active,
-			String message, int ticketBalance);
+			String message, int ticketBalance, int updatedBy);
 	
 	/**
 	 * Update an event by id.
@@ -44,7 +45,7 @@ public interface EventManager {
 	 * @throws NotFoundException
 	 */
 	public void updateEventDetails(int id, String title, String description,
-			Instant startTime, Instant endTime, String location, int fee) throws NotFoundException;
+			Instant startTime, Instant endTime, String location, int fee, int updatedBy) throws NotFoundException;
 	
 	/**
 	 * Get event by database id
@@ -78,7 +79,7 @@ public interface EventManager {
 	 * @param balance the new ticket balance for the event
 	 * @throws NotFoundException
 	 */
-	public void setBalance(int id, int balance) throws NotFoundException;
+	public void setBalance(int id, int balance, int updatedBy) throws NotFoundException;
 	
 	/**
 	 * Update the ticket active status of a event
@@ -88,6 +89,6 @@ public interface EventManager {
 	 * @param message the message for the reason of an inactive ticket
 	 * @throws NotFoundException
 	 */
-	public void setStatus(int id, boolean active, String message) throws NotFoundException;
+	public void setStatus(int id, boolean active, String message, int updatedBy) throws NotFoundException;
 	
 }

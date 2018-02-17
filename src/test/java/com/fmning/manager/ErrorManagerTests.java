@@ -42,8 +42,10 @@ public class ErrorManagerTests {
         inputMap.put("double", 1.2);
         
         ObjectMapper mapperObj = new ObjectMapper();
+		@SuppressWarnings("unused")
 		String jacksonStr = mapperObj.writeValueAsString(inputMap);
 		
+		@SuppressWarnings("unused")
 		String json = "{";
 		boolean flag = false;
 		for (String key : inputMap.keySet()) {

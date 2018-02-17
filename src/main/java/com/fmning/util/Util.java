@@ -3,7 +3,6 @@ package com.fmning.util;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -13,13 +12,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
-
-import com.fmning.service.exceptions.NotFoundException;
-import com.fmning.service.exceptions.SessionExpiredException;
 
 public class Util {
 	
