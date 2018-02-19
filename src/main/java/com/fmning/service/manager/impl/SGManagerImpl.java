@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.fmning.service.dao.SurvivalGuideDao;
 import com.fmning.service.dao.impl.CoreTableType;
+import com.fmning.service.dao.impl.LogicalOpType;
 import com.fmning.service.dao.impl.QueryBuilder;
 import com.fmning.service.dao.impl.QueryTerm;
 import com.fmning.service.dao.impl.QueryType;
@@ -51,6 +52,24 @@ public class SGManagerImpl implements SGManager {
 		} catch (NotFoundException e) {
 			return new ArrayList<>();
 		}
+	}
+	
+	public List<SurvivalGuide> searchArticle(String keyword) throws NotFoundException {
+		keyword = "%" + keyword.toUpperCase() + "%";
+		QueryBuilder qb = QueryType.getQueryBuilder(CoreTableType.SURVIVAL_GUIDES, QueryType.FIND);
+		qb.addFirstQueryExpression(new QueryTerm(SurvivalGuideDao.Field.TITLE.name, RelationalOpType.LIKE, keyword));
+		qb.addNextQueryExpression(LogicalOpType.AND,
+				new QueryTerm(SurvivalGuideDao.Field.TITLE.name, RelationalOpType.LIKE, keyword));
+		qb.addNextQueryExpression(LogicalOpType.AND,
+				new QueryTerm(SurvivalGuideDao.Field.CONTENT.name, RelationalOpType.ISNOTNULL, null));
+		qb.addNextQueryExpression(LogicalOpType.OR,
+				new QueryTerm(SurvivalGuideDao.Field.CONTENT.name, RelationalOpType.LIKE, keyword));
+		try {
+			return sgDao.findAllObjects(qb.createQuery());
+		} catch (NotFoundException e) {
+			throw new NotFoundException(ErrorMessage.SURVIVAL_GUIDE_NOT_FOUND.getMsg());
+		}
+		
 	}
 
 }

@@ -58,6 +58,14 @@ public enum RelationalOpType{
 				.append(term.getField())
 				.append(" IS NULL");
 		}
+	},
+	ISNOTNULL("ISNOTNULL") {
+		@Override
+		public StringBuilder makeSymbolicTerm(QueryTerm term){
+			return new StringBuilder()
+				.append(term.getField())
+				.append(" IS NOT NULL");
+		}
 	}, 
 	IN("IN"){
 

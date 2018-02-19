@@ -83,6 +83,7 @@ public enum ErrorMessage {
 	PAYMENT_REJECTED("The payment is rejected for your payment method. Please double check your payment info."),
 	//Survival Guide related
 	SURVIVAL_GUIDE_NOT_FOUND("The survival guide article you are looking for does not exist."),
+	SG_INVALID_EMAIL("You can only edit or create survival guide articles using wpi email account."),
 	//Test case related
 	SHOULD_NOT_PASS_ERROR("This method should fail, but passed.");
 	

@@ -21,4 +21,12 @@ public interface SGManager {
 	 * @return a list of child articles, or empty list if not found
 	 */
 	public List<SurvivalGuide> getChildArticles(int parentId);
+	
+	/**
+	 * Search survival guide articles by keyword
+	 * @param keyword the searching keyword
+	 * @return a list of search results match the criteria
+	 * @throws NotFoundException if no articles found
+	 */
+	public List<SurvivalGuide> searchArticle(String keyword) throws NotFoundException;
 }
