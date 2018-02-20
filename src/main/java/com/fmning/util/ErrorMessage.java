@@ -84,6 +84,7 @@ public enum ErrorMessage {
 	//Survival Guide related
 	SURVIVAL_GUIDE_NOT_FOUND("The survival guide article you are looking for does not exist."),
 	SG_INVALID_EMAIL("You can only edit or create survival guide articles using wpi email account."),
+	INVALID_SG_INPUT("Can not create survival guide article with empty title or body."),
 	//Test case related
 	SHOULD_NOT_PASS_ERROR("This method should fail, but passed.");
 	

@@ -8,6 +8,30 @@ import com.fmning.service.exceptions.NotFoundException;
 public interface SGManager {
 	
 	/**
+	 * Create a SG object and save into database
+	 * @param title
+	 * @param content
+	 * @param parentId
+	 * @param position
+	 * @param ownerId
+	 * @return the id of the new row
+	 */
+	public int createSG(String title, String content, int parentId, int position, int ownerId);
+	
+	/**
+	 * Update SG if the input value is not null
+	 * @param sgId
+	 * @param title
+	 * @param content
+	 * @param parentId
+	 * @param position
+	 * @param updatedBy
+	 * @return
+	 * @throws NotFoundException
+	 */
+	public void softUpdateSG(int sgId, String title, String content, int parentId, int position, int updatedBy) throws NotFoundException;
+	
+	/**
 	 * Get survival guide article by id
 	 * @param sgId the id of the article
 	 * @return the article
@@ -18,9 +42,11 @@ public interface SGManager {
 	/**
 	 * Get a list of articles under a parent article, ordered by position
 	 * @param parentId the nullable parent id
+	 * @param returnContent if set to true, content will also be returned. By default, it's set to false
 	 * @return a list of child articles, or empty list if not found
 	 */
 	public List<SurvivalGuide> getChildArticles(int parentId);
+	public List<SurvivalGuide> getChildArticles(int parentId, boolean returnContent);
 	
 	/**
 	 * Search survival guide articles by keyword
