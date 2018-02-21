@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fmning.service.dao.SurvivalGuideDao;
+import com.fmning.service.dao.SurvivalGuideHistDao;
 import com.fmning.service.dao.impl.CoreTableType;
 import com.fmning.service.dao.impl.LogicalOpType;
 import com.fmning.service.dao.impl.NVPair;
@@ -17,15 +18,18 @@ import com.fmning.service.dao.impl.QueryType;
 import com.fmning.service.dao.impl.RelationalOpType;
 import com.fmning.service.dao.impl.ResultsOrderType;
 import com.fmning.service.domain.SurvivalGuide;
+import com.fmning.service.domain.SurvivalGuideHist;
 import com.fmning.service.exceptions.NotFoundException;
 import com.fmning.service.manager.SGManager;
 import com.fmning.util.ErrorMessage;
+import com.fmning.util.HistType;
 import com.fmning.util.Util;
 
 @Component
 public class SGManagerImpl implements SGManager {
 	
 	@Autowired private SurvivalGuideDao sgDao;
+	@Autowired private SurvivalGuideHistDao sgHistDao;
 	
 	@Override
 	public int createSG(String title, String content, int parentId, int position, int ownerId) {
@@ -39,6 +43,7 @@ public class SGManagerImpl implements SGManager {
 		return sgDao.persist(sg);
 	}
 	
+	@Override
 	public void softUpdateSG(int sgId, String title, String content, int parentId, int position, int updatedBy) throws NotFoundException {
 		SurvivalGuide sg = getArticleById(sgId);
 		
@@ -73,6 +78,7 @@ public class SGManagerImpl implements SGManager {
 		return getChildArticles(parentId, false);
 	}
 	
+	@Override
 	public List<SurvivalGuide> getChildArticles(int parentId, boolean returnContent) {
 		QueryBuilder qb = QueryType.getQueryBuilder(CoreTableType.SURVIVAL_GUIDES, QueryType.FIND);
 		
@@ -94,6 +100,7 @@ public class SGManagerImpl implements SGManager {
 		}
 	}
 	
+	@Override
 	public List<SurvivalGuide> searchArticle(String keyword) throws NotFoundException {
 		keyword = "%" + keyword.toUpperCase() + "%";
 		QueryBuilder qb = QueryType.getQueryBuilder(CoreTableType.SURVIVAL_GUIDES, QueryType.FIND);
@@ -110,6 +117,38 @@ public class SGManagerImpl implements SGManager {
 			throw new NotFoundException(ErrorMessage.SURVIVAL_GUIDE_NOT_FOUND.getMsg());
 		}
 		
+	}
+	
+	@Override
+	public SurvivalGuideHist getEdintingHistorybyId(int histId) throws NotFoundException {
+		try{
+			return sgHistDao.findObject(SurvivalGuideHistDao.Field.ID.getQueryTerm(histId));
+		}catch(NotFoundException e){
+			throw new NotFoundException(ErrorMessage.SURVIVAL_GUIDE_NOT_FOUND.getMsg());
+		}
+	}
+	
+	@Override
+	public List<SurvivalGuideHist> getEditingHistory(int sgId, boolean returnContent, HistType type, int userId) throws NotFoundException {
+		QueryBuilder qb = QueryType.getQueryBuilder(CoreTableType.SURVIVAL_GUIDE_HISTS, QueryType.FIND);
+		qb.addFirstQueryExpression(new QueryTerm(SurvivalGuideHistDao.Field.OID.name, RelationalOpType.EQ, sgId));
+		if (type != null) {
+			qb.addNextQueryExpression(LogicalOpType.AND,
+					new QueryTerm(SurvivalGuideHistDao.Field.ACTION.name, RelationalOpType.EQ, type.getName()));
+		}
+		if (userId != Util.nullInt) {
+			qb.addNextQueryExpression(LogicalOpType.AND,
+					new QueryTerm(SurvivalGuideHistDao.Field.OWNER_ID.name, RelationalOpType.EQ, userId));
+		}
+		if (!returnContent) {
+			qb.setReturnField("id, oid, title, null as content, parent_id, position, created_at, owner_id, action, action_date");
+		}
+		qb.setOrdering(SurvivalGuideHistDao.Field.ACTION_DATE.name, ResultsOrderType.DESCENDING);
+		try {
+			return sgHistDao.findAllObjects(qb.createQuery());
+		} catch (NotFoundException e) {
+			throw new NotFoundException(ErrorMessage.SURVIVAL_GUIDE_NOT_FOUND.getMsg());
+		}
 	}
 
 }

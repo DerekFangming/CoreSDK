@@ -3,7 +3,9 @@ package com.fmning.service.manager;
 import java.util.List;
 
 import com.fmning.service.domain.SurvivalGuide;
+import com.fmning.service.domain.SurvivalGuideHist;
 import com.fmning.service.exceptions.NotFoundException;
+import com.fmning.util.HistType;
 
 public interface SGManager {
 	
@@ -55,4 +57,23 @@ public interface SGManager {
 	 * @throws NotFoundException if no articles found
 	 */
 	public List<SurvivalGuide> searchArticle(String keyword) throws NotFoundException;
+	
+	/**
+	 * Get sg history by the history id
+	 * @param histId the history id
+	 * @return the history object
+	 * @throws NotFoundException of such id does not exist
+	 */
+	public SurvivalGuideHist getEdintingHistorybyId(int histId) throws NotFoundException;
+	
+	/**
+	 * Get a list of SG from history table with action U as update. Location only updates are ignored here
+	 * @param sgId the id of the article
+	 * @param returnContent if the sg content will be returned or not.
+	 * @param type the type of history
+	 * @param userId the owner of history
+	 * @return a list of SG history
+	 * @throws NotFoundException if no history found
+	 */
+	public List<SurvivalGuideHist> getEditingHistory(int sgId, boolean returnContent, HistType type, int userId) throws NotFoundException;
 }
