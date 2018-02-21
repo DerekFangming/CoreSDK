@@ -19,6 +19,9 @@ import com.fmning.service.dao.SurvivalGuideDao;
 import com.fmning.service.dao.TicketDao;
 import com.fmning.service.dao.TicketTemplateDao;
 import com.fmning.service.dao.WcReportDao;
+import com.fmning.service.temp.CmainDao;
+import com.fmning.service.temp.EcgDao;
+import com.fmning.service.temp.PpgDao;
 import com.fmning.service.dao.UserDao;
 import com.fmning.service.dao.UserDetailDao;
 import com.fmning.service.dao.WcAppVersionDao;
@@ -45,6 +48,11 @@ public enum CoreTableType implements SchemaTable
 	WC_REPORTS(SdkDataSourceType.CORE, WcReportDao.FieldTypes),
 	WC_APP_VERSIONS(SdkDataSourceType.CORE, WcAppVersionDao.FieldTypes),
 	WC_ARTICLES(SdkDataSourceType.CORE, WcArticleDao.FieldTypes),
+	
+	//TEMPS
+	CMAIN(SdkDataSourceType.CORE, CmainDao.FieldTypes),
+	PPG(SdkDataSourceType.CORE, PpgDao.FieldTypes),
+	ECG(SdkDataSourceType.CORE, EcgDao.FieldTypes),
 	;
 
 
