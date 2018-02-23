@@ -21,7 +21,8 @@ public interface SGManager {
 	public int createSG(String title, String content, int parentId, int position, int ownerId);
 	
 	/**
-	 * Update SG if the input value is not null
+	 * Update SG if the input value is not null as soft update method
+	 * Do full update base on input as the actual update method
 	 * @param sgId
 	 * @param title
 	 * @param content
@@ -32,6 +33,9 @@ public interface SGManager {
 	 * @throws NotFoundException
 	 */
 	public void softUpdateSG(int sgId, String title, String content, int parentId, int position, int updatedBy) throws NotFoundException;
+	public void updateSG(int sgId, String title, String content, int parentId, int position, int updatedBy) throws NotFoundException;
+	
+	public void deleteSg(int id);
 	
 	/**
 	 * Get survival guide article by id

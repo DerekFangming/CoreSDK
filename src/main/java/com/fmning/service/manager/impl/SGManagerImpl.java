@@ -2,6 +2,7 @@ package com.fmning.service.manager.impl;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,20 +49,44 @@ public class SGManagerImpl implements SGManager {
 		SurvivalGuide sg = getArticleById(sgId);
 		
 		List<NVPair> newValues = new ArrayList<>();
+		boolean updateOwnerAndDate = false; //do not update owner and created at date if position is the only change.
 		if(title != null) {
+			updateOwnerAndDate = true;
 			newValues.add(new NVPair(SurvivalGuideDao.Field.TITLE.name, title));
 		}
 		if(content != null) {
+			updateOwnerAndDate = true;
 			newValues.add(new NVPair(SurvivalGuideDao.Field.CONTENT.name, content));
 		}
 		if(parentId != Util.nullInt) {
+			updateOwnerAndDate = true;
 			newValues.add(new NVPair(SurvivalGuideDao.Field.PARENT_ID.name, parentId));
 		}
 		if(position != Util.nullInt) {
 			newValues.add(new NVPair(SurvivalGuideDao.Field.POSITION.name, position));
 		}
-		newValues.add(new NVPair(SurvivalGuideDao.Field.OWNER_ID.name, updatedBy));
+		if (updateOwnerAndDate) {
+			newValues.add(new NVPair(SurvivalGuideDao.Field.OWNER_ID.name, updatedBy));
+			newValues.add(new NVPair(SurvivalGuideDao.Field.CREATED_AT.name, Date.from(Instant.now())));
+		}
 		sgDao.update(sg.getId(), newValues);
+	}
+	
+	@Override
+	public void updateSG(int sgId, String title, String content, int parentId, int position, int updatedBy) throws NotFoundException {
+		List<NVPair> newValues = new ArrayList<>();
+		newValues.add(new NVPair(SurvivalGuideDao.Field.TITLE.name, title));
+		newValues.add(new NVPair(SurvivalGuideDao.Field.CONTENT.name, content));
+		newValues.add(new NVPair(SurvivalGuideDao.Field.PARENT_ID.name, parentId == Util.nullInt ? null : parentId));
+		newValues.add(new NVPair(SurvivalGuideDao.Field.POSITION.name, position));
+		newValues.add(new NVPair(SurvivalGuideDao.Field.OWNER_ID.name, updatedBy));
+		newValues.add(new NVPair(SurvivalGuideDao.Field.CREATED_AT.name, Date.from(Instant.now())));
+		sgDao.update(sgId, newValues);
+	}
+	
+	@Override
+	public void deleteSg(int id) {
+		sgDao.deleteById(id);
 	}
 	
 	@Override
