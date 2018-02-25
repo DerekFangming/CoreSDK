@@ -80,4 +80,11 @@ public interface SGManager {
 	 * @throws NotFoundException if no history found
 	 */
 	public List<SurvivalGuideHist> getEditingHistory(int sgId, boolean returnContent, HistType type, int userId) throws NotFoundException;
+	
+	/**
+	 * Get all editing histories for user. This includes all created articles plus edits to existing articles
+	 * @param userId the user
+	 * @return The list. empty list if nothing found.
+	 */
+	public List<SurvivalGuide> getEditingHistoryForUser(int userId);
 }

@@ -175,5 +175,39 @@ public class SGManagerImpl implements SGManager {
 			throw new NotFoundException(ErrorMessage.SURVIVAL_GUIDE_NOT_FOUND.getMsg());
 		}
 	}
+	
+	@Override
+	public List<SurvivalGuide> getEditingHistoryForUser(int userId) {
+		List<SurvivalGuide> resultList = new ArrayList<>();
+		QueryBuilder qb1 = QueryType.getQueryBuilder(CoreTableType.SURVIVAL_GUIDES, QueryType.FIND);
+		qb1.addFirstQueryExpression(new QueryTerm(SurvivalGuideDao.Field.OWNER_ID.name, RelationalOpType.EQ, userId));
+		qb1.addNextQueryExpression(LogicalOpType.AND,
+				new QueryTerm(SurvivalGuideDao.Field.CONTENT.name, RelationalOpType.ISNOTNULL, null));
+		qb1.setReturnField("id, title, '' as content, parent_id, position, created_at, owner_id");
+		try {
+			resultList.addAll(sgDao.findAllObjects(qb1.createQuery()));
+		} catch (NotFoundException e) {}
+		
+		QueryBuilder qb = QueryType.getQueryBuilder(CoreTableType.SURVIVAL_GUIDE_HISTS, QueryType.FIND);
+		qb.addFirstQueryExpression(new QueryTerm(SurvivalGuideHistDao.Field.OWNER_ID.name, RelationalOpType.EQ, userId));
+		qb.addNextQueryExpression(LogicalOpType.AND,
+				new QueryTerm(SurvivalGuideHistDao.Field.ACTION.name, RelationalOpType.EQ, HistType.UPDATE.getName()));
+		qb.setReturnField("id, oid, title, null as content, parent_id, position, created_at, owner_id, action, action_date");
+		try {
+			List<SurvivalGuideHist> sghList = sgHistDao.findAllObjects(qb.createQuery());
+			for (SurvivalGuideHist s : sghList) {
+				SurvivalGuide sg = new SurvivalGuide();
+				sg.setId(s.getOid());
+				sg.setTitle(s.getTitle());
+				sg.setCreatedAt(s.getCreatedAt());
+				sg.setOwnerId(s.getOwnerId());
+				resultList.add(sg);
+			}
+		} catch (NotFoundException e) {
+			throw new NotFoundException(ErrorMessage.SURVIVAL_GUIDE_NOT_FOUND.getMsg());
+		}
+		
+		return resultList;
+	}
 
 }
