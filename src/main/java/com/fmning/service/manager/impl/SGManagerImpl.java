@@ -203,9 +203,7 @@ public class SGManagerImpl implements SGManager {
 				sg.setOwnerId(s.getOwnerId());
 				resultList.add(sg);
 			}
-		} catch (NotFoundException e) {
-			throw new NotFoundException(ErrorMessage.SURVIVAL_GUIDE_NOT_FOUND.getMsg());
-		}
+		} catch (NotFoundException e) {}
 		
 		return resultList;
 	}
