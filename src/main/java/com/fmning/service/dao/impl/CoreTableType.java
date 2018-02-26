@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fmning.service.dao.CommentDao;
 import com.fmning.service.dao.DataSourceRegistry;
+import com.fmning.service.dao.EditingQueueDao;
 import com.fmning.service.dao.ErrorLogDao;
 import com.fmning.service.dao.EventDao;
 import com.fmning.service.dao.FriendDao;
@@ -50,6 +51,7 @@ public enum CoreTableType implements SchemaTable
 	WC_REPORTS(SdkDataSourceType.CORE, WcReportDao.FieldTypes),
 	WC_APP_VERSIONS(SdkDataSourceType.CORE, WcAppVersionDao.FieldTypes),
 	WC_ARTICLES(SdkDataSourceType.CORE, WcArticleDao.FieldTypes),
+	EDITING_QUEUES(SdkDataSourceType.CORE, EditingQueueDao.FieldTypes),
 	
 	//TEMPS
 	CMAIN(SdkDataSourceType.CORE, CmainDao.FieldTypes),
