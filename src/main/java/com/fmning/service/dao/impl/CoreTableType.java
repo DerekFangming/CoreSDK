@@ -16,9 +16,13 @@ import com.fmning.service.dao.SchemaTable;
 import com.fmning.service.dao.SdkDataSource;
 import com.fmning.service.dao.SdkDataSourceType;
 import com.fmning.service.dao.SurvivalGuideDao;
+import com.fmning.service.dao.SurvivalGuideHistDao;
 import com.fmning.service.dao.TicketDao;
 import com.fmning.service.dao.TicketTemplateDao;
 import com.fmning.service.dao.WcReportDao;
+import com.fmning.service.temp.CmainDao;
+import com.fmning.service.temp.EcgDao;
+import com.fmning.service.temp.PpgDao;
 import com.fmning.service.dao.UserDao;
 import com.fmning.service.dao.UserDetailDao;
 import com.fmning.service.dao.WcAppVersionDao;
@@ -40,11 +44,17 @@ public enum CoreTableType implements SchemaTable
 	TICKET_TEMPLATES(SdkDataSourceType.CORE, TicketTemplateDao.FieldTypes),
 	PAYMENTS(SdkDataSourceType.CORE, PaymentDao.FieldTypes),
 	ERROR_LOGS(SdkDataSourceType.CORE, ErrorLogDao.FieldTypes),
-	
+
 	SURVIVAL_GUIDES(SdkDataSourceType.CORE, SurvivalGuideDao.FieldTypes),
+	SURVIVAL_GUIDE_HISTS(SdkDataSourceType.CORE, SurvivalGuideHistDao.FieldTypes),
 	WC_REPORTS(SdkDataSourceType.CORE, WcReportDao.FieldTypes),
 	WC_APP_VERSIONS(SdkDataSourceType.CORE, WcAppVersionDao.FieldTypes),
 	WC_ARTICLES(SdkDataSourceType.CORE, WcArticleDao.FieldTypes),
+	
+	//TEMPS
+	CMAIN(SdkDataSourceType.CORE, CmainDao.FieldTypes),
+	PPG(SdkDataSourceType.CORE, PpgDao.FieldTypes),
+	ECG(SdkDataSourceType.CORE, EcgDao.FieldTypes),
 	;
 
 
