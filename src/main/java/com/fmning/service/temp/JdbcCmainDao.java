@@ -26,10 +26,10 @@ public class JdbcCmainDao extends JdbcBaseDao<Cmain> implements CmainDao{
 	protected NVPairList getNVPairs(Cmain obj) {
 		NVPairList params = new NVPairList();
 
-		params.addNullableNumValue(CmainDao.Field.EHR.name, obj.getEhr());
-		params.addNullableNumValue(CmainDao.Field.PHR.name, obj.getPhr());
-		params.addNullableNumValue(CmainDao.Field.TEMP.name, obj.getTemp());
-		params.addNullableNumValue(CmainDao.Field.SPO2.name, obj.getSpo2());
+		params.addValue(CmainDao.Field.EHR.name, obj.getEhr());
+		params.addValue(CmainDao.Field.PHR.name, obj.getPhr());
+		params.addValue(CmainDao.Field.TEMP.name, obj.getTemp());
+		params.addValue(CmainDao.Field.SPO2.name, obj.getSpo2());
 		params.addValue(CmainDao.Field.CREATED_AT.name, Date.from(obj.getCreatedAt()));
 
 		return params;
