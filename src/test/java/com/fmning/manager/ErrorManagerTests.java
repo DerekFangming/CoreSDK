@@ -24,7 +24,7 @@ import com.fmning.util.ErrorMessage;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/sdkUnitTesting.xml")
 public class ErrorManagerTests {
-	
+	//test commit from mobile
 	@Autowired private ErrorManager errorManager;
 	
 	@BeforeClass
