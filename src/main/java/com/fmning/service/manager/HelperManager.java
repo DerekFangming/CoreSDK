@@ -3,8 +3,7 @@ package com.fmning.service.manager;
 import java.time.Instant;
 import java.util.Map;
 
-import javax.mail.MessagingException;
-
+import com.fmning.postman.client.model.PostmanResponse;
 import com.fmning.service.exceptions.SessionExpiredException;
 
 public interface HelperManager {
@@ -18,8 +17,8 @@ public interface HelperManager {
 	 * @param filePath the path to the attachment file
 	 * @param fileName the attachment file name
 	 */
-	public void sendEmail(String from, String to, String subject, String content) throws MessagingException;
-	public void sendEmail(String from, String to, String subject, String content, String filePath, String fileName) throws MessagingException;
+	public PostmanResponse sendEmail(String from, String to, String subject, String content);
+	public PostmanResponse sendEmail(String from, String to, String subject, String content, String filePath, String fileName);
 	
 	/**
 	 * Generate JWT auth token for email confirmation

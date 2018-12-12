@@ -5,27 +5,18 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.auth0.jwt.*;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fmning.postman.client.model.Email;
+import com.fmning.postman.client.model.Email.EmailSenderType;
+import com.fmning.postman.client.model.PostmanResponse;
+import com.fmning.postman.client.service.EmailService;
 import com.fmning.service.exceptions.SessionExpiredException;
 import com.fmning.service.manager.HelperManager;
 import com.fmning.util.ErrorMessage;
@@ -35,55 +26,34 @@ public class HelperManagerImpl implements HelperManager{
 
 	public static final String SECRET = "PJNing";
 	
+	@Autowired private EmailService emailService;
+	
 	@Override
-	public void sendEmail(String from, String to, String subject, String content) throws MessagingException{
-		String host = "localhost";
-		Properties properties = System.getProperties();
-		properties.setProperty("mail.smtp.host", host);
-
-		Session session = Session.getDefaultInstance(properties);
-		MimeMessage message = new MimeMessage(session);
-		message.setFrom(new InternetAddress(from));
-		if (to.indexOf(',') > 0){
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+	public PostmanResponse sendEmail(String from, String to, String subject, String content) {
+		Email email = new Email(from, to, subject, content);
+		
+		if (to.toLowerCase().contains("wpi.edu")) {
+			email.setEmailSenderType(EmailSenderType.GMAIL);
 		} else {
-			message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			email.setEmailSenderType(EmailSenderType.SEND_GRID);
 		}
-		message.setSubject(subject);
-		message.setText(content);
-		Transport.send(message);
+		
+		return emailService.sendEmail(email);
 	}
 	
-	public void sendEmail(String from, String to, String subject, String content, String filePath, String fileName) throws MessagingException {
-		String host = "localhost";
-		Properties properties = System.getProperties();
-		properties.setProperty("mail.smtp.host", host);
-
-		Session session = Session.getDefaultInstance(properties);
-		MimeMessage message = new MimeMessage(session);
-		message.setFrom(new InternetAddress(from));
-		if (to.indexOf(',') > 0){
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+	@Override
+	public PostmanResponse sendEmail(String from, String to, String subject, String content, String filePath, String fileName) {
+		
+		Email email = new Email(from, to, subject, content);
+		email.setAttachment(fileName, filePath);
+		
+		if (to.toLowerCase().contains("wpi.edu")) {
+			email.setEmailSenderType(EmailSenderType.GMAIL);
 		} else {
-			message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			email.setEmailSenderType(EmailSenderType.SEND_GRID);
 		}
-		message.setSubject(subject);
 		
-		Multipart multipart = new MimeMultipart();
-
-        MimeBodyPart textBodyPart = new MimeBodyPart();
-        textBodyPart.setText(content);
-
-        MimeBodyPart attachmentBodyPart= new MimeBodyPart();
-        DataSource source = new FileDataSource(filePath);
-        attachmentBodyPart.setDataHandler(new DataHandler(source));
-        attachmentBodyPart.setFileName(fileName);
-
-        multipart.addBodyPart(textBodyPart);
-        multipart.addBodyPart(attachmentBodyPart);
-		message.setContent(multipart);
-		
-		Transport.send(message);
+		return emailService.sendEmail(email);
 	}
 
 	@Override
